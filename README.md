@@ -1,7 +1,5 @@
 # Football Prediction Dashboard
 
-Starter project for a student PFA using Django + React.
-
 ## Backend
 
 - Django REST Framework
@@ -34,6 +32,4 @@ Starter project for a student PFA using Django + React.
 3. Copy `frontend/.env.example` to `frontend/.env`
 4. `npm run dev`
 
-## Notes
 
-This codebase is intentionally beginner-friendly and ready for enhancements.
