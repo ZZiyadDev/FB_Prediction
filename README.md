@@ -5,7 +5,6 @@
 - Django REST Framework
 - Apps: `users`, `matches`, `predictions`
 - `django-cors-headers` configured for `http://localhost:5173`
-- Settings split into `project/settings/base.py`, `dev.py`, and `prod.py`
 - `.env` support via `python-dotenv`
 
 ### Run backend
