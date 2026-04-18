@@ -11,6 +11,9 @@ def env(key, default=None):
 
 SECRET_KEY = env('SECRET_KEY', 'replace-me-with-a-secret-key')
 DEBUG = env('DEBUG', 'True') == 'True'
+
+API_FOOTBALL_KEY = env('FOOTBALL_API_KEY')
+
 ALLOWED_HOSTS = [host.strip() for host in env('ALLOWED_HOSTS', 'localhost').split(',') if host.strip()]
 CORS_ALLOWED_ORIGINS = [origin.strip() for origin in env('CORS_ALLOWED_ORIGINS', '').split(',') if origin.strip()]
 
