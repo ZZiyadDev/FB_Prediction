@@ -8,7 +8,7 @@ from predictions.views import PredictionViewSet
 router = DefaultRouter()
 router.register(r'users', UserViewSet, basename='user')
 router.register(r'matches', MatchViewSet)
-router.register(r'predictions', PredictionViewSet)
+router.register(r'predictions', PredictionViewSet, basename="predictions")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
