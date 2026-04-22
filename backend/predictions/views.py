@@ -8,7 +8,7 @@ from rest_framework.response import Response
 
 from matches.models import Match
 from matches.services import build_match_features
-
+from .constants import LABEL_MAP
 
 MODEL_PATH = os.path.join(os.path.dirname(__file__), "xgb_match_model.pkl")
 
@@ -57,10 +57,19 @@ class PredictionViewSet(viewsets.ViewSet):
         ]])
 
         model = get_model()
+
+        # prediction class (0/1/2)
+        pred_class = model.predict(X)[0]
+
+        # mapping to readable label
+        pred_label = LABEL_MAP[pred_class]
+
+        # probabilities
         proba = model.predict_proba(X)[0]
 
         return Response({
             "match": f"{match.home_team.name} vs {match.away_team.name}",
+            "prediction": pred_label,
             "home_win_probability": float(proba[0]),
             "draw_probability": float(proba[1]),
             "away_win_probability": float(proba[2]),

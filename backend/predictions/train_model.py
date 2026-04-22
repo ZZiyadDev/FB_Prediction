@@ -2,6 +2,7 @@ import joblib
 import numpy as np
 
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import accuracy_score, classification_report
 from xgboost import XGBClassifier
 
@@ -16,6 +17,9 @@ def train_model():
 
     X = np.array(X)
     y = np.array(y)
+
+    le = LabelEncoder()
+    y = le.fit_transform(y)
 
     # ----------------------------
     # 2. Train / test split

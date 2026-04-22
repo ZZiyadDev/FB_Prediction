@@ -11,7 +11,7 @@ def build_dataset():
     """
 
     matches = Match.objects.filter(
-        status="finished",
+        status="FT",
         score_home__isnull=False,
         score_away__isnull=False
     ).order_by("match_date")
