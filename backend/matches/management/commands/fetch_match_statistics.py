@@ -60,10 +60,13 @@ class Command(BaseCommand):
 
             if data.get('errors'):
                 self.stderr.write(self.style.ERROR(f"API Error for match {match.fixture_id}: {data['errors']}"))
-                # If rate limit exceeded, we should probably stop
-                if 'rateLimit' in data.get('errors', {}):
-                    self.stderr.write(self.style.ERROR("Rate limit hit. Stopping script."))
+                
+                # If account is suspended or rate limit exceeded, we MUST stop the script
+                # to prevent spamming the API and getting permanently banned.
+                if 'access' in data.get('errors', {}) or 'rateLimit' in data.get('errors', {}) or 'requests' in data.get('errors', {}):
+                    self.stderr.write(self.style.ERROR("Account suspended or Rate limit hit. Stopping script."))
                     break
+                    
                 time.sleep(1)
                 continue
 
@@ -158,9 +161,9 @@ class Command(BaseCommand):
                 )
                 matches_processed += 1
                 
-                # API-Sports rate limit is generally 10 requests / second.
-                # Adding a small delay to be safe.
-                time.sleep(0.15)
+                # API-Sports rate limit on free tier is 10 requests / minute.
+                # We MUST wait at least 6 seconds between requests to avoid bans!
+                time.sleep(6.1)
                 
             except Exception as e:
                 self.stderr.write(self.style.ERROR(f"Error parsing stats for match {match.fixture_id}: {str(e)}"))
