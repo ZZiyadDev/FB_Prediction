@@ -1,6 +1,12 @@
-# matches/serializers.py
+
 from rest_framework import serializers
-from .models import Match, Team, League
+from .models import Match, Team, League, MatchStatistics
+
+class MatchStatisticsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MatchStatistics
+        # Exclude 'id' and 'match' as they are not needed by the frontend
+        exclude = ['id', 'match']
 
 class TeamSerializer(serializers.ModelSerializer):
     class Meta:
@@ -15,6 +21,9 @@ class MatchSerializer(serializers.ModelSerializer):
     # Flatten the league name for easy access in React
     league_name = serializers.CharField(source='league.name', read_only=True)
 
+    # Include match statistics
+    statistics = MatchStatisticsSerializer(read_only=True)
+
     class Meta:
         model = Match
         fields = [
@@ -22,5 +31,6 @@ class MatchSerializer(serializers.ModelSerializer):
             'score_home', 'score_away', 
             'home_team', 'away_team', 'league_name',
             'htgs', 'atgs', 'htgc', 'atgc', 
-            'home_form_points', 'away_form_points'
+            'home_form_points', 'away_form_points',
+            'statistics'
         ]

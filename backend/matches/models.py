@@ -62,14 +62,47 @@ class MatchStatistics(models.Model):
     """
     match = models.OneToOneField(Match, related_name='statistics', on_delete=models.CASCADE)
     
+    # Possession
     home_possession = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     away_possession = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     
+    # Shots
     home_shots_on_target = models.IntegerField(null=True, blank=True)
     away_shots_on_target = models.IntegerField(null=True, blank=True)
+    home_shots_off_target = models.IntegerField(null=True, blank=True)
+    away_shots_off_target = models.IntegerField(null=True, blank=True)
+    home_total_shots = models.IntegerField(null=True, blank=True)
+    away_total_shots = models.IntegerField(null=True, blank=True)
+    home_blocked_shots = models.IntegerField(null=True, blank=True)
+    away_blocked_shots = models.IntegerField(null=True, blank=True)
+    home_shots_inside_box = models.IntegerField(null=True, blank=True)
+    away_shots_inside_box = models.IntegerField(null=True, blank=True)
+    home_shots_outside_box = models.IntegerField(null=True, blank=True)
+    away_shots_outside_box = models.IntegerField(null=True, blank=True)
     
+    # Fouls & Cards
+    home_fouls = models.IntegerField(null=True, blank=True)
+    away_fouls = models.IntegerField(null=True, blank=True)
+    home_yellow_cards = models.IntegerField(null=True, blank=True)
+    away_yellow_cards = models.IntegerField(null=True, blank=True)
+    home_red_cards = models.IntegerField(null=True, blank=True)
+    away_red_cards = models.IntegerField(null=True, blank=True)
+    
+    # Other Events
     home_corners = models.IntegerField(null=True, blank=True)
     away_corners = models.IntegerField(null=True, blank=True)
+    home_offsides = models.IntegerField(null=True, blank=True)
+    away_offsides = models.IntegerField(null=True, blank=True)
+    home_goalkeeper_saves = models.IntegerField(null=True, blank=True)
+    away_goalkeeper_saves = models.IntegerField(null=True, blank=True)
+    
+    # Passes
+    home_total_passes = models.IntegerField(null=True, blank=True)
+    away_total_passes = models.IntegerField(null=True, blank=True)
+    home_passes_accurate = models.IntegerField(null=True, blank=True)
+    away_passes_accurate = models.IntegerField(null=True, blank=True)
+    home_passes_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    away_passes_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
         return f"Stats for {self.match}"
