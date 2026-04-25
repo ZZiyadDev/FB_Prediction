@@ -10,7 +10,7 @@ def get_past_matches(team, match_date):
     return Match.objects.filter(
         Q(home_team=team) | Q(away_team=team),
         match_date__lt=match_date,
-        status="finished"
+        status="FT"
     ).order_by('-match_date')
 
 
@@ -51,8 +51,8 @@ def calculate_form(team, match_date, n=5):
 # ----------------------------
 # GOALS SCORED / CONCEDED
 # ----------------------------
-def goals_stats(team, match_date):
-    matches = get_past_matches(team, match_date)
+def goals_stats(team, match_date, n=5):
+    matches = get_past_matches(team, match_date)[:n]
 
     scored = 0
     conceded = 0
@@ -88,6 +88,32 @@ def streak(team, match_date):
             break
 
     return win_streak, loss_streak
+
+# ----------------------------
+# HEAD-TO-HEAD (H2H)
+# ----------------------------
+def get_h2h(team1, team2, match_date, n=5):
+    matches = Match.objects.filter(
+        (Q(home_team=team1, away_team=team2) | Q(home_team=team2, away_team=team1)),
+        match_date__lt=match_date,
+        status="FT"
+    ).order_by('-match_date')[:n]
+
+    t1_points = 0
+    for m in matches:
+        t1_points += get_match_result(team1, m)
+    return t1_points
+
+
+# ----------------------------
+# FATIGUE (Days since last match)
+# ----------------------------
+def get_fatigue(team, match_date):
+    last_match = get_past_matches(team, match_date).first()
+    if last_match:
+        return (match_date.date() - last_match.match_date.date()).days
+    return 14 # default to 14 days if no previous match found
+
 
 
 # ----------------------------

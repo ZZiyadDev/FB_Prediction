@@ -55,6 +55,9 @@ def build_dataset():
             goal_ratio,
             concede_ratio,
             form_ratio,
+            f.get("H2H_Pts", 0),
+            f.get("HT_Fatigue", 14),
+            f.get("AT_Fatigue", 14),
         ])
 
         if match.score_home > match.score_away:

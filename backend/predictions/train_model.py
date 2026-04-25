@@ -1,11 +1,11 @@
 import joblib
 import numpy as np
 
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, RandomizedSearchCV
 from sklearn.preprocessing import LabelEncoder, StandardScaler
-from sklearn.utils.class_weight import compute_sample_weight
-from sklearn.metrics import confusion_matrix, f1_score
+from sklearn.metrics import classification_report, f1_score
 from xgboost import XGBClassifier
+from imblearn.over_sampling import SMOTE
 
 from matches.dataset_builder import build_dataset
 
@@ -29,17 +29,11 @@ def train_model():
     X_train = scaler.fit_transform(X_train)
     X_test = scaler.transform(X_test)
 
-    sample_weights = compute_sample_weight(
-        class_weight="balanced",
-        y=y_train
-    )
+    # Apply SMOTE to balance the classes
+    smote = SMOTE(random_state=42)
+    X_train_smote, y_train_smote = smote.fit_resample(X_train, y_train)
 
-    model = XGBClassifier(
-        n_estimators=400,
-        max_depth=6,
-        learning_rate=0.03,
-        subsample=0.8,
-        colsample_bytree=0.8,
+    base_model = XGBClassifier(
         objective="multi:softprob",
         num_class=3,
         eval_metric="mlogloss",
@@ -47,12 +41,34 @@ def train_model():
         random_state=42
     )
 
-    model.fit(X_train, y_train, sample_weight=sample_weights)
+    param_grid = {
+        'n_estimators': [100, 300, 500],
+        'max_depth': [3, 5, 7],
+        'learning_rate': [0.01, 0.05, 0.1],
+        'subsample': [0.7, 0.9, 1.0],
+        'colsample_bytree': [0.7, 0.9, 1.0]
+    }
+
+    print("Starting Hyperparameter tuning...")
+    random_search = RandomizedSearchCV(
+        estimator=base_model,
+        param_distributions=param_grid,
+        n_iter=15,
+        scoring='f1_macro',
+        cv=3,
+        verbose=1,
+        random_state=42,
+        n_jobs=-1
+    )
+    
+    random_search.fit(X_train_smote, y_train_smote)
+    model = random_search.best_estimator_
+    print("Best parameters found:", random_search.best_params_)
 
     preds = model.predict(X_test)
 
-    print("Confusion Matrix:")
-    print(confusion_matrix(y_test, preds))
+    print("\nClassification Report:")
+    print(classification_report(y_test, preds, target_names=le.classes_))
 
     print("Macro F1:", f1_score(y_test, preds, average="macro"))
 
