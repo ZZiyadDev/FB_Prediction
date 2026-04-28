@@ -1,45 +1,33 @@
-import { useState } from 'react'
-import { Button, Form, Input, InputNumber, message } from 'antd'
-import api from '../../api'
+import React from 'react';
+import { Card, Select, Button, Row, Col } from 'antd';
 
-export default function PredictionForm() {
-  const [submitting, setSubmitting] = useState(false)
-
-  const handleSubmit = async (values) => {
-    setSubmitting(true)
-    try {
-      await api.post('predictions/', values)
-      message.success('Prediction submitted! Refresh the page to see updates.')
-    } catch (error) {
-      console.error(error)
-      message.error('Could not save prediction.')
-    } finally {
-      setSubmitting(false)
-    }
-  }
-
+const PredictionForm = ({ upcomingMatches, onMatchSelect, onPredict, loading }) => {
   return (
-    <Form layout="vertical" onFinish={handleSubmit} style={{ maxWidth: 480 }}>
-      <Form.Item
-        label="Match ID"
-        name="match"
-        rules={[{ required: true, message: 'Enter the ID of the match to predict.' }]}
-      >
-        <InputNumber min={1} style={{ width: '100%' }} />
-      </Form.Item>
-      <Form.Item
-        label="Predicted Winner"
-        name="predicted_winner"
-        rules={[{ required: true, message: 'Enter the predicted winner.' }]}
-      >
-        <Input />
-      </Form.Item>
-      <Form.Item label="Confidence" name="confidence" initialValue={60} rules={[{ required: true, message: 'Enter a confidence value.' }]}> 
-        <InputNumber min={1} max={100} style={{ width: '100%' }} />
-      </Form.Item>
-      <Button type="primary" htmlType="submit" loading={submitting}>
-        Save Prediction
-      </Button>
-    </Form>
-  )
-}
+    <Card style={{ marginBottom: '24px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
+      <Row gutter={16} align="middle">
+        <Col span={18}>
+          <Select
+            style={{ width: '100%' }}
+            placeholder="Select an upcoming match..."
+            options={upcomingMatches}
+            onChange={onMatchSelect}
+            size="large"
+          />
+        </Col>
+        <Col span={6}>
+          <Button 
+            type="primary" 
+            size="large" 
+            block 
+            onClick={onPredict}
+            disabled={loading}
+          >
+            Ask AI
+          </Button>
+        </Col>
+      </Row>
+    </Card>
+  );
+};
+
+export default PredictionForm;

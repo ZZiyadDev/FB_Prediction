@@ -21,8 +21,8 @@ def train_model():
         X,
         y_encoded,
         test_size=0.2,
-        random_state=42,
-        stratify=y_encoded
+        shuffle=False # <--- STOP TIME TRAVEL
+        # stratify=y_encoded (DELETE THIS LINE. You cannot stratify if you don't shuffle)
     )
 
     scaler = StandardScaler()
