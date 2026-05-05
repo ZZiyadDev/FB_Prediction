@@ -75,7 +75,7 @@ class PredictionViewSet(viewsets.ViewSet):
         concede_ratio = safe_div(htgc, atgc)
         form_ratio = safe_div(hform, aform)
 
-        # 2. MUST BE EXACTLY 19 FEATURES IN THE EXACT SAME ORDER
+        # 2. MUST BE EXACTLY 25 FEATURES IN THE EXACT SAME ORDER
         X = np.array([[
             htgs, atgs,
             htgc, atgc,
@@ -94,9 +94,17 @@ class PredictionViewSet(viewsets.ViewSet):
             concede_ratio,
             form_ratio,
             
-            f.get("H2H_Pts", 0),      # Feature 17
-            f.get("HT_Fatigue", 14),  # Feature 18
-            f.get("AT_Fatigue", 14),  # Feature 19
+            f.get("H2H_Pts", 0),
+            f.get("HT_Fatigue", 14),
+            f.get("AT_Fatigue", 14),
+            
+            # --- THE 6 NEW DEEP TACTICAL STATS ---
+            f.get("HT_Possession", 50.0),
+            f.get("AT_Possession", 50.0),
+            f.get("HT_ShotsOnTarget", 0.0),
+            f.get("AT_ShotsOnTarget", 0.0),
+            f.get("HT_PassAccuracy", 75.0),
+            f.get("AT_PassAccuracy", 75.0),
         ]])
 
         try:

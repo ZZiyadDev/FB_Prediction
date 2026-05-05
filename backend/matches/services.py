@@ -1,6 +1,7 @@
 from datetime import timedelta
 from django.db.models import Q
 from .models import Match
+from .models import Match, MatchStatistics
 
 
 # ----------------------------
@@ -119,6 +120,56 @@ def get_fatigue(team, match_date):
 # ----------------------------
 # MAIN FEATURE BUILDER
 # ----------------------------
+
+# ----------------------------
+# DEEP STATS (Rolling Averages)
+# ----------------------------
+def deep_stats_average(team, match_date, n=5):
+    matches = get_past_matches(team, match_date)[:n]
+    
+    total_possession, count_possession = 0, 0
+    total_shots, count_shots = 0, 0
+    total_passes, count_passes = 0, 0
+    
+    for m in matches:
+        # Safely try to get statistics, skip if the API didn't have data for this match
+        if not hasattr(m, 'statistics'):
+            continue
+            
+        stats = m.statistics
+        
+        # Check if the team we are analyzing was playing at Home or Away
+        if m.home_team == team:
+            if stats.home_possession is not None:
+                total_possession += float(stats.home_possession)
+                count_possession += 1
+            if stats.home_shots_on_target is not None:
+                total_shots += stats.home_shots_on_target
+                count_shots += 1
+            if stats.home_passes_percentage is not None:
+                total_passes += float(stats.home_passes_percentage)
+                count_passes += 1
+        else:
+            if stats.away_possession is not None:
+                total_possession += float(stats.away_possession)
+                count_possession += 1
+            if stats.away_shots_on_target is not None:
+                total_shots += stats.away_shots_on_target
+                count_shots += 1
+            if stats.away_passes_percentage is not None:
+                total_passes += float(stats.away_passes_percentage)
+                count_passes += 1
+                
+    # Calculate averages, with fallback default values if no data exists
+    avg_possession = (total_possession / count_possession) if count_possession > 0 else 50.0
+    avg_shots = (total_shots / count_shots) if count_shots > 0 else 0.0
+    avg_passes = (total_passes / count_passes) if count_passes > 0 else 75.0
+    
+    return avg_possession, avg_shots, avg_passes
+
+# ----------------------------
+# MAIN FEATURE BUILDER
+# ----------------------------
 def build_match_features(match):
     home = match.home_team
     away = match.away_team
@@ -132,6 +183,10 @@ def build_match_features(match):
 
     home_win_streak, home_loss_streak = streak(home, date)
     away_win_streak, away_loss_streak = streak(away, date)
+    
+    # --- CALCULATE NEW DEEP STATS ---
+    ht_poss, ht_shots, ht_pass = deep_stats_average(home, date)
+    at_poss, at_shots, at_pass = deep_stats_average(away, date)
 
     return {
         "HTGS": home_scored,
@@ -144,4 +199,16 @@ def build_match_features(match):
         "ATWinStreak3": away_win_streak,
         "HTLossStreak3": home_loss_streak,
         "ATLossStreak3": away_loss_streak,
+        
+        # --- ADD TO DICTIONARY ---
+        "HT_Possession": ht_poss,
+        "AT_Possession": at_poss,
+        "HT_ShotsOnTarget": ht_shots,
+        "AT_ShotsOnTarget": at_shots,
+        "HT_PassAccuracy": ht_pass,
+        "AT_PassAccuracy": at_pass,
+        
+        "H2H_Pts": get_h2h(home, away, date),
+        "HT_Fatigue": get_fatigue(home, date),
+        "AT_Fatigue": get_fatigue(away, date)
     }
