@@ -132,8 +132,38 @@ class PredictionViewSet(viewsets.ViewSet):
 
             return Response({
                 "match": f"{match.home_team.name} vs {match.away_team.name}",
+                "home_team": match.home_team.name, 
+                "away_team": match.away_team.name,
                 "prediction": pred_label,
-                "confidence_scores": confidence_scores
+                "confidence_scores": confidence_scores,
+                
+                # 🚨 ADD THESE TWO LINES FOR THE UI BADGES 🚨
+                "home_form_string": f.get("home_form_string", ""),
+                "away_form_string": f.get("away_form_string", ""),
+                
+                # --- SEND THE DEEP STATS TO REACT ---
+                "stats": {
+                    "possession": {
+                        "home": round(f.get("HT_Possession", 50), 1), 
+                        "away": round(f.get("AT_Possession", 50), 1)
+                    },
+                    "passes": {
+                        "home": round(f.get("HT_PassAccuracy", 75), 1), 
+                        "away": round(f.get("AT_PassAccuracy", 75), 1)
+                    },
+                    "shots": {
+                        "home": round(f.get("HT_ShotsOnTarget", 0), 1), 
+                        "away": round(f.get("AT_ShotsOnTarget", 0), 1)
+                    },
+                    "form": {
+                        "home": f.get("HTFormPts", 0), 
+                        "away": f.get("ATFormPts", 0)
+                    },
+                    "goals": {
+                        "home": f.get("HTGS", 0), 
+                        "away": f.get("ATGS", 0)
+                    }
+                }
             })
             
         except Exception as e:

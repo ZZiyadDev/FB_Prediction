@@ -5,11 +5,13 @@ import useStore from '../../hooks/useStore'; // Ensure this path matches your se
 const { Title } = Typography;
 
 const MatchList = () => {
-  const { matches, loading, loadMatches } = useStore();
+  // 1. Pull the exact variables from Zustand
+  const { rawMatches, isMatchesLoading, fetchUpcomingMatches } = useStore();
 
+  // 2. Call the correct fetch function
   useEffect(() => {
-    loadMatches();
-  }, [loadMatches]);
+    fetchUpcomingMatches();
+  }, [fetchUpcomingMatches]);
 
   const columns = [
     {
@@ -59,7 +61,7 @@ const MatchList = () => {
     },
     {
       title: 'League',
-      dataIndex: 'league_name',
+      dataIndex: 'league_name', // Ensure your Django serializer actually sends this field!
       key: 'league_name',
       render: (league) => <Tag>{league || 'Unknown'}</Tag>
     },
@@ -71,10 +73,10 @@ const MatchList = () => {
         Season Fixtures
       </Title>
       <Table
-        dataSource={matches}
+        dataSource={rawMatches}
         columns={columns}
         rowKey="id" 
-        loading={loading}
+        loading={isMatchesLoading}
         pagination={{ pageSize: 10 }} 
       />
     </Card>

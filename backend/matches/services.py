@@ -124,43 +124,95 @@ def get_fatigue(team, match_date):
 # ----------------------------
 # DEEP STATS (Rolling Averages)
 # ----------------------------
-def deep_stats_average(team, match_date, n=5):
+
+def safe_stat(value):
+    """Safely converts API strings like '54%' to floats."""
+    if not value:
+        return None
+    if isinstance(value, str):
+        value = value.replace('%', '').strip()
+    try:
+        return float(value)
+    except ValueError:
+        return None
+
+
+def get_form_string(team, match_date, n=5):
+    """Calculates the W/D/L form string for a team's last N matches."""
+    # We use your existing function to get the past 5 games
     matches = get_past_matches(team, match_date)[:n]
+    
+    form_string = ""
+    
+    for m in matches:
+        # Determine if the team was Home or Away for this past match
+        if m.home_team == team:
+            if m.score_home > m.score_away:
+                form_string += "W"
+            elif m.score_home == m.score_away:
+                form_string += "D"
+            else:
+                form_string += "L"
+        else:
+            if m.score_away > m.score_home:
+                form_string += "W"
+            elif m.score_away == m.score_home:
+                form_string += "D"
+            else:
+                form_string += "L"
+                
+    # Optional: Reverse the string so the most recent match is on the right side
+    return form_string[::-1]
+
+def deep_stats_average(team, match_date, n=5):
+    # 1. Expand the search window to 30 past matches to survive sparse data
+    matches = get_past_matches(team, match_date)[:30] 
     
     total_possession, count_possession = 0, 0
     total_shots, count_shots = 0, 0
     total_passes, count_passes = 0, 0
     
+    valid_matches_found = 0 # Track how many matches with real stats we found
+    
     for m in matches:
-        # Safely try to get statistics, skip if the API didn't have data for this match
-        if not hasattr(m, 'statistics'):
-            continue
+        if valid_matches_found >= n:
+            break # We successfully found 5 matches with data! Stop searching.
             
-        stats = m.statistics
+        # 2. Bulletproof ORM Check: Handle any way Django named the database connection
+        stats = None
+        if hasattr(m, 'matchstatistics') and m.matchstatistics is not None:
+            stats = m.matchstatistics
+        elif hasattr(m, 'statistics') and m.statistics is not None:
+            stats = m.statistics
+        elif hasattr(m, 'matchstatistics_set') and hasattr(m.matchstatistics_set, 'first'):
+            stats = m.matchstatistics_set.first()
+            
+        if not stats:
+            continue # This match has no stats due to API limits. Skip it and look older.
+            
+        valid_matches_found += 1 # We found one!
         
-        # Check if the team we are analyzing was playing at Home or Away
+        # Safely parse the strings!
         if m.home_team == team:
-            if stats.home_possession is not None:
-                total_possession += float(stats.home_possession)
-                count_possession += 1
-            if stats.home_shots_on_target is not None:
-                total_shots += stats.home_shots_on_target
-                count_shots += 1
-            if stats.home_passes_percentage is not None:
-                total_passes += float(stats.home_passes_percentage)
-                count_passes += 1
+            poss = safe_stat(stats.home_possession)
+            shots = safe_stat(stats.home_shots_on_target)
+            passes = safe_stat(stats.home_passes_percentage)
         else:
-            if stats.away_possession is not None:
-                total_possession += float(stats.away_possession)
-                count_possession += 1
-            if stats.away_shots_on_target is not None:
-                total_shots += stats.away_shots_on_target
-                count_shots += 1
-            if stats.away_passes_percentage is not None:
-                total_passes += float(stats.away_passes_percentage)
-                count_passes += 1
+            poss = safe_stat(stats.away_possession)
+            shots = safe_stat(stats.away_shots_on_target)
+            passes = safe_stat(stats.away_passes_percentage)
+            
+        if poss is not None:
+            total_possession += poss
+            count_possession += 1
+        if shots is not None:
+            total_shots += shots
+            count_shots += 1
+        if passes is not None:
+            total_passes += passes
+            count_passes += 1
                 
-    # Calculate averages, with fallback default values if no data exists
+    # Calculate averages
     avg_possession = (total_possession / count_possession) if count_possession > 0 else 50.0
     avg_shots = (total_shots / count_shots) if count_shots > 0 else 0.0
     avg_passes = (total_passes / count_passes) if count_passes > 0 else 75.0

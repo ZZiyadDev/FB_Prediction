@@ -1,37 +1,49 @@
-import { create } from 'zustand'
-import api from '../api'
+import { create } from 'zustand';
+import { matchService } from '../api';
 
 const useStore = create((set) => ({
-  matches: [],
-  predictions: [],
-  loading: false,
+  // --- STATE ---
+  rawMatches: [],     // <--- ADD THIS: For your MatchesPage table/list
+  matchOptions: [],   // <--- RENAME THIS: For your Predictions dropdown
+  selectedMatch: null,
+  predictionData: null,
+  isMatchesLoading: false,
+  isPredicting: false,
+  error: null,
 
-  loadMatches: async () => {
-    set({ loading: true })
+  // --- ACTIONS ---
+  setSelectedMatch: (matchId) => set({ selectedMatch: matchId }),
+
+  fetchUpcomingMatches: async () => {
+    set({ isMatchesLoading: true, error: null });
     try {
-      const response = await api.get('matches/')
-      // Safely handle Django REST Framework pagination if it's active
-      const matchData = response.data.results || response.data;
-      set({ matches: matchData })
+      const response = await matchService.getMatches();
+      
+      const options = response.data.map(match => ({
+        value: match.id,
+        label: `${match.home_team.name} vs ${match.away_team.name} (${new Date(match.match_date).toLocaleDateString()})`
+      }));
+      
+      // Save BOTH the raw data and the dropdown options!
+      set({ 
+        rawMatches: response.data, 
+        matchOptions: options, 
+        isMatchesLoading: false 
+      });
     } catch (error) {
-      console.error('Failed to load matches', error)
-    } finally {
-      set({ loading: false })
+      set({ error: error.message, isMatchesLoading: false });
     }
   },
 
-  loadPredictions: async () => {
-    set({ loading: true })
+  runAiPrediction: async (matchId) => {
+    set({ isPredicting: true, error: null, predictionData: null });
     try {
-      const response = await api.get('predictions/')
-      const predictionData = response.data.results || response.data;
-      set({ predictions: predictionData })
+      const response = await matchService.getPrediction(matchId);
+      set({ predictionData: response.data, isPredicting: false });
     } catch (error) {
-      console.error('Failed to load predictions', error)
-    } finally {
-      set({ loading: false })
+      set({ error: error.message, isPredicting: false });
     }
-  },
-}))
+  }
+}));
 
-export default useStore
+export default useStore;
