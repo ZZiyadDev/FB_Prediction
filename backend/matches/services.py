@@ -239,6 +239,10 @@ def build_match_features(match):
     # --- CALCULATE NEW DEEP STATS ---
     ht_poss, ht_shots, ht_pass = deep_stats_average(home, date)
     at_poss, at_shots, at_pass = deep_stats_average(away, date)
+    
+    # --- GENERATE FORM STRINGS ---
+    home_form_string = get_form_string(home, date)
+    away_form_string = get_form_string(away, date)
 
     return {
         "HTGS": home_scored,
@@ -262,5 +266,9 @@ def build_match_features(match):
         
         "H2H_Pts": get_h2h(home, away, date),
         "HT_Fatigue": get_fatigue(home, date),
-        "AT_Fatigue": get_fatigue(away, date)
+        "AT_Fatigue": get_fatigue(away, date),
+        
+        # --- FORM STRINGS FOR UI ---
+        "home_form_string": home_form_string,
+        "away_form_string": away_form_string
     }

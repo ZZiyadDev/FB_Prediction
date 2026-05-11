@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import { Card, Select, Button, Typography, Row, Col, Spin, Alert, Tag, Space } from 'antd';
-import { RobotOutlined, ThunderboltOutlined } from '@ant-design/icons';
+import { Card, Select, Button, Typography, Row, Col, Spin, Alert, Tag, Space, Badge } from 'antd';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend, Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
+import { RadarChartOutlined, ThunderboltOutlined } from '@ant-design/icons';
 import useStore from '../../hooks/useStore';
 
 const { Title, Text } = Typography;
@@ -76,24 +76,57 @@ const PredictionsPage = () => {
     );
   };
   
+  // --- UNIFIED STYLING VARIABLE ---
+  // We apply this to EVERY card so the app looks perfectly cohesive
+  const sharedCardStyle = {
+    marginBottom: '24px',
+    borderRadius: '16px',
+    boxShadow: '0 8px 24px rgba(0, 0, 0, 0.04)',
+    border: '1px solid #f0f0f0',
+    background: '#ffffff'
+  };
+
   return (
     <div style={{ padding: '24px', maxWidth: '1200px', margin: '0 auto' }}>
+      
+      {/* --- 1. COMMAND CENTER HEADER --- */}
       <div style={{ marginBottom: '32px' }}>
-        <Title level={2} style={{ margin: 0 }}>
-          <RobotOutlined style={{ color: '#1890ff', marginRight: '12px' }} /> 
-          AI Match Intelligence
-        </Title>
-        <Text type="secondary">Powered by XGBoost & Deep Tactical Analytics</Text>
+        <Space align="center" style={{ marginBottom: '8px' }}>
+          <RadarChartOutlined style={{ fontSize: '32px', color: '#1677ff' }} />
+          <Title level={2} style={{ margin: 0, fontWeight: 800, letterSpacing: '-0.5px' }}>
+            Match Intelligence Matrix
+          </Title>
+        </Space>
+        
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <Badge status="processing" text={<span style={{ color: '#52c41a', fontWeight: 'bold' }}>Live Data Sync</span>} />
+          <Text type="secondary">|</Text>
+          <Text type="secondary" style={{ letterSpacing: '1px', textTransform: 'uppercase', fontSize: '12px', fontWeight: 'bold' }}>
+            Powered by XGBoost & Deep Tactical Analytics
+          </Text>
+        </div>
       </div>
 
-      {error && <Alert message="System Error" description={error} type="error" showIcon style={{ marginBottom: '24px' }} />}
+      {error && <Alert message="System Error" description={error} type="error" showIcon style={{ marginBottom: '24px', borderRadius: '8px' }} />}
 
-      <Card bordered={false} style={{ marginBottom: '24px', boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}>
-        <Row gutter={16} align="middle">
+      {/* --- 2. COMMAND CENTER CONTROLS --- */}
+      <Card 
+        bordered={false}
+        style={{ 
+          ...sharedCardStyle, 
+          background: 'linear-gradient(145deg, #ffffff 0%, #f0f5ff 100%)', // Subtle premium gradient for the main control
+          borderColor: '#d6e4ff'
+        }}
+        styles={{ body: { padding: '24px 32px' } }}
+      >
+        <Row gutter={[24, 16]} align="bottom">
           <Col xs={24} md={18}>
+            <Text type="secondary" style={{ display: 'block', marginBottom: '8px', fontSize: '12px', fontWeight: 'bold', letterSpacing: '1px' }}>
+              SELECT TARGET FIXTURE
+            </Text>
             <Select
-              style={{ width: '100%' }}
-              placeholder="Select a fixture to analyze..."
+              style={{ width: '100%', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}
+              placeholder="Search for a Premier League or La Liga fixture..."
               options={matchOptions}
               onChange={setSelectedMatch}
               value={selectedMatch}
@@ -114,8 +147,17 @@ const PredictionsPage = () => {
               onClick={handlePredict}
               loading={isPredicting}
               disabled={!selectedMatch}
+              style={{ 
+                background: selectedMatch ? 'linear-gradient(135deg, #1677ff 0%, #531dab 100%)' : '#d9d9d9',
+                border: 'none',
+                height: '40px',
+                fontSize: '16px',
+                fontWeight: 'bold',
+                boxShadow: selectedMatch ? '0 4px 14px 0 rgba(22,119,255,0.39)' : 'none',
+                borderRadius: '8px'
+              }}
             >
-              Engage AI
+              {isPredicting ? 'Analyzing...' : 'Engage AI'}
             </Button>
           </Col>
         </Row>
@@ -129,90 +171,102 @@ const PredictionsPage = () => {
 
       {predictionData && !isPredicting && (
         <>
-          {/* HERO PREDICTION CARD */}
-          {/* HOME TEAM SIDE */}
-<div style={{ textAlign: 'center' }}>
-  <Title level={3} style={{ margin: 0 }}>{predictionData.home_team}</Title>
-  {/* Inject the Form Guide Here! */}
-  {renderFormBadges(predictionData.home_form_string)}
-</div>
+          {/* --- 3. PREMIUM HERO BANNER --- */}
+          <Card style={sharedCardStyle} bordered={false} styles={{ body: { padding: '32px 24px' } }}>
+            <Row align="middle" justify="space-between">
+              {/* HOME TEAM */}
+              <Col xs={8} style={{ textAlign: 'right' }}>
+                <Title level={2} style={{ margin: 0, fontWeight: 800 }}>{predictionData.home_team}</Title>
+                <div style={{ marginTop: 8, display: 'flex', justifyContent: 'flex-end' }}>
+                  {renderFormBadges(predictionData.home_form_string)}
+                </div>
+              </Col>
 
-{/* ... (Score or VS graphic in the middle) ... */}
+              {/* AI PREDICTION CENTER */}
+              <Col xs={8} style={{ textAlign: 'center', borderLeft: '1px solid #f0f0f0', borderRight: '1px solid #f0f0f0' }}>
+                <Text type="secondary" style={{ letterSpacing: '2px', fontSize: '12px', fontWeight: 'bold' }}>
+                  AI PREDICTION
+                </Text>
+                <Title level={1} style={{ 
+                  margin: '8px 0', 
+                  color: predictionData.prediction === 'Home Win' ? COLORS.H : predictionData.prediction === 'Away Win' ? COLORS.A : COLORS.D 
+                }}>
+                  {predictionData.prediction.toUpperCase()}
+                </Title>
+              </Col>
 
-{/* AWAY TEAM SIDE */}
-<div style={{ textAlign: 'center' }}>
-  <Title level={3} style={{ margin: 0 }}>{predictionData.away_team}</Title>
-  {/* Inject the Form Guide Here! */}
-  {renderFormBadges(predictionData.away_form_string)}
-</div>
+              {/* AWAY TEAM */}
+              <Col xs={8} style={{ textAlign: 'left' }}>
+                <Title level={2} style={{ margin: 0, fontWeight: 800 }}>{predictionData.away_team}</Title>
+                <div style={{ marginTop: 8, display: 'flex', justifyContent: 'flex-start' }}>
+                  {renderFormBadges(predictionData.away_form_string)}
+                </div>
+              </Col>
+            </Row>
+          </Card>
 
-          {/* SPLIT VIEW: DONUT CHART & RADAR CHART */}
+          {/* --- 4. FULL ODDS BREAKDOWN --- */}
+          <Card title={<span style={{ fontWeight: 'bold' }}>Full Odds Breakdown</span>} bordered={false} style={sharedCardStyle}>
+            <Row gutter={16}>
+              <Col xs={24} sm={8}>
+                <div style={{ textAlign: 'center', padding: '20px', background: '#f6ffed', borderRadius: '12px', border: '1px solid #b7eb8f' }}>
+                  <Text style={{ fontSize: '12px', color: '#666', fontWeight: 'bold', letterSpacing: '1px' }}>HOME WIN</Text>
+                  <Title level={2} style={{ margin: '8px 0', color: COLORS.H }}>{predictionData.confidence_scores.H}%</Title>
+                </div>
+              </Col>
+              <Col xs={24} sm={8}>
+                <div style={{ textAlign: 'center', padding: '20px', background: '#fffbe6', borderRadius: '12px', border: '1px solid #ffe58f' }}>
+                  <Text style={{ fontSize: '12px', color: '#666', fontWeight: 'bold', letterSpacing: '1px' }}>DRAW</Text>
+                  <Title level={2} style={{ margin: '8px 0', color: COLORS.D }}>{predictionData.confidence_scores.D}%</Title>
+                </div>
+              </Col>
+              <Col xs={24} sm={8}>
+                <div style={{ textAlign: 'center', padding: '20px', background: '#fff1f0', borderRadius: '12px', border: '1px solid #ffa39e' }}>
+                  <Text style={{ fontSize: '12px', color: '#666', fontWeight: 'bold', letterSpacing: '1px' }}>AWAY WIN</Text>
+                  <Title level={2} style={{ margin: '8px 0', color: COLORS.A }}>{predictionData.confidence_scores.A}%</Title>
+                </div>
+              </Col>
+            </Row>
+          </Card>
+
+          {/* --- 5. CHARTS GRID --- */}
           <Row gutter={24}>
             <Col xs={24} lg={12}>
-              <Card title="Algorithm Confidence" bordered={false} style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}>
-                
-                {/* FIX: Add this explicit height wrapper */}
-                <div style={{ height: '350px', width: '100%' }}>
+              <Card title={<span style={{ fontWeight: 'bold' }}>Algorithm Confidence</span>} bordered={false} style={{...sharedCardStyle, height: '420px'}}>
+                <div style={{ height: '300px', width: '100%' }}>
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
                         data={donutData}
-                        cx="50%"
-                        cy="50%"
-                        innerRadius={80}
-                        outerRadius={120}
-                        paddingAngle={5}
+                        cx="50%" cy="50%" innerRadius={80} outerRadius={110} paddingAngle={5}
                         dataKey="value"
                         label={({ name, value }) => `${name} (${value}%)`}
                       >
-                        {donutData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={entry.color} />
-                        ))}
+                        {donutData.map((entry, index) => <Cell key={`cell-${index}`} fill={entry.color} />)}
                       </Pie>
                       <Tooltip formatter={(value) => `${value}%`} />
                       <Legend verticalAlign="bottom" height={36} />
                     </PieChart>
                   </ResponsiveContainer>
                 </div>
-
               </Card>
             </Col>
 
             <Col xs={24} lg={12}>
-              <Card title="Tale of the Tape (Tactical Profile)" bordered={false} style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}>
-                
-                {/* FIX: Add this explicit height wrapper */}
-                <div style={{ height: '350px', width: '100%' }}>
+              <Card title={<span style={{ fontWeight: 'bold' }}>Tale of the Tape (Tactical Profile)</span>} bordered={false} style={{...sharedCardStyle, height: '420px'}}>
+                <div style={{ height: '300px', width: '100%' }}>
                   <ResponsiveContainer width="100%" height="100%">
                     <RadarChart cx="50%" cy="50%" outerRadius="70%" data={radarData}>
                       <PolarGrid />
                       <PolarAngleAxis dataKey="subject" style={{ fontSize: '12px' }} />
                       <PolarRadiusAxis angle={30} domain={[0, 'auto']} />
-                      
-                      {/* Home Team Polygon */}
-                      <Radar 
-                        name={predictionData.home_team} 
-                        dataKey="home" 
-                        stroke={COLORS.H} 
-                        fill={COLORS.H} 
-                        fillOpacity={0.5} 
-                      />
-                      
-                      {/* Away Team Polygon */}
-                      <Radar 
-                        name={predictionData.away_team} 
-                        dataKey="away" 
-                        stroke={COLORS.A} 
-                        fill={COLORS.A} 
-                        fillOpacity={0.5} 
-                      />
-                      
+                      <Radar name={predictionData.home_team} dataKey="home" stroke={COLORS.H} fill={COLORS.H} fillOpacity={0.5} />
+                      <Radar name={predictionData.away_team} dataKey="away" stroke={COLORS.A} fill={COLORS.A} fillOpacity={0.5} />
                       <Tooltip />
                       <Legend />
                     </RadarChart>
                   </ResponsiveContainer>
                 </div>
-
               </Card>
             </Col>
           </Row>
