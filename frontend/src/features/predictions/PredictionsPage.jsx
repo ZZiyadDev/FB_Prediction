@@ -176,6 +176,7 @@ const PredictionsPage = () => {
             <Row align="middle" justify="space-between">
               {/* HOME TEAM */}
               <Col xs={8} style={{ textAlign: 'right' }}>
+                {predictionData.home_logo && <img src={predictionData.home_logo} width={60} style={{ marginBottom: '8px' }} alt={`${predictionData.home_team} logo`} />}
                 <Title level={2} style={{ margin: 0, fontWeight: 800 }}>{predictionData.home_team}</Title>
                 <div style={{ marginTop: 8, display: 'flex', justifyContent: 'flex-end' }}>
                   {renderFormBadges(predictionData.home_form_string)}
@@ -197,6 +198,7 @@ const PredictionsPage = () => {
 
               {/* AWAY TEAM */}
               <Col xs={8} style={{ textAlign: 'left' }}>
+                {predictionData.away_logo && <img src={predictionData.away_logo} width={60} style={{ marginBottom: '8px' }} alt={`${predictionData.away_team} logo`} />}
                 <Title level={2} style={{ margin: 0, fontWeight: 800 }}>{predictionData.away_team}</Title>
                 <div style={{ marginTop: 8, display: 'flex', justifyContent: 'flex-start' }}>
                   {renderFormBadges(predictionData.away_form_string)}
@@ -238,7 +240,7 @@ const PredictionsPage = () => {
                     <PieChart>
                       <Pie
                         data={donutData}
-                        cx="50%" cy="50%" innerRadius={80} outerRadius={110} paddingAngle={5}
+                        cx="50%" cy="50%" innerRadius={70} outerRadius={100} paddingAngle={5}
                         dataKey="value"
                         label={({ name, value }) => `${name} (${value}%)`}
                       >
@@ -256,7 +258,7 @@ const PredictionsPage = () => {
               <Card title={<span style={{ fontWeight: 'bold' }}>Tale of the Tape (Tactical Profile)</span>} bordered={false} style={{...sharedCardStyle, height: '420px'}}>
                 <div style={{ height: '300px', width: '100%' }}>
                   <ResponsiveContainer width="100%" height="100%">
-                    <RadarChart cx="50%" cy="50%" outerRadius="70%" data={radarData}>
+                    <RadarChart cx="50%" cy="50%" outerRadius="90%" data={radarData}>
                       <PolarGrid />
                       <PolarAngleAxis dataKey="subject" style={{ fontSize: '12px' }} />
                       <PolarRadiusAxis angle={30} domain={[0, 'auto']} />

@@ -134,6 +134,8 @@ class PredictionViewSet(viewsets.ViewSet):
                 "match": f"{match.home_team.name} vs {match.away_team.name}",
                 "home_team": match.home_team.name, 
                 "away_team": match.away_team.name,
+                "home_logo": match.home_team.logo_url,
+                "away_logo": match.away_team.logo_url,
                 "prediction": pred_label,
                 "confidence_scores": confidence_scores,
                 
