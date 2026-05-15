@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
-import { Table, Tag, Space, Avatar, Card, Typography } from 'antd';
+import { Table, Tag, Space, Avatar, Card, Typography, Alert } from 'antd';
 import useStore from '../../hooks/useStore'; // Ensure this path matches your setup!
 
 const { Title } = Typography;
 
 const MatchList = () => {
   // 1. Pull the exact variables from Zustand
-  const { rawMatches, isMatchesLoading, fetchUpcomingMatches } = useStore();
+  const { rawMatches, isMatchesLoading, fetchUpcomingMatches, error } = useStore();
 
   // 2. Call the correct fetch function
   useEffect(() => {
@@ -72,6 +72,17 @@ const MatchList = () => {
       <Title level={3} style={{ marginTop: 0, marginBottom: '24px' }}>
         Season Fixtures
       </Title>
+      
+      {error && (
+        <Alert
+          message="Connection Error"
+          description={`Unable to fetch matches: ${error}. Make sure Django is running.`}
+          type="error"
+          showIcon
+          style={{ marginBottom: '20px' }}
+        />
+      )}
+
       <Table
         dataSource={rawMatches}
         columns={columns}
