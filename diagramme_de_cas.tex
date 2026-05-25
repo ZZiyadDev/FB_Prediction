@@ -1,0 +1,25 @@
+% diagramme_de_cas.tex
+\begin{tikzpicture}[
+  actor/.style={draw, rectangle, rounded corners, minimum width=2cm, minimum height=0.8cm, align=center},
+  usecase/.style={draw, ellipse, minimum width=3cm, minimum height=1cm, align=center},
+  system/.style={draw, rectangle, minimum width=8cm, minimum height=6cm}
+]
+
+% System boundary
+\draw[thick] (2, -0.5) rectangle (10, -7);
+\node[anchor=north] at (6, -0.5) {\textbf{Système de Prédiction Football}};
+
+% Actor
+\node[actor] (user) at (0, -3.5) {Utilisateur};
+
+% Use cases
+\node[usecase] (uc1) at (6, -1.5) {Consulter le dashboard};
+\node[usecase] (uc2) at (6, -3.5) {Voir une prédiction};
+\node[usecase] (uc3) at (6, -5.5) {Filtrer par équipe};
+
+% Associations
+\draw[->] (user) -- (uc1);
+\draw[->] (user) -- (uc2);
+\draw[->] (user) -- (uc3);
+
+\end{tikzpicture}

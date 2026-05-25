@@ -1,17 +1,55 @@
 import { create } from 'zustand';
-import { matchService } from '../api';
+import { matchService, authService } from '../api';
+import { jwtDecode } from 'jwt-decode';
 
 const useStore = create((set) => ({
-  // --- STATE ---
-  rawMatches: [],     // <--- ADD THIS: For your MatchesPage table/list
-  matchOptions: [],   // <--- RENAME THIS: For your Predictions dropdown
+  // --- AUTH STATE ---
+  user: JSON.parse(localStorage.getItem('user')) || null,
+  token: localStorage.getItem('token') || null,
+  isAuthenticated: !!localStorage.getItem('token'),
+
+  // --- DATA STATE ---
+  rawMatches: [],
+  matchOptions: [],
   selectedMatch: null,
   predictionData: null,
   isMatchesLoading: false,
   isPredicting: false,
   error: null,
 
-  // --- ACTIONS ---
+  // --- AUTH ACTIONS ---
+  login: async (credentials) => {
+    set({ error: null });
+    try {
+      const response = await authService.login(credentials);
+      const { access, refresh } = response.data;
+      const decoded = jwtDecode(access);
+      
+      const userData = {
+        id: decoded.user_id,
+        username: decoded.username,
+        role: decoded.role,
+      };
+
+      localStorage.setItem('token', access);
+      localStorage.setItem('user', JSON.stringify(userData));
+      
+      set({ user: userData, token: access, isAuthenticated: true });
+      return userData;
+    } catch (error) {
+      const msg = error.response?.data?.detail || 'Login failed';
+      set({ error: msg });
+      throw error;
+    }
+  },
+
+  logout: () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    set({ user: null, token: null, isAuthenticated: false });
+  },
+
+  // --- DATA ACTIONS ---
   setSelectedMatch: (matchId) => set({ selectedMatch: matchId }),
 
   fetchUpcomingMatches: async () => {

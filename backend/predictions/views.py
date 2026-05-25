@@ -2,7 +2,7 @@ import os
 import joblib
 import numpy as np
 
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -47,6 +47,7 @@ def safe_div(a, b):
 
 
 class PredictionViewSet(viewsets.ViewSet):
+    permission_classes = [permissions.IsAuthenticated]
 
     @action(detail=True, methods=["get"])
     def predict(self, request, pk=None):

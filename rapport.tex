@@ -1,0 +1,79 @@
+% ===================== INTRODUCTION GÉNÉRALE =====================
+\chapter*{Introduction générale}
+\addcontentsline{toc}{chapter}{Introduction générale}
+
+\section*{1. Présentation du sujet}
+\addcontentsline{toc}{section}{1. Présentation du sujet}
+L'objectif de ce projet (Intelligent Football League Prediction Dashboard) est de concevoir et développer une plateforme d'analyse et de prédiction des résultats de matchs de football. Le système s'appuie sur une architecture Full-Stack moderne : un backend en Django (REST Framework) pour la gestion des données et le Machine Learning, et un frontend interactif en React (Vite) pour l'affichage des statistiques et des prédictions. L'application exploite des données historiques réelles issues de l'API-Sports (API-Football) afin d'alimenter un algorithme capable de prévoir l'issue d'une rencontre sportive (Victoire à domicile, Match nul ou Victoire à l'extérieur).
+
+\section*{2. Structure du rapport}
+\addcontentsline{toc}{section}{2. Structure du rapport}
+Ce rapport s'articule autour de deux axes principaux :
+\begin{itemize}
+    \item \textbf{Le chapitre 1} présente l'analyse des besoins. Il expose le contexte métier, le cahier des charges fonctionnel, et modélise les interactions utilisateurs avec le système à l'aide de diagrammes.
+    \item \textbf{Le chapitre 2} détaille la méthodologie scientifique et technique, en se concentrant sur le cycle de vie de la donnée : depuis sa collecte via l'API, sa préparation (Feature Engineering), jusqu'à la modélisation avec XGBoost et l'évaluation rigoureuse du modèle.
+\end{itemize}
+
+% ===================== CHAPITRE 1 =====================
+\chapter{Analyse du besoin et spécifications}
+
+\section{Contexte métier}
+Dans l'industrie du sport moderne, l'analyse des données joue un rôle crucial. Les amateurs, les analystes sportifs, et les parieurs recherchent des outils capables de fournir des informations objectives pour anticiper les résultats des rencontres. Bien que le football reste un sport imprévisible, l'exploitation de facteurs tactiques, de l'état de forme des équipes et de l'historique de leurs affrontements permet de dégager des probabilités mathématiques viables, créant ainsi le besoin pour un tableau de bord (Dashboard) intelligent.
+
+\section{Cahier des charges fonctionnel}
+L'application développée doit répondre aux spécifications suivantes :
+\begin{itemize}
+    \item \textbf{Collecte automatique des données} : Intégration de l'API-Football pour récupérer les ligues, les équipes, et les matchs prévus (fixtures).
+    \item \textbf{Interface Utilisateur (UI)} : Visualisation claire des matchs sous forme de cartes et de graphiques (réalisés avec Ant Design et Recharts) pour faciliter la lecture des statistiques.
+    \item \textbf{Système de Prédiction} : Un module backend intelligent (API endpoint) capable d'évaluer la probabilité d'une victoire de l'équipe à domicile (Home), d'un match nul (Draw) ou d'une victoire à l'extérieur (Away).
+\end{itemize}
+
+\section{Scénarios d'utilisation}
+Le flux d'utilisation typique est le suivant : l'utilisateur accède au tableau de bord, il consulte la liste des matchs à venir de la journée. Il sélectionne un match pour en visualiser les détails. L'interface lui présente alors l'historique des confrontations directes (Head-to-Head) et des statistiques tactiques (Possession, Tirs cadrés). Enfin, il peut déclencher la prédiction pour obtenir les pourcentages de chance pour chaque issue du match, calculés en temps réel par le modèle de Machine Learning.
+
+\section{Diagramme de Cas d'Utilisation}
+Ce diagramme illustre les interactions globales entre les acteurs (l'Utilisateur, le Système de Prédiction et l'API-Football Externe) et les fonctionnalités majeures du système.
+\begin{figure}[h]
+  \centering
+  \input{diagramme_de_cas}
+  \caption{Diagramme de cas d'utilisation de l'application}
+  \label{fig:usecase}
+\end{figure}
+
+\section{Flowchart des Opérations}
+Le logigramme suivant détaille le déroulement logique d'une requête de prédiction : de l'interrogation du backend Django, en passant par le prétraitement des caractéristiques (features) jusqu'au renvoi du résultat au client React.
+\begin{figure}[h]
+  \centering
+  \input{flowchart}
+  \caption{Flowchart des opérations de prédiction}
+  \label{fig:flowchart}
+\end{figure}
+
+\section{Conclusion du chapitre}
+Cette phase d'analyse a permis d'établir une vision claire des attentes de l'application et de tracer les limites du système. Le choix des outils technologiques (Django, React) est aligné avec la nécessité d'avoir une application à la fois robuste pour le traitement des données et très réactive côté client.
+
+% ===================== CHAPITRE 2 =====================
+\chapter{Méthodologie}
+
+\section{Collecte des données}
+La fiabilité de tout modèle prédictif repose sur la qualité de ses données. Nous avons utilisé des scripts d'automatisation Django (Commandes de Management telles que \texttt{fetch\_reference\_data} et \texttt{fetch\_fixtures}) pour interroger de manière programmatique l'API-Football. Ces scripts alimentent notre base de données relationnelle en stockant l'historique détaillé des matchs, en filtrant notamment les matchs dont le statut est finalisé (Full-Time - FT) afin d'assurer l'apprentissage sur des scores réels.
+
+\section{Préparation des données (Feature Engineering)}
+La préparation des données est gérée par le script \texttt{dataset\_builder.py}. Les données brutes ont été transformées en 25 variables explicatives (Features). 
+\begin{itemize}
+    \item \textbf{Données de base et de forme :} Buts marqués et encaissés (HTGS, ATGS), points de forme récents, séries de victoires/défaites et indice de fatigue.
+    \item \textbf{Variables calculées (Stabilité du signal) :} Différences et ratios entre les statistiques des équipes (ex: Différence de buts, ratio d'encaissement).
+    \item \textbf{Statistiques Tactiques Profondes :} Intégration de la possession de balle moyenne, des tirs cadrés (Shots on Target) et de la précision des passes pour refléter finement la physionomie de jeu de chaque équipe.
+\end{itemize}
+Afin de corriger le déséquilibre naturel des classes (par exemple, le match nul qui est souvent moins fréquent), nous avons implémenté l'algorithme \textbf{SMOTE} (Synthetic Minority Over-sampling Technique) qui permet de sur-échantillonner les classes minoritaires pour l'entraînement.
+
+\section{Modélisation}
+Le modèle prédictif choisi est le classificateur \textbf{XGBoost} (\texttt{XGBClassifier}), reconnu pour ses excellentes performances sur les données tabulaires. Le modèle est configuré avec l'objectif \texttt{multi:softprob} lui permettant de générer une probabilité pour nos trois classes cibles : \textit{H (Home), A (Away), D (Draw)}.
+Pour optimiser les performances de notre modèle, nous avons procédé à un réglage des hyperparamètres à l'aide de \texttt{RandomizedSearchCV}. Nous avons ajusté de manière croisée (Cross-Validation) des paramètres clés tels que le nombre d'arbres (\textit{n\_estimators}), la profondeur maximale (\textit{max\_depth}) et le taux d'apprentissage (\textit{learning\_rate}).
+
+\section{Évaluation du modèle}
+L'évaluation sur des données de séries temporelles nécessite une approche stricte : la séparation en jeu d'entraînement et de test (\textit{Train-Test Split}) s'est faite \textbf{sans mélange aléatoire} (\texttt{shuffle=False}) pour prévenir toute fuite de données (Data Leakage ou "Time Travel"), garantissant que le modèle ne s'entraîne que sur des événements passés pour prédire le futur.
+Les variables ont été mises à l'échelle à l'aide d'un \texttt{StandardScaler}. Finalement, la robustesse du modèle a été mesurée grâce au rapport de classification de \textit{Scikit-Learn}, en prêtant une attention particulière au \textbf{F1-Score Macro}, métrique idéale pour évaluer l'équilibre global des prédictions sur les 3 classes.
+
+\section{Conclusion du chapitre}
+La méthodologie adoptée assure la mise en place d'un pipeline de Machine Learning rigoureux et reproductible. Du traitement initial des données tactiques jusqu'à l'ajustement du modèle XGBoost équilibré par SMOTE, l'architecture permet à notre application de produire des prédictions objectives fondées sur des critères mesurables.

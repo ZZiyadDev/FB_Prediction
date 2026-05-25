@@ -1,0 +1,38 @@
+\begin{tikzpicture}[
+  startstop/.style={draw, rectangle, rounded corners=15pt, 
+    minimum width=3cm, minimum height=0.8cm, 
+    fill=EMSIGreen!20, text centered},
+  process/.style={draw, rectangle, 
+    minimum width=3cm, minimum height=0.8cm, 
+    fill=blue!10, text centered},
+  decision/.style={draw, diamond, aspect=2,
+    minimum width=3cm, minimum height=0.8cm,
+    fill=orange!20, text centered},
+  arrow/.style={thick, ->, >=stealth}
+]
+
+% Nodes
+\node[startstop] (start)                        {Début};
+\node[process]   (collect)  [below=of start]    {Collecter les données};
+\node[process]   (clean)    [below=of collect]  {Nettoyer les données};
+\node[process]   (train)    [below=of clean]    {Entraîner le modèle};
+\node[decision]  (valid)    [below=of train]    {Modèle valide ?};
+\node[process]   (predict)  [below=of valid]    {Générer les prédictions};
+\node[process]   (display)  [below=of predict]  {Afficher le dashboard};
+\node[startstop] (end)      [below=of display]  {Fin};
+
+% Arrows
+\draw[arrow] (start)   -- (collect);
+\draw[arrow] (collect) -- (clean);
+\draw[arrow] (clean)   -- (train);
+\draw[arrow] (train)   -- (valid);
+\draw[arrow] (valid)   -- node[right] {Oui} (predict);
+\draw[arrow] (predict) -- (display);
+\draw[arrow] (display) -- (end);
+
+% No loop back to train
+\draw[arrow] (valid.east) -- ++(2,0) 
+  node[midway, above] {Non} 
+  |- (train.east);
+
+\end{tikzpicture}
