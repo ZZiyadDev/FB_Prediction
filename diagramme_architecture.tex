@@ -1,0 +1,36 @@
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[
+        node distance=1.5cm and 2cm,
+        layer/.style={draw, Navy, thick, minimum width=4cm, minimum height=6cm, rounded corners, fill=white, text=Navy, font=\bfseries},
+        component/.style={draw, Teal, thick, minimum width=3.5cm, minimum height=0.8cm, fill=Teal!10, rounded corners, font=\small},
+        arrow/.style={-Stealth, thick, Navy}
+    ]
+        % Client Layer
+        \node[layer] (client) {};
+        \node[above=0.2cm of client.south, font=\bfseries] {Client Tier (React)};
+        \node[component, yshift=2cm] (ui) at (client.center) {UI Components (AntD)};
+        \node[component, yshift=0.5cm] (state) at (client.center) {State (Zustand)};
+        \node[component, yshift=-1cm] (axios) at (client.center) {HTTP Client (Axios)};
+
+        % App Layer
+        \node[layer, right=3cm of client] (app) {};
+        \node[above=0.2cm of app.south, font=\bfseries] {Logic Tier (Django)};
+        \node[component, yshift=2cm] (api) at (app.center) {REST Framework (API)};
+        \node[component, yshift=0.5cm] (auth) at (app.center) {Auth (SimpleJWT)};
+        \node[component, yshift=-1cm, fill=Navy!10, draw=Navy] (ml) at (app.center) {ML Engine (XGBoost)};
+
+        % Data Layer
+        \node[layer, right=3cm of app] (data) {};
+        \node[above=0.2cm of data.south, font=\bfseries] {Data Tier};
+        \node[component, yshift=2cm, shape=cylinder, shape border rotate=90, aspect=0.3,
+              minimum height=1.5cm, minimum width=3.5cm] (db) at (data.center) {SQLite Database};
+        \node[component, yshift=-1cm, fill=Slate!20, draw=Slate] (ext) at (data.center) {API-Football (Ext)};
+
+        % Connections
+        \draw[<->, arrow] (axios.east) -- node[above, font=\footnotesize] {JSON/HTTP} (api.west);
+        \draw[<->, arrow] (api.east) -- (db.west);
+        \draw[->, arrow, dashed] (app.east) |- (ext.west);
+    \end{tikzpicture}
+    \caption{Architecture technique à N-Tiers}
+\end{figure}

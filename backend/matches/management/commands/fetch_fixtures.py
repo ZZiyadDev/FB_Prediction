@@ -3,6 +3,7 @@ from django.core.management.base import BaseCommand
 from django.conf import settings
 from django.utils.dateparse import parse_datetime
 from matches.models import League, Season, Team, Match 
+from predictions.services import validate_predictions
 
 class Command(BaseCommand):
     help = 'Fetches all fixtures (matches) for our saved leagues and seasons'
@@ -75,3 +76,8 @@ class Command(BaseCommand):
             self.stdout.write(self.style.SUCCESS(f"Saved {matches_created} matches for {season.league.name}."))
 
         self.stdout.write(self.style.SUCCESS("Fixture ingestion complete!"))
+
+        # Trigger AI Prediction validation
+        self.stdout.write("Validating AI predictions against new results...")
+        count = validate_predictions()
+        self.stdout.write(self.style.SUCCESS(f"Validated {count} pending predictions."))

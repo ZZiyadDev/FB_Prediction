@@ -8,6 +8,10 @@ from rest_framework.response import Response
 
 from matches.models import Match
 from matches.services import build_match_features
+from matches.serializers import MatchLineupSerializer
+from .models import Prediction
+from .serializers import PredictionSerializer, PredictionHistorySerializer
+from .services import get_accuracy_metrics, validate_predictions
 from django.conf import settings
 
 
@@ -48,6 +52,19 @@ def safe_div(a, b):
 
 class PredictionViewSet(viewsets.ViewSet):
     permission_classes = [permissions.IsAuthenticated]
+
+    @action(detail=False, methods=["get"])
+    def accuracy(self, request):
+        validate_predictions()
+        metrics = get_accuracy_metrics()
+        return Response(metrics)
+
+    @action(detail=False, methods=["get"])
+    def history(self, request):
+        validate_predictions()
+        predictions = Prediction.objects.all().order_by('-created_at')
+        serializer = PredictionHistorySerializer(predictions, many=True)
+        return Response(serializer.data)
 
     @action(detail=True, methods=["get"])
     def predict(self, request, pk=None):
@@ -131,6 +148,18 @@ class PredictionViewSet(viewsets.ViewSet):
                 for i, prob in enumerate(proba)
             }
 
+            # --- SAVE PREDICTION TO DATABASE ---
+            winning_confidence = confidence_scores.get(pred_label, 0)
+            Prediction.objects.update_or_create(
+                match=match,
+                created_by=request.user if request.user.is_authenticated else None,
+                defaults={
+                    'predicted_winner': pred_label,
+                    'confidence': winning_confidence
+                }
+            )
+
+            # --- SEND THE DEEP STATS TO REACT ---
             return Response({
                 "match": f"{match.home_team.name} vs {match.away_team.name}",
                 "home_team": match.home_team.name, 
@@ -143,6 +172,9 @@ class PredictionViewSet(viewsets.ViewSet):
                 # 🚨 ADD THESE TWO LINES FOR THE UI BADGES 🚨
                 "home_form_string": f.get("home_form_string", ""),
                 "away_form_string": f.get("away_form_string", ""),
+
+                # --- ADD LINEUP DATA ---
+                "lineup": MatchLineupSerializer(getattr(match, 'lineup', None)).data if hasattr(match, 'lineup') else None,
                 
                 # --- SEND THE DEEP STATS TO REACT ---
                 "stats": {

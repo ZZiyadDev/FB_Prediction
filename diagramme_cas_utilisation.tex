@@ -1,0 +1,44 @@
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[
+        node distance=2.5cm,
+        actor/.style={draw, thick, circle, minimum size=1.2cm, fill=LightGray, font=\large},
+        usecase/.style={draw, thick, ellipse, minimum width=3.8cm, minimum height=1cm, fill=white, font=\small},
+        system/.style={draw, Navy, thick, rounded corners, inner sep=20pt, fill=Navy!2, minimum width=8cm, minimum height=14cm}
+    ]
+        % System Boundary
+        \node[system] (boundary) at (0,0) {};
+        \node[above=0.2cm of boundary.south, font=\bfseries\large, text=Navy] {Tableau de Bord Prédictif};
+
+        % Usecases
+        \node[usecase, yshift=5cm] (uc_auth) at (boundary.center) {S'authentifier (JWT)};
+        \node[usecase, yshift=3cm] (uc_view) at (boundary.center) {Consulter les matchs};
+        \node[usecase, yshift=1cm] (uc_pred) at (boundary.center) {Consulter les Prédictions};
+        \node[usecase, yshift=-1cm] (uc_line) at (boundary.center) {Voir les Compositions};
+        \node[usecase, yshift=-3cm] (uc_sync) at (boundary.center) {Synchroniser les API};
+        \node[usecase, yshift=-5cm] (uc_user) at (boundary.center) {Gérer les Utilisateurs};
+
+        % Actors
+        \node[left=3cm of uc_pred, actor] (user) {\faUser};
+        \node[below=0.1cm of user] {Utilisateur};
+
+        \node[left=3cm of uc_sync, actor] (admin) {\faUserTie};
+        \node[below=0.1cm of admin] {Administrateur};
+
+        \node[right=3cm of uc_sync, actor] (api) {\faCloud};
+        \node[below=0.1cm of api] {API-Football};
+
+        % Connections
+        \draw[->, thick] (user) -- (uc_auth);
+        \draw[->, thick] (user) -- (uc_view);
+        \draw[->, thick] (user) -- (uc_pred);
+        \draw[->, thick] (user) -- (uc_line);
+
+        \draw[->, thick, dashed] (admin) -- node[left, font=\tiny, xshift=-0.2cm] {hérite} (user);
+        \draw[->, thick] (admin) -- (uc_sync);
+        \draw[->, thick] (admin) -- (uc_user);
+
+        \draw[->, thick, dashed] (uc_sync) -- (api);
+    \end{tikzpicture}
+    \caption{Diagramme de Cas d'Utilisation du système complet}
+\end{figure}

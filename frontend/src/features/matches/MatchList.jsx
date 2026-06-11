@@ -1,17 +1,46 @@
-import React, { useEffect } from 'react';
-import { Table, Tag, Space, Avatar, Card, Typography, Alert } from 'antd';
+import React, { useEffect, useState, useMemo } from 'react';
+import { Table, Tag, Space, Avatar, Card, Typography, Alert, Skeleton, Input, Select, Row, Col } from 'antd';
 import useStore from '../../hooks/useStore'; // Ensure this path matches your setup!
+import MatchDashboard from './MatchDashboard';
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
+const { Search } = Input;
 
 const MatchList = () => {
   // 1. Pull the exact variables from Zustand
   const { rawMatches, isMatchesLoading, fetchUpcomingMatches, error } = useStore();
 
+  const [searchText, setSearchText] = useState('');
+  const [leagueFilter, setLeagueFilter] = useState('All');
+  const [statusFilter, setStatusFilter] = useState('All');
+
   // 2. Call the correct fetch function
   useEffect(() => {
     fetchUpcomingMatches();
   }, [fetchUpcomingMatches]);
+
+  // Derived data for filters
+  const leagues = useMemo(() => {
+    const uniqueLeagues = Array.from(new Set(rawMatches.map(m => m.league_name).filter(Boolean)));
+    return ['All', ...uniqueLeagues];
+  }, [rawMatches]);
+
+  // Filtering Logic
+  const filteredMatches = useMemo(() => {
+    return rawMatches.filter(match => {
+      const homeName = match.home_team?.name?.toLowerCase() || '';
+      const awayName = match.away_team?.name?.toLowerCase() || '';
+      const searchLower = searchText.toLowerCase();
+      
+      const matchesSearch = homeName.includes(searchLower) || awayName.includes(searchLower);
+      const matchesLeague = leagueFilter === 'All' || match.league_name === leagueFilter;
+      const matchesStatus = statusFilter === 'All' || 
+                           (statusFilter === 'Upcoming' && match.status === 'NS') ||
+                           (statusFilter === 'Finished' && match.status !== 'NS');
+
+      return matchesSearch && matchesLeague && matchesStatus;
+    });
+  }, [rawMatches, searchText, leagueFilter, statusFilter]);
 
   const columns = [
     {
@@ -69,9 +98,49 @@ const MatchList = () => {
 
   return (
     <Card bordered={false} style={{ boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
-      <Title level={3} style={{ marginTop: 0, marginBottom: '24px' }}>
-        Season Fixtures
-      </Title>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '16px' }}>
+        <Title level={3} style={{ margin: 0 }}>
+          Season Fixtures
+        </Title>
+        <Text type="secondary" style={{ fontSize: '12px' }}>
+          Showing {filteredMatches.length} matches
+        </Text>
+      </div>
+
+      {/* FILTERS SECTION */}
+      <Row gutter={[16, 16]} style={{ marginBottom: '24px' }}>
+        <Col xs={24} md={12}>
+          <Search 
+            placeholder="Search teams..." 
+            allowClear 
+            enterButton 
+            onSearch={setSearchText} 
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+        </Col>
+        <Col xs={12} md={6}>
+          <Select 
+            style={{ width: '100%' }} 
+            placeholder="League" 
+            value={leagueFilter}
+            onChange={setLeagueFilter}
+            options={leagues.map(l => ({ label: l, value: l }))}
+          />
+        </Col>
+        <Col xs={12} md={6}>
+          <Select 
+            style={{ width: '100%' }} 
+            placeholder="Status" 
+            value={statusFilter}
+            onChange={setStatusFilter}
+            options={[
+              { label: 'All Status', value: 'All' },
+              { label: 'Upcoming', value: 'Upcoming' },
+              { label: 'Finished', value: 'Finished' },
+            ]}
+          />
+        </Col>
+      </Row>
       
       {error && (
         <Alert
@@ -83,13 +152,24 @@ const MatchList = () => {
         />
       )}
 
-      <Table
-        dataSource={rawMatches}
-        columns={columns}
-        rowKey="id" 
-        loading={isMatchesLoading}
-        pagination={{ pageSize: 10 }} 
-      />
+      {isMatchesLoading ? (
+        <Skeleton active paragraph={{ rows: 10 }} />
+      ) : (
+        <Table
+          dataSource={filteredMatches}
+          columns={columns}
+          rowKey="id" 
+          pagination={{ pageSize: 10 }} 
+          expandable={{
+            expandedRowRender: (record) => (
+              <div style={{ padding: '0 24px 24px 24px' }}>
+                <MatchDashboard match={record} />
+              </div>
+            ),
+            rowExpandable: (record) => !!record.lineup || !!record.statistics,
+          }}
+        />
+      )}
     </Card>
   );
 };

@@ -22,11 +22,17 @@ api.interceptors.request.use(
 export const authService = {
   login: (credentials) => api.post('auth/login/', credentials),
   register: (userData) => api.post('auth/register/', userData),
+  getUsers: () => api.get('auth/list/'),
+  fetchFixtures: () => api.post('auth/actions/fetch_fixtures/'),
+  fetchStatistics: () => api.post('auth/actions/fetch_statistics/'),
+  fetchLineups: () => api.post('auth/actions/fetch_lineups/'),
 };
 
 export const matchService = {
   getMatches: () => api.get('matches/'),
   getPrediction: (matchId) => api.get(`predictions/${matchId}/predict/`),
+  getAccuracy: () => api.get('predictions/accuracy/'),
+  getHistory: () => api.get('predictions/history/'),
 };
 
 export default api;

@@ -1,0 +1,65 @@
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[
+        class/.style={draw, Navy, thick, minimum width=3cm, fill=white, rectangle split, rectangle split parts=2, font=\small},
+        relation/.style={-Stealth, thick, Navy}
+    ]
+        \node[class] (league) {
+            \textbf{League}
+            \nodepart{second}
+            + id: Int\\
+            + name: String\\
+            + country: String
+        };
+
+        \node[class, right=2cm of league] (season) {
+            \textbf{Season}
+            \nodepart{second}
+            + year: Int\\
+            + start\_date: Date\\
+            + end\_date: Date
+        };
+
+        \node[class, below=2cm of season] (match) {
+            \textbf{Match}
+            \nodepart{second}
+            + fixture\_id: Int\\
+            + match\_date: DateTime\\
+            + status: String\\
+            + score\_home: Int\\
+            + score\_away: Int
+        };
+
+        \node[class, left=2cm of match] (team) {
+            \textbf{Team}
+            \nodepart{second}
+            + team\_id: Int\\
+            + name: String\\
+            + logo\_url: URL
+        };
+
+        \node[class, right=2cm of match] (stats) {
+            \textbf{MatchStatistics}
+            \nodepart{second}
+            + possession: Float\\
+            + shots: Int\\
+            + passes\_acc: Float
+        };
+
+        \node[class, below=2cm of match] (lineup) {
+            \textbf{MatchLineup}
+            \nodepart{second}
+            + home\_formation: Str\\
+            + home\_xi: JSON\\
+            + away\_xi: JSON
+        };
+
+        \draw[relation] (league) -- node[above, font=\tiny] {1..n} (season);
+        \draw[relation] (season) -- node[right, font=\tiny] {1..n} (match);
+        \draw[relation] (team) -- node[above, font=\tiny] {1..n (Home/Away)} (match);
+        \draw[relation] (match) -- node[above, font=\tiny] {1..1} (stats);
+        \draw[relation] (match) -- node[right, font=\tiny] {1..1} (lineup);
+
+    \end{tikzpicture}
+    \caption{Modèle Conceptuel de Données simplifié (ORM Django)}
+\end{figure}

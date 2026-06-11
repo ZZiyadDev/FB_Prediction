@@ -1,79 +1,683 @@
-% ===================== INTRODUCTION GÉNÉRALE =====================
+\documentclass[12pt,a4paper,oneside]{book}
+
+% =========================
+% Packages & Configuration
+% =========================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{titlesec}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage{setspace}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{caption}
+
+% FIX: Added shapes.symbols for proper cylinder node rendering
+\usetikzlibrary{shapes.geometric, shapes.symbols, arrows.meta, positioning, fit, backgrounds, shadows, calc, matrix}
+
+% --- Géométrie ---
+\geometry{
+    a4paper,
+    total={160mm,247mm},
+    left=25mm,
+    right=25mm,
+    top=30mm,
+    bottom=30mm,
+}
+
+\onehalfspacing
+
+% --- Palette de Couleurs (Modern Slate & Teal) ---
+\definecolor{Navy}{RGB}{15,23,42}
+\definecolor{Teal}{RGB}{20,184,166}
+\definecolor{Slate}{RGB}{71,85,105}
+\definecolor{LightGray}{RGB}{248,250,252}
+\definecolor{CodeBg}{RGB}{241,245,249}
+
+% --- Configuration des Liens ---
+\hypersetup{
+    colorlinks=true,
+    linkcolor=Navy,
+    filecolor=Teal,
+    urlcolor=Teal,
+    citecolor=Teal,
+}
+
+% --- Style des Chapitres ---
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\color{Navy}}
+  {\filright\Large\chaptertitlename\ \thechapter}
+  {10pt}
+  {\titlerule[2pt]\vspace{10pt}\filright}
+
+% --- Style de Code ---
+\lstset{
+    backgroundcolor=\color{CodeBg},
+    basicstyle=\ttfamily\footnotesize\color{Navy},
+    keywordstyle=\color{Teal}\bfseries,
+    stringstyle=\color{Slate},
+    commentstyle=\color{gray}\itshape,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    breaklines=true,
+    frame=single,
+    rulecolor=\color{Navy!20},
+    captionpos=b,
+    showstringspaces=false,
+    tabsize=2
+}
+
+% --- Header / Footer ---
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{Slate}Football Prediction Dashboard}
+\fancyhead[R]{\small\color{Slate}\leftmark}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% =========================
+% Début du Document
+% =========================
+\begin{document}
+
+% =========================
+% FIX: Titlepage — white text now inside the TikZ overlay so it
+%      renders on top of the Navy rectangle (correct z-order).
+%      Author/supervisor blocks repositioned with explicit anchors.
+% =========================
+\begin{titlepage}
+    \begin{tikzpicture}[remember picture, overlay]
+        % Navy banner covering top ~40% of page
+        \fill[Navy] (current page.north west)
+            rectangle ([yshift=-11cm] current page.north east);
+
+        % Title text — white, centred on the banner
+        \node[
+            anchor=center,
+            text=white,
+            font=\Huge\bfseries,
+            align=center,
+            text width=14cm
+        ] at ([yshift=-4.5cm] current page.north) {%
+            Intelligent Football League\\[0.3cm]
+            Prediction Dashboard%
+        };
+
+        % Subtitle below title, still inside banner
+        \node[
+            anchor=center,
+            text=white!80!Navy,
+            font=\large,
+            align=center
+        ] at ([yshift=-7.5cm] current page.north) {%
+            Rapport de Projet de Fin d'Année%
+        };
+
+        % Filière tag
+        \node[
+            anchor=center,
+            text=Teal,
+            font=\normalsize\itshape,
+            align=center
+        ] at ([yshift=-9cm] current page.north) {%
+            Filière : Ingénierie Informatique et Réseaux%
+        };
+    \end{tikzpicture}
+
+    % Vertical spacer to push author/supervisor below the banner
+    \vspace*{11.5cm}
+
+    \noindent
+    \begin{minipage}[t]{0.48\textwidth}
+        \large
+        \textbf{Réalisé par :}\\[0.4cm]
+        \color{Slate}
+        Zerrari Ziyad \\
+        Amine Ziyani \\
+        Aboujjid Mayssae \\
+        Hajjad Ikrame
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.48\textwidth}
+        \begin{flushright}
+        \large
+        \textbf{Encadré par :}\\[0.4cm]
+        \color{Slate}
+        Pr. Youssef JDIDOU
+        \end{flushright}
+    \end{minipage}
+
+    \vfill
+    \begin{center}
+        {\large\color{Navy}\bfseries EMSI Tanger \textemdash{} Année Universitaire 2025/2026}
+    \end{center}
+\end{titlepage}
+
+\frontmatter
+
+% --- Remerciements ---
+\chapter*{Remerciements}
+\addcontentsline{toc}{chapter}{Remerciements}
+Nous tenons tout d'abord à remercier Dieu, le tout puissant, de nous avoir donné la force, la patience et le courage pour accomplir ce travail.
+
+Nous tenons à exprimer notre profonde gratitude à notre encadrant, \textbf{Pr. Youssef JDIDOU}, pour ses conseils judicieux, son suivi rigoureux et son soutien technique et moral tout au long de la réalisation de ce projet. Son expertise a été une source d'inspiration constante.
+
+Nos remerciements s'adressent également à l'ensemble du corps professoral et administratif de l'\textbf{École Marocaine des Sciences de l'Ingénieur (EMSI) Tanger} pour la qualité de l'enseignement qui nous a été dispensé durant notre cursus.
+
+Enfin, nous remercions nos familles et nos amis pour leur soutien inconditionnel et leurs encouragements quotidiens.
+
+% --- Résumés ---
+\chapter*{Résumé}
+\addcontentsline{toc}{chapter}{Résumé}
+Dans l'ère du Big Data, l'analyse sportive (\textit{Sports Analytics}) est devenue un domaine de recherche majeur. Ce projet vise à concevoir et développer une application web intelligente capable de prédire l'issue de matchs de football à partir de données historiques et tactiques. L'architecture repose sur une séparation claire entre un backend robuste (Django), un moteur d'intelligence artificielle (XGBoost) optimisé avec SMOTE pour gérer le déséquilibre des classes, et un frontend interactif et réactif (React). Ce document détaille l'intégralité du cycle de vie du projet : de l'analyse des besoins à la conception architecturale, en passant par les fondements mathématiques du Machine Learning et l'implémentation technique d'un système hautement sécurisé par JWT.
+
+\vspace{1cm}
+\noindent\textbf{Mots-clés :} Machine Learning, XGBoost, Django, React, Big Data, Football Analytics, SMOTE, JWT.
+
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+In the era of Big Data, sports analytics has emerged as a major research field. This project aims to design and develop an intelligent web application capable of predicting the outcome of football matches using historical and tactical data. The architecture is based on a clear separation between a robust backend (Django), an artificial intelligence engine (XGBoost) optimized with SMOTE to handle class imbalance, and an interactive and responsive frontend (React). This document details the entire lifecycle of the project: from requirements analysis to architectural design, through the mathematical foundations of Machine Learning and the technical implementation of a highly secure JWT-based system.
+
+\vspace{1cm}
+\noindent\textbf{Keywords:} Machine Learning, XGBoost, Django, React, Big Data, Football Analytics, SMOTE, JWT.
+
+% --- Tables ---
+\tableofcontents
+\listoffigures
+\listoftables
+
+\mainmatter
+
+% ===================== INTRODUCTION =====================
 \chapter*{Introduction générale}
 \addcontentsline{toc}{chapter}{Introduction générale}
+% FIX: \markboth ensures fancyhdr \leftmark is populated for unnumbered chapters
+\markboth{Introduction générale}{Introduction générale}
 
-\section*{1. Présentation du sujet}
-\addcontentsline{toc}{section}{1. Présentation du sujet}
-L'objectif de ce projet (Intelligent Football League Prediction Dashboard) est de concevoir et développer une plateforme d'analyse et de prédiction des résultats de matchs de football. Le système s'appuie sur une architecture Full-Stack moderne : un backend en Django (REST Framework) pour la gestion des données et le Machine Learning, et un frontend interactif en React (Vite) pour l'affichage des statistiques et des prédictions. L'application exploite des données historiques réelles issues de l'API-Sports (API-Football) afin d'alimenter un algorithme capable de prévoir l'issue d'une rencontre sportive (Victoire à domicile, Match nul ou Victoire à l'extérieur).
+L'industrie du sport a connu une métamorphose radicale au cours de la dernière décennie. Avec l'avènement du Big Data et des capacités de calcul à grande échelle, la prise de décision empirique a laissé place à une approche scientifique et mathématique. Dans le football, sport caractérisé par un haut niveau d'incertitude et une rareté des buts (\textit{faible scoring rate}), anticiper l'issue d'une rencontre est un défi de taille qui fascine autant les chercheurs en intelligence artificielle que les analystes sportifs.
 
-\section*{2. Structure du rapport}
-\addcontentsline{toc}{section}{2. Structure du rapport}
-Ce rapport s'articule autour de deux axes principaux :
+\section*{Contexte et Enjeux}
+Traditionnellement, la prédiction sportive reposait sur l'expertise humaine, souvent biaisée par des facteurs émotionnels ou des observations subjectives. Aujourd'hui, grâce aux fournisseurs de données comme API-Football, il est possible de quantifier chaque aspect d'une rencontre : pourcentage de possession, tirs cadrés, précision des passes, etc. L'enjeu majeur est de transformer ce volume massif de données brutes en un signal prédictif exploitable, tout en contournant les pièges statistiques liés au football (notamment la difficulté à prédire un match nul).
+
+\section*{Objectifs du Projet}
+L'objectif principal de ce projet de fin d'année est de concevoir, développer et déployer une plateforme complète nommée \textbf{Intelligent Football Prediction Dashboard}. Ce système doit accomplir les tâches suivantes :
+\begin{enumerate}
+    \item \textbf{Ingestion automatisée} : Collecter et stocker massivement les données historiques et tactiques des ligues de football.
+    \item \textbf{Modélisation prédictive} : Développer un modèle de Machine Learning robuste capable de calculer les probabilités de victoire (Home, Draw, Away).
+    \item \textbf{Restitution visuelle} : Offrir une interface utilisateur (UI) moderne et ergonomique pour l'analyse décisionnelle.
+    \item \textbf{Sécurisation} : Garantir l'intégrité des données et des accès via un système d'authentification par rôles.
+\end{enumerate}
+
+\section*{Structure du Rapport}
+Afin de relater notre démarche d'ingénierie, ce rapport s'articule autour de cinq chapitres :
 \begin{itemize}
-    \item \textbf{Le chapitre 1} présente l'analyse des besoins. Il expose le contexte métier, le cahier des charges fonctionnel, et modélise les interactions utilisateurs avec le système à l'aide de diagrammes.
-    \item \textbf{Le chapitre 2} détaille la méthodologie scientifique et technique, en se concentrant sur le cycle de vie de la donnée : depuis sa collecte via l'API, sa préparation (Feature Engineering), jusqu'à la modélisation avec XGBoost et l'évaluation rigoureuse du modèle.
+    \item Le \textbf{Chapitre 1} présente l'analyse fonctionnelle, le cahier des charges et l'état de l'art.
+    \item Le \textbf{Chapitre 2} expose les fondements théoriques des algorithmes de Machine Learning utilisés (XGBoost, SMOTE).
+    \item Le \textbf{Chapitre 3} détaille la conception architecturale (UML, Base de données).
+    \item Le \textbf{Chapitre 4} couvre l'implémentation du backend, la sécurité logicielle et le pipeline de données.
+    \item Enfin, le \textbf{Chapitre 5} se concentre sur l'implémentation du frontend, de l'expérience utilisateur (UX) et de la restitution graphique.
 \end{itemize}
 
 % ===================== CHAPITRE 1 =====================
-\chapter{Analyse du besoin et spécifications}
+\chapter{Analyse et Étude Préalable}
 
-\section{Contexte métier}
-Dans l'industrie du sport moderne, l'analyse des données joue un rôle crucial. Les amateurs, les analystes sportifs, et les parieurs recherchent des outils capables de fournir des informations objectives pour anticiper les résultats des rencontres. Bien que le football reste un sport imprévisible, l'exploitation de facteurs tactiques, de l'état de forme des équipes et de l'historique de leurs affrontements permet de dégager des probabilités mathématiques viables, créant ainsi le besoin pour un tableau de bord (Dashboard) intelligent.
+Ce premier chapitre a pour vocation de poser les bases du projet. Il définit le périmètre d'intervention, formalise les besoins des utilisateurs finaux et établit les spécifications techniques et fonctionnelles.
+
+\section{État de l'art}
+L'application de l'intelligence artificielle au football n'est pas nouvelle, mais ses méthodes ont fortement évolué.
+
+Historiquement, les modèles prédictifs s'appuyaient sur la loi de Poisson pour modéliser la distribution des buts \cite{maher1982}. Bien que pertinents, ces modèles souffrent d'une limitation majeure : ils supposent que les buts marqués par chaque équipe sont des événements indépendants, ce qui est contredit par la dynamique réelle d'un match (un but modifie la tactique adverse). Dixon et Coles \cite{dixon1997} ont proposé une correction de cette indépendance pour les scores faibles (0-0, 1-0, 0-1, 1-1), améliorant significativement les prédictions.
+
+Récemment, l'utilisation des méthodes d'apprentissage supervisé (Arbres de décision, Random Forest, Réseaux de Neurones) a permis d'intégrer des variables non linéaires telles que la fatigue, la série de victoires en cours (\textit{form}), et des statistiques de jeu profondes (passes réussies, tirs dans la surface) \cite{bunker2019}. Notre projet s'inscrit dans cette mouvance en exploitant le \textbf{Gradient Boosting} \cite{chen2016xgboost}.
 
 \section{Cahier des charges fonctionnel}
-L'application développée doit répondre aux spécifications suivantes :
+L'application doit fournir un ensemble de fonctionnalités réparties selon le type d'utilisateur.
+
+\subsection{Fonctionnalités pour l'Utilisateur Standard}
 \begin{itemize}
-    \item \textbf{Collecte automatique des données} : Intégration de l'API-Football pour récupérer les ligues, les équipes, et les matchs prévus (fixtures).
-    \item \textbf{Interface Utilisateur (UI)} : Visualisation claire des matchs sous forme de cartes et de graphiques (réalisés avec Ant Design et Recharts) pour faciliter la lecture des statistiques.
-    \item \textbf{Système de Prédiction} : Un module backend intelligent (API endpoint) capable d'évaluer la probabilité d'une victoire de l'équipe à domicile (Home), d'un match nul (Draw) ou d'une victoire à l'extérieur (Away).
+    \item \textbf{Consultation des matchs} : Visualiser le calendrier des matchs à venir et les résultats récents.
+    \item \textbf{Analyse des compositions} : Consulter les formations (ex : 4-3-3), les titulaires et les remplaçants.
+    \item \textbf{Demande de prédiction} : Obtenir l'estimation de l'IA (pourcentages de chances) pour un match précis.
+    \item \textbf{Comparatif tactique} : Comparer visuellement (graphiques Radar) la forme et les statistiques des deux équipes.
 \end{itemize}
 
-\section{Scénarios d'utilisation}
-Le flux d'utilisation typique est le suivant : l'utilisateur accède au tableau de bord, il consulte la liste des matchs à venir de la journée. Il sélectionne un match pour en visualiser les détails. L'interface lui présente alors l'historique des confrontations directes (Head-to-Head) et des statistiques tactiques (Possession, Tirs cadrés). Enfin, il peut déclencher la prédiction pour obtenir les pourcentages de chance pour chaque issue du match, calculés en temps réel par le modèle de Machine Learning.
+\subsection{Fonctionnalités pour l'Administrateur}
+\begin{itemize}
+    \item \textbf{Gestion des accès} : Visualiser les utilisateurs inscrits sur la plateforme.
+    \item \textbf{Orchestration des données} : Déclencher manuellement les tâches asynchrones de récupération de données depuis l'API-Football (Fixtures, Statistiques, Lineups).
+\end{itemize}
 
-\section{Diagramme de Cas d'Utilisation}
-Ce diagramme illustre les interactions globales entre les acteurs (l'Utilisateur, le Système de Prédiction et l'API-Football Externe) et les fonctionnalités majeures du système.
-\begin{figure}[h]
-  \centering
-  \input{diagramme_de_cas}
-  \caption{Diagramme de cas d'utilisation de l'application}
-  \label{fig:usecase}
+\section{Modélisation des Processus (UML)}
+
+\subsection{Diagramme de Cas d'Utilisation}
+Le diagramme de cas d'utilisation permet d'identifier les acteurs du système et leurs interactions directes avec les fonctionnalités offertes.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[
+        node distance=2.5cm,
+        actor/.style={draw, thick, circle, minimum size=1.2cm, fill=LightGray, font=\large},
+        usecase/.style={draw, thick, ellipse, minimum width=3.8cm, minimum height=1cm, fill=white, font=\small},
+        system/.style={draw, Navy, thick, rounded corners, inner sep=20pt, fill=Navy!2, minimum width=8cm, minimum height=14cm}
+    ]
+        % System Boundary
+        \node[system] (boundary) at (0,0) {};
+        \node[above=0.2cm of boundary.south, font=\bfseries\large, text=Navy] {Tableau de Bord Prédictif};
+
+        % Usecases
+        \node[usecase, yshift=5cm] (uc_auth) at (boundary.center) {S'authentifier (JWT)};
+        \node[usecase, yshift=3cm] (uc_view) at (boundary.center) {Consulter les matchs};
+        \node[usecase, yshift=1cm] (uc_pred) at (boundary.center) {Consulter les Prédictions};
+        \node[usecase, yshift=-1cm] (uc_line) at (boundary.center) {Voir les Compositions};
+        \node[usecase, yshift=-3cm] (uc_sync) at (boundary.center) {Synchroniser les API};
+        \node[usecase, yshift=-5cm] (uc_user) at (boundary.center) {Gérer les Utilisateurs};
+
+        % Actors
+        \node[left=3cm of uc_pred, actor] (user) {\faUser};
+        \node[below=0.1cm of user] {Utilisateur};
+
+        \node[left=3cm of uc_sync, actor] (admin) {\faUserTie};
+        \node[below=0.1cm of admin] {Administrateur};
+
+        \node[right=3cm of uc_sync, actor] (api) {\faCloud};
+        \node[below=0.1cm of api] {API-Football};
+
+        % Connections
+        \draw[->, thick] (user) -- (uc_auth);
+        \draw[->, thick] (user) -- (uc_view);
+        \draw[->, thick] (user) -- (uc_pred);
+        \draw[->, thick] (user) -- (uc_line);
+
+        \draw[->, thick, dashed] (admin) -- node[left, font=\tiny, xshift=-0.2cm] {hérite} (user);
+        \draw[->, thick] (admin) -- (uc_sync);
+        \draw[->, thick] (admin) -- (uc_user);
+
+        \draw[->, thick, dashed] (uc_sync) -- (api);
+    \end{tikzpicture}
+    \caption{Diagramme de Cas d'Utilisation du système complet}
 \end{figure}
 
-\section{Flowchart des Opérations}
-Le logigramme suivant détaille le déroulement logique d'une requête de prédiction : de l'interrogation du backend Django, en passant par le prétraitement des caractéristiques (features) jusqu'au renvoi du résultat au client React.
-\begin{figure}[h]
-  \centering
-  \input{flowchart}
-  \caption{Flowchart des opérations de prédiction}
-  \label{fig:flowchart}
-\end{figure}
+\subsection{Spécification détaillée des cas d'utilisation}
 
-\section{Conclusion du chapitre}
-Cette phase d'analyse a permis d'établir une vision claire des attentes de l'application et de tracer les limites du système. Le choix des outils technologiques (Django, React) est aligné avec la nécessité d'avoir une application à la fois robuste pour le traitement des données et très réactive côté client.
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|l|X|}
+        \hline
+        \textbf{Cas d'utilisation} & \textbf{Consulter les Prédictions} \\
+        \hline
+        \textbf{Acteur Principal} & Utilisateur, Administrateur \\
+        \hline
+        \textbf{Précondition} & Être authentifié sur la plateforme. \\
+        \hline
+        \textbf{Scénario Nominal} &
+        1. L'utilisateur navigue vers l'onglet ``Predictions''. \newline
+        2. Le système affiche la liste des matchs à venir. \newline
+        3. L'utilisateur sélectionne un match. \newline
+        4. Le frontend envoie une requête API au backend. \newline
+        5. Le backend interroge le modèle XGBoost avec les données du match. \newline
+        6. Le système affiche les probabilités (Camembert) et le radar tactique. \\
+        \hline
+        \textbf{Post-condition} & Les statistiques prédictives sont affichées à l'écran. \\
+        \hline
+    \end{tabularx}
+    \caption{Description textuelle du CU ``Consulter les Prédictions''}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|l|X|}
+        \hline
+        \textbf{Cas d'utilisation} & \textbf{Synchroniser les API (Data Ingestion)} \\
+        \hline
+        \textbf{Acteur Principal} & Administrateur \\
+        \hline
+        \textbf{Précondition} & Posséder le rôle ADMIN et être authentifié. \\
+        \hline
+        \textbf{Scénario Nominal} &
+        1. L'administrateur accède à l'Admin Control Panel. \newline
+        2. Il clique sur le bouton ``Fetch Latest Fixtures''. \newline
+        3. Le système lance un processus d'arrière-plan (Thread). \newline
+        4. Le serveur récupère les données JSON depuis API-Football. \newline
+        5. Le système met à jour la base SQLite locale. \\
+        \hline
+        \textbf{Exceptions} & Limite de requêtes API atteinte (Rate Limit) : le système s'arrête gracieusement et notifie l'erreur. \\
+        \hline
+    \end{tabularx}
+    \caption{Description textuelle du CU ``Synchroniser les API''}
+\end{table}
 
 % ===================== CHAPITRE 2 =====================
-\chapter{Méthodologie}
+\chapter{Fondements Théoriques et Modélisation}
 
-\section{Collecte des données}
-La fiabilité de tout modèle prédictif repose sur la qualité de ses données. Nous avons utilisé des scripts d'automatisation Django (Commandes de Management telles que \texttt{fetch\_reference\_data} et \texttt{fetch\_fixtures}) pour interroger de manière programmatique l'API-Football. Ces scripts alimentent notre base de données relationnelle en stockant l'historique détaillé des matchs, en filtrant notamment les matchs dont le statut est finalisé (Full-Time - FT) afin d'assurer l'apprentissage sur des scores réels.
+La robustesse de notre application ne réside pas uniquement dans son architecture logicielle, mais dans la solidité de son moteur d'intelligence artificielle. Ce chapitre détaille les choix algorithmiques opérés.
 
-\section{Préparation des données (Feature Engineering)}
-La préparation des données est gérée par le script \texttt{dataset\_builder.py}. Les données brutes ont été transformées en 25 variables explicatives (Features). 
+\section{Le Problème de Déséquilibre des Classes (\textit{Imbalanced Data})}
+Dans le football de haut niveau, la répartition des résultats n'est pas équiprobable. Les victoires à domicile (\textit{Home Win}) représentent environ 45\% des résultats, les victoires à l'extérieur (\textit{Away Win}) environ 30\%, et les matchs nuls (\textit{Draw}) environ 25\%.
+Si nous entraînons un algorithme sur ces données brutes, il aura tendance à privilégier statistiquement l'équipe à domicile et échouera systématiquement à prédire le match nul, car c'est la classe minoritaire.
+
+\subsection{Approche Mathématique : SMOTE}
+% FIX: Replaced Markdown **bold** with LaTeX \textbf{}
+Pour pallier ce problème, nous avons implémenté \textbf{SMOTE} (\textit{Synthetic Minority Over-sampling Technique}) \cite{chawla2002smote}. Contrairement à la duplication simple de données, SMOTE génère des échantillons synthétiques le long des segments de droite reliant des instances de la classe minoritaire dans l'espace des caractéristiques.
+
+Soit un point $x_i \in \text{Classe Minoritaire}$. On sélectionne l'un de ses $k$ plus proches voisins, $x_{zi}$. Le nouvel échantillon synthétique $x_{syn}$ est généré par la formule :
+\begin{equation}
+    x_{syn} = x_i + \lambda \times (x_{zi} - x_i)
+\end{equation}
+où $\lambda$ est un nombre aléatoire tel que $\lambda \in [0, 1]$. Cette technique permet d'enrichir les données d'entraînement et force le modèle à apprendre les frontières de décision du ``Match Nul''.
+
+\section{Algorithme Prédictif : XGBoost}
+\textit{Extreme Gradient Boosting} (XGBoost) est un algorithme d'apprentissage supervisé basé sur les arbres de décision \cite{chen2016xgboost}. Il utilise la technique du renforcement (\textit{Boosting}) où chaque nouvel arbre est construit pour corriger les erreurs (résidus) des arbres précédents.
+
+\subsection{Fonction d'Objectif}
+XGBoost minimise une fonction d'objectif mathématique composée d'une fonction de perte (\textit{Loss}) et d'un terme de régularisation (pour éviter le surapprentissage) :
+\begin{equation}
+    \mathcal{L}^{(t)} = \sum_{i=1}^n l\left(y_i, \hat{y}_i^{(t-1)} + f_t(x_i)\right) + \Omega(f_t)
+\end{equation}
+Avec le terme de régularisation défini par :
+\begin{equation}
+    \Omega(f) = \gamma T + \frac{1}{2} \lambda \sum_{j=1}^T w_j^2
+\end{equation}
+où $T$ est le nombre de feuilles de l'arbre, et $w_j$ le poids de la feuille $j$.
+
+\subsection{Adaptation à la classification multiclasse}
+Puisque notre problème compte 3 issues possibles (H, D, A), le modèle utilise la fonction objectif \texttt{multi:softprob}. Il applique une fonction Softmax sur les scores de sortie pour générer une distribution de probabilité :
+\begin{equation}
+    P(y=k \mid x) = \frac{e^{z_k}}{\sum_{j=1}^K e^{z_j}}
+\end{equation}
+C'est cette probabilité (ex : Home 45\%, Draw 20\%, Away 35\%) qui est renvoyée au frontend React pour alimenter le graphique en camembert.
+
+\section{Ingénierie des Caractéristiques (\textit{Feature Engineering})}
+L'algorithme est alimenté par un vecteur de 25 caractéristiques. Parmi les plus importantes :
 \begin{itemize}
-    \item \textbf{Données de base et de forme :} Buts marqués et encaissés (HTGS, ATGS), points de forme récents, séries de victoires/défaites et indice de fatigue.
-    \item \textbf{Variables calculées (Stabilité du signal) :} Différences et ratios entre les statistiques des équipes (ex: Différence de buts, ratio d'encaissement).
-    \item \textbf{Statistiques Tactiques Profondes :} Intégration de la possession de balle moyenne, des tirs cadrés (Shots on Target) et de la précision des passes pour refléter finement la physionomie de jeu de chaque équipe.
+    \item \textbf{Form Points} : Somme pondérée des points obtenus lors des 5 derniers matchs.
+    \item \textbf{Goal Ratios} : Ratio de buts marqués sur buts encaissés (mesure de l'efficacité offensive).
+    \item \textbf{Tactical Stats} : Pourcentages moyens de possession et de précision des passes sur la saison en cours.
 \end{itemize}
-Afin de corriger le déséquilibre naturel des classes (par exemple, le match nul qui est souvent moins fréquent), nous avons implémenté l'algorithme \textbf{SMOTE} (Synthetic Minority Over-sampling Technique) qui permet de sur-échantillonner les classes minoritaires pour l'entraînement.
 
-\section{Modélisation}
-Le modèle prédictif choisi est le classificateur \textbf{XGBoost} (\texttt{XGBClassifier}), reconnu pour ses excellentes performances sur les données tabulaires. Le modèle est configuré avec l'objectif \texttt{multi:softprob} lui permettant de générer une probabilité pour nos trois classes cibles : \textit{H (Home), A (Away), D (Draw)}.
-Pour optimiser les performances de notre modèle, nous avons procédé à un réglage des hyperparamètres à l'aide de \texttt{RandomizedSearchCV}. Nous avons ajusté de manière croisée (Cross-Validation) des paramètres clés tels que le nombre d'arbres (\textit{n\_estimators}), la profondeur maximale (\textit{max\_depth}) et le taux d'apprentissage (\textit{learning\_rate}).
 
-\section{Évaluation du modèle}
-L'évaluation sur des données de séries temporelles nécessite une approche stricte : la séparation en jeu d'entraînement et de test (\textit{Train-Test Split}) s'est faite \textbf{sans mélange aléatoire} (\texttt{shuffle=False}) pour prévenir toute fuite de données (Data Leakage ou "Time Travel"), garantissant que le modèle ne s'entraîne que sur des événements passés pour prédire le futur.
-Les variables ont été mises à l'échelle à l'aide d'un \texttt{StandardScaler}. Finalement, la robustesse du modèle a été mesurée grâce au rapport de classification de \textit{Scikit-Learn}, en prêtant une attention particulière au \textbf{F1-Score Macro}, métrique idéale pour évaluer l'équilibre global des prédictions sur les 3 classes.
+% ===================== CHAPITRE 3 =====================
+\chapter{Conception Architecturale}
 
-\section{Conclusion du chapitre}
-La méthodologie adoptée assure la mise en place d'un pipeline de Machine Learning rigoureux et reproductible. Du traitement initial des données tactiques jusqu'à l'ajustement du modèle XGBoost équilibré par SMOTE, l'architecture permet à notre application de produire des prédictions objectives fondées sur des critères mesurables.
+Une conception rigoureuse est le prérequis à un développement fluide. L'application repose sur une architecture découplée afin de séparer les responsabilités.
+
+\section{Architecture N-Tiers (\textit{Backend as a Service})}
+L'application est divisée en trois couches physiques distinctes, communicant via des API standardisées.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[
+        node distance=1.5cm and 2cm,
+        layer/.style={draw, Navy, thick, minimum width=4cm, minimum height=6cm, rounded corners, fill=white, text=Navy, font=\bfseries},
+        component/.style={draw, Teal, thick, minimum width=3.5cm, minimum height=0.8cm, fill=Teal!10, rounded corners, font=\small},
+        arrow/.style={-Stealth, thick, Navy}
+    ]
+        % Client Layer
+        \node[layer] (client) {};
+        \node[above=0.2cm of client.south, font=\bfseries] {Client Tier (React)};
+        \node[component, yshift=2cm] (ui) at (client.center) {UI Components (AntD)};
+        \node[component, yshift=0.5cm] (state) at (client.center) {State (Zustand)};
+        \node[component, yshift=-1cm] (axios) at (client.center) {HTTP Client (Axios)};
+
+        % App Layer
+        \node[layer, right=3cm of client] (app) {};
+        \node[above=0.2cm of app.south, font=\bfseries] {Logic Tier (Django)};
+        \node[component, yshift=2cm] (api) at (app.center) {REST Framework (API)};
+        \node[component, yshift=0.5cm] (auth) at (app.center) {Auth (SimpleJWT)};
+        \node[component, yshift=-1cm, fill=Navy!10, draw=Navy] (ml) at (app.center) {ML Engine (XGBoost)};
+
+        % Data Layer
+        \node[layer, right=3cm of app] (data) {};
+        \node[above=0.2cm of data.south, font=\bfseries] {Data Tier};
+        % FIX: cylinder now uses shape=cylinder from shapes.geometric (not shapes.symbols)
+        %      shape border rotate=90 makes it stand upright
+        \node[component, yshift=2cm, shape=cylinder, shape border rotate=90, aspect=0.3,
+              minimum height=1.5cm, minimum width=3.5cm] (db) at (data.center) {SQLite Database};
+        \node[component, yshift=-1cm, fill=Slate!20, draw=Slate] (ext) at (data.center) {API-Football (Ext)};
+
+        % Connections
+        \draw[<->, arrow] (axios.east) -- node[above, font=\footnotesize] {JSON/HTTP} (api.west);
+        \draw[<->, arrow] (api.east) -- (db.west);
+        \draw[->, arrow, dashed] (app.east) |- (ext.west);
+    \end{tikzpicture}
+    \caption{Architecture technique à N-Tiers}
+\end{figure}
+
+\section{Modélisation de la Base de Données}
+Le backend Django s'appuie sur une modélisation relationnelle (ORM) stricte pour garantir l'intégrité des données sportives.
+
+\subsection{Diagramme de Classes (Backend)}
+Le diagramme suivant présente les entités principales gérant la structure d'un match de football dans notre base de données.
+
+\input{diagramme_classes.tex}
+
+Le choix de stocker les compositions (\texttt{MatchLineup}) sous forme de \texttt{JSONField} est un choix d'architecture technique (Performance). Créer une ligne de base de données pour chaque joueur de chaque match aurait entraîné des millions de lignes et des requêtes SQL lourdes (jointures complexes). Le format JSON permet une lecture directe par l'API REST.
+
+% ===================== CHAPITRE 4 =====================
+\chapter{Implémentation Backend et Données}
+
+% FIX: Replaced Markdown **bold** with \textbf{} or \textit{} throughout this chapter
+Ce chapitre aborde la mise en œuvre technique de l'application côté serveur. Le backend est développé en \textbf{Python} avec le framework \textbf{Django}, réputé pour sa robustesse et sa sécurité native (\textit{Out-of-the-box}).
+
+\section{Sécurisation et Authentification JWT}
+L'authentification traditionnelle par session n'est pas adaptée aux applications \textit{Single-Page} (SPA) modernes. Nous avons implémenté le standard JWT (\textit{JSON Web Token}) \cite{jones2015jwt}.
+
+\subsection{Déroulement de l'Authentification}
+Lorsqu'un utilisateur se connecte, le serveur génère deux tokens chiffrés :
+\begin{enumerate}
+    \item \textbf{Access Token} : Durée de vie courte (60 minutes). Il contient l'identifiant de l'utilisateur et son rôle.
+    \item \textbf{Refresh Token} : Durée de vie longue (plusieurs jours). Il permet de générer un nouvel Access Token sans obliger l'utilisateur à se reconnecter.
+\end{enumerate}
+
+\subsection{Séparation des rôles (Admin/User)}
+Pour respecter le principe de préservation de la base de données existante, la notion de rôle n'a pas été codée en remplaçant le modèle utilisateur natif de Django, mais en lui liant un \texttt{UserProfile} :
+
+\begin{lstlisting}[language=Python, caption=Création du profil et des signaux (users/models.py)]
+from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+class UserProfile(models.Model):
+    ADMIN = 'ADMIN'
+    USER = 'USER'
+    ROLE_CHOICES = [(ADMIN, 'Admin'), (USER, 'User')]
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default=USER)
+
+# Signal automatisant la creation du profil
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+\end{lstlisting}
+
+La protection des routes sensibles est assurée par une permission personnalisée \texttt{IsAdminRole} qui vérifie la propriété \texttt{role} avant d'autoriser l'exécution de la vue.
+
+\section{Orchestration du Pipeline de Données}
+La récolte des données depuis l'API-Football externe doit être soigneusement gérée pour ne pas dépasser les limites de requêtes (\textit{Rate Limits}) imposées par le fournisseur.
+
+Nous avons développé des \textbf{Commandes de Management Django} exécutables via le terminal ou déclenchables par l'interface d'administration.
+Le script ci-dessous montre la logique de protection implémentée lors de la récupération des compositions d'équipes (\texttt{fetch\_match\_lineups.py}) :
+
+\begin{lstlisting}[language=Python, caption=Logique de Batching et Rate Limiting]
+matches_to_fetch = Match.objects.filter(
+    status="FT",
+    lineup__isnull=True,
+    match_date__lte=timezone.now()
+).order_by('-match_date')[:20] # BATCH: Max 20 requetes par execution
+
+for match in matches_to_fetch:
+    response = requests.get(f"{base_url}/fixtures/lineups", headers=headers, params={'fixture': match.fixture_id})
+    data = response.json()
+
+    # Verification Critique : Rate Limit
+    if data.get('errors') and 'requests' in data.get('errors'):
+        self.stderr.write("Limite quotidienne atteinte. Arret de securite.")
+        break # Protection de la cle API
+
+    time.sleep(6.2) # Delai obligatoire de 6 secondes entre chaque requete
+\end{lstlisting}
+
+\section{Le Endpoint de Prédiction}
+Le module \texttt{predictions/views.py} charge en mémoire RAM le modèle XGBoost préalablement entraîné (\texttt{.pkl}) ainsi que son outil de normalisation (\texttt{StandardScaler}). À la volée, le serveur récupère les 25 statistiques du match demandé, les normalise, et interroge le modèle.
+
+% ===================== CHAPITRE 5 =====================
+\chapter{Implémentation Frontend et UI/UX}
+
+L'interface utilisateur est le point d'interaction critique. Elle doit retranscrire la complexité mathématique des algorithmes en visuels clairs et actionnables.
+
+\section{Choix Technologiques}
+% FIX: Replaced Markdown **bold** with \textbf{} throughout
+Le frontend est développé en \textbf{React JS}, compilé avec \textbf{Vite} pour des performances optimales.
+\begin{itemize}
+    \item \textbf{Ant Design (AntD)} : Bibliothèque de composants UI fournissant des grilles, des cartes et des tableaux hautement personnalisables.
+    \item \textbf{Recharts} : Bibliothèque D3.js pour React, utilisée pour le rendu du Radar tactique et du graphique probabiliste.
+    \item \textbf{Zustand} : Outil de gestion d'état global (\textit{State Management}), plus léger et performant que Redux.
+\end{itemize}
+
+\section{Gestion de l'État (\textit{State Management})}
+La communication avec le backend et la sauvegarde des tokens de sécurité sont centralisées dans le Hook personnalisé \texttt{useStore.js}.
+
+\begin{lstlisting}[language=JavaScript, caption=Gestion globale de l'authentification avec Zustand]
+import { create } from 'zustand';
+import { jwtDecode } from 'jwt-decode';
+
+const useStore = create((set) => ({
+  user: JSON.parse(localStorage.getItem('user')) || null,
+  isAuthenticated: !!localStorage.getItem('token'),
+
+  login: async (credentials) => {
+    const response = await authService.login(credentials);
+    const decoded = jwtDecode(response.data.access); // Extraction des claims
+    const userData = { id: decoded.user_id, username: decoded.username, role: decoded.role };
+
+    localStorage.setItem('token', response.data.access);
+    localStorage.setItem('user', JSON.stringify(userData));
+    set({ user: userData, isAuthenticated: true });
+  },
+
+  logout: () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    set({ user: null, isAuthenticated: false });
+  }
+}));
+\end{lstlisting}
+
+% FIX: Replaced Markdown **bold** with \textbf{}
+De plus, l'outil \textbf{Axios} a été configuré avec un intercepteur de requêtes. Ainsi, le jeton JWT est attaché de manière automatique et transparente dans l'en-tête \texttt{Authorization: Bearer <token>} de chaque requête sortante.
+
+\section{Conception Visuelle (UI/UX)}
+
+\subsection{La Charte ``Minimalist Blue''}
+Nous avons configuré Ant Design via un \texttt{ConfigProvider} pour écraser le style par défaut et injecter notre propre identité visuelle. La couleur \textit{Navy} (\texttt{\#0f172a}) sert de base pour la structure (Menu, Header), garantissant un fort contraste, tandis que la couleur d'accentuation \textit{Teal} (\texttt{\#14b8a6}) guide l'œil de l'utilisateur vers les actions prédictives.
+
+\subsection{Le Tableau de Bord Analytique}
+Le composant central de l'application est la \texttt{PredictionsPage}. Elle est organisée en plusieurs blocs logiques :
+\begin{enumerate}
+    \item \textbf{Zone de Contrôle} : Un sélecteur stylisé en Navy foncé permettant de cibler un match.
+    \item \textbf{Hero Banner (Scorecard)} : Affiche les logos des équipes, leurs formes récentes sous forme de ``badges'' visuels (W, D, L) et donne la prédiction principale en très gros caractères.
+    \item \textbf{Radar Tactique} : Superpose la forme tactique (Possession, Passes, Tirs) de l'équipe locale et extérieure. Si la surface du polygone \textit{Home} couvre entièrement le polygone \textit{Away}, cela valide visuellement l'écart de niveau.
+    \item \textbf{Compositions (Lineups)} : Présente le schéma tactique (ex : 4-2-3-1) et dresse la liste des joueurs titulaires pour fournir le contexte matériel de la prédiction.
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \node[draw=Slate, thick, fill=LightGray, minimum width=14cm, minimum height=8cm, rounded corners, dashed] {
+            \color{Slate}\Large \textit{[Espace réservé pour la capture d'écran du Dashboard React]}
+        };
+    \end{tikzpicture}
+    \caption{Aperçu de l'interface du Dashboard (Côté Client)}
+\end{figure}
+
+\section*{Conclusion du chapitre}
+\addcontentsline{toc}{section}{Conclusion du chapitre}
+Ce dernier chapitre a détaillé la matérialisation visuelle du projet. En adoptant les technologies modernes du web (React, Zustand, Ant Design) et une charte graphique orientée vers l'analytique ("Minimalist Blue"), le "Dashboard" transforme un backend complexe en une interface d'aide à la décision fluide et ergonomique.
+
+% ===================== CONCLUSION =====================
+\chapter*{Conclusion générale}
+\addcontentsline{toc}{chapter}{Conclusion générale}
+\markboth{Conclusion générale}{Conclusion générale}
+
+Le projet ``Intelligent Football Prediction Dashboard'' a représenté un défi d'ingénierie complet, exigeant la maîtrise simultanée de trois domaines distincts : le génie logiciel (architecture N-Tiers, REST), la science des données (Machine Learning, XGBoost, SMOTE) et l'expérience utilisateur (React, Visualisation de données).
+
+Nous avons réussi à concevoir un système automatisé capable non seulement de récolter des données mondiales via des API tierces, mais de les structurer pour en extraire une valeur prédictive. L'implémentation de fonctionnalités avancées, telles qu'un pipeline d'authentification robuste par JWT, une protection des ressources par rôles, et la synchronisation intelligente par lot (\textit{Batch processing}) démontrent la maturité technique de la solution. L'interface utilisateur, s'appuyant sur les principes du design analytique, permet aujourd'hui à n'importe quel décideur ou passionné de comprendre instantanément les dynamiques d'un match complexe.
+
+Bien que le football reste, par nature, sujet à des événements imprévisibles (cartons rouges précoces, conditions météorologiques), les probabilités mathématiques offrent une aide précieuse.
+
+\section*{Perspectives d'Évolution}
+Plusieurs axes d'amélioration peuvent être envisagés pour accroître la précision et l'utilité du système :
+\begin{itemize}
+    \item \textbf{Deep Learning et Réseaux de Neurones Récurrents (RNN)} : Pour mieux capturer la temporalité des performances (Séquences de matchs) au lieu d'utiliser de simples moyennes lissées.
+    \item \textbf{Données individuelles des joueurs} : Intégrer les blessures, les suspensions et l'historique personnel (ex : \textit{Expected Goals} --- xG individuels) directement dans le vecteur de caractéristiques du modèle, rendu désormais possible par notre nouvelle table \texttt{MatchLineup}.
+    \item \textbf{Marchés financiers (\textit{Odds})} : Connecter l'application à des flux de données en temps réel pour superposer nos prédictions avec les cotes en direct (\textit{Live Odds}) des bookmakers.
+\end{itemize}
+
+Ces évolutions permettraient de transformer ce projet académique robuste en une véritable plateforme d'aide à la décision professionnelle pour les clubs de football et les analystes du monde sportif.
+
+% =========================
+% Bibliographie
+% =========================
+\backmatter
+\addcontentsline{toc}{chapter}{Bibliographie}
+
+\begin{thebibliography}{99}
+
+\bibitem{maher1982}
+M. J. Maher,
+``Modelling Association Football Scores,''
+\textit{Statistica Neerlandica}, vol. 36, no. 3, pp. 109--118, 1982.
+
+\bibitem{dixon1997}
+M. J. Dixon and S. G. Coles,
+``Modelling Association Football Scores and Inefficiencies in the Football Betting Market,''
+\textit{Journal of the Royal Statistical Society: Series C (Applied Statistics)}, vol. 46, no. 2, pp. 265--280, 1997.
+
+\bibitem{bunker2019}
+R. P. Bunker and F. Thabtah,
+``A Machine Learning Framework for Sport Result Prediction,''
+\textit{Applied Computing and Informatics}, vol. 15, no. 1, pp. 27--33, 2019.
+
+\bibitem{chen2016xgboost}
+T. Chen and C. Guestrin,
+``XGBoost: A Scalable Tree Boosting System,''
+in \textit{Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD '16)},
+San Francisco, CA, USA, pp. 785--794, 2016.
+
+\bibitem{chawla2002smote}
+N. V. Chawla, K. W. Bowyer, L. O. Hall, and W. P. Kegelmeyer,
+``SMOTE: Synthetic Minority Over-sampling Technique,''
+\textit{Journal of Artificial Intelligence Research}, vol. 16, pp. 321--357, 2002.
+
+\bibitem{jones2015jwt}
+M. Jones, J. Bradley, and N. Sakimura,
+``JSON Web Token (JWT),''
+RFC 7519, Internet Engineering Task Force (IETF), May 2015.
+[Online]. Available: \url{https://www.rfc-editor.org/rfc/rfc7519}
+
+\end{thebibliography}
+
+\end{document}
+sk Force (IETF), May 2015.
+[Online]. Available: \url{https://www.rfc-editor.org/rfc/rfc7519}
+
+\end{thebibliography}
+
+\end{document}
+ment}

@@ -13,6 +13,8 @@ const useStore = create((set) => ({
   matchOptions: [],
   selectedMatch: null,
   predictionData: null,
+  accuracyMetrics: null,
+  predictionHistory: [],
   isMatchesLoading: false,
   isPredicting: false,
   error: null,
@@ -80,6 +82,24 @@ const useStore = create((set) => ({
       set({ predictionData: response.data, isPredicting: false });
     } catch (error) {
       set({ error: error.message, isPredicting: false });
+    }
+  },
+
+  fetchAccuracy: async () => {
+    try {
+      const response = await matchService.getAccuracy();
+      set({ accuracyMetrics: response.data });
+    } catch (error) {
+      console.error('Failed to fetch accuracy:', error);
+    }
+  },
+
+  fetchPredictionHistory: async () => {
+    try {
+      const response = await matchService.getHistory();
+      set({ predictionHistory: response.data });
+    } catch (error) {
+      console.error('Failed to fetch prediction history:', error);
     }
   }
 }));

@@ -114,10 +114,28 @@ class MatchOdds(models.Model):
     A highly valuable feature for machine learning.
     """
     match = models.OneToOneField(Match, related_name='odds', on_delete=models.CASCADE)
-    
+
     home_win_odds = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     draw_odds = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     away_win_odds = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
         return f"Odds for {self.match}"
+
+class MatchLineup(models.Model):
+    """
+    Stores the starting XI and substitutes for both teams.
+    Stored as JSON to preserve the API structure for flexibility.
+    """
+    match = models.OneToOneField(Match, related_name='lineup', on_delete=models.CASCADE)
+    home_formation = models.CharField(max_length=20, null=True, blank=True)
+    away_formation = models.CharField(max_length=20, null=True, blank=True)
+
+    # Store the full player objects (id, name, number, pos, grid)
+    home_xi = models.JSONField(default=list)
+    away_xi = models.JSONField(default=list)
+    home_substitutes = models.JSONField(default=list)
+    away_substitutes = models.JSONField(default=list)
+
+    def __str__(self):
+        return f"Lineup for {self.match}"

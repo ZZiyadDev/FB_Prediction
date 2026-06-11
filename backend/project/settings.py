@@ -9,7 +9,7 @@ load_dotenv(BASE_DIR / '.env')
 def env(key, default=None):
     return os.getenv(key, default)
 
-SECRET_KEY = env('SECRET_KEY', 'replace-me-with-a-secret-key')
+SECRET_KEY = env('SECRET_KEY', 'django-insecure-key-that-is-at-least-32-characters-long-for-security')
 DEBUG = env('DEBUG', 'True') == 'True'
 
 API_FOOTBALL_KEY = os.environ.get('FOOTBALL_API_KEY')
@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework_simplejwt',
     'corsheaders',
     'users',
     'matches',

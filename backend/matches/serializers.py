@@ -1,11 +1,15 @@
-
 from rest_framework import serializers
-from .models import Match, Team, League, MatchStatistics
+from .models import Match, Team, League, MatchStatistics, MatchLineup
 
 class MatchStatisticsSerializer(serializers.ModelSerializer):
     class Meta:
         model = MatchStatistics
         # Exclude 'id' and 'match' as they are not needed by the frontend
+        exclude = ['id', 'match']
+
+class MatchLineupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MatchLineup
         exclude = ['id', 'match']
 
 class TeamSerializer(serializers.ModelSerializer):
@@ -23,6 +27,9 @@ class MatchSerializer(serializers.ModelSerializer):
 
     # Include match statistics
     statistics = MatchStatisticsSerializer(read_only=True)
+    
+    # Include lineups
+    lineup = MatchLineupSerializer(read_only=True)
 
     class Meta:
         model = Match
@@ -32,5 +39,5 @@ class MatchSerializer(serializers.ModelSerializer):
             'home_team', 'away_team', 'league_name',
             'htgs', 'atgs', 'htgc', 'atgc', 
             'home_form_points', 'away_form_points',
-            'statistics'
+            'statistics', 'lineup'
         ]
