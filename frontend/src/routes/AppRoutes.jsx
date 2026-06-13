@@ -1,9 +1,8 @@
 import { BrowserRouter, Link, Route, Routes, useLocation, Navigate, useNavigate } from 'react-router-dom'
 import { Layout, Menu, Space, Avatar, Dropdown } from 'antd'
-import { DashboardOutlined, TeamOutlined, BarChartOutlined, LogoutOutlined, UserOutlined, SettingOutlined } from '@ant-design/icons'
+import { DashboardOutlined, TeamOutlined, LogoutOutlined, UserOutlined, SettingOutlined } from '@ant-design/icons'
 import DashboardPage from '../features/dashboard/DashboardPage'
 import MatchesPage from '../features/matches/MatchesPage'
-import PredictionsPage from '../features/predictions/PredictionsPage'
 import AdminPage from '../features/admin/AdminPage'
 import LoginPage from '../features/auth/LoginPage'
 import RegisterPage from '../features/auth/RegisterPage'
@@ -29,7 +28,6 @@ function Navigation() {
   const { user } = useStore();
   const location = useLocation()
   const selectedKey = location.pathname === '/matches' ? 'matches' : 
-                     location.pathname === '/predictions' ? 'predictions' : 
                      location.pathname === '/admin' ? 'admin' : 'dashboard'
 
   return (
@@ -39,9 +37,6 @@ function Navigation() {
       </Menu.Item>
       <Menu.Item key="matches" icon={<TeamOutlined />}>
         <Link to="/matches">Matches</Link>
-      </Menu.Item>
-      <Menu.Item key="predictions" icon={<BarChartOutlined />}>
-        <Link to="/predictions">Predictions</Link>
       </Menu.Item>
       {user?.role === 'ADMIN' && (
         <Menu.Item key="admin" icon={<SettingOutlined />}>
@@ -111,7 +106,6 @@ function AppLayout() {
             <Routes>
               <Route path="/" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
               <Route path="/matches" element={<ProtectedRoute><MatchesPage /></ProtectedRoute>} />
-              <Route path="/predictions" element={<ProtectedRoute><PredictionsPage /></ProtectedRoute>} />
               <Route path="/admin" element={<ProtectedRoute role="ADMIN"><AdminPage /></ProtectedRoute>} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>

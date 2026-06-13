@@ -1,12 +1,27 @@
-import React, { useEffect, useState } from 'react'
-import { Card, Col, Row, Space, Typography, Button, Select, Spin, Alert } from 'antd'
-import { LineChart, Line, BarChart, Bar, RadialBarChart, RadialBar, Tooltip, XAxis, YAxis, ResponsiveContainer, Legend } from 'recharts'
-import { useNavigate } from 'react-router-dom'
-import { ThunderboltOutlined, TeamOutlined, DashboardOutlined, RiseOutlined } from '@ant-design/icons'
-import useStore from '../../hooks/useStore'
-import DashboardCard from './DashboardCard'
+import React, { useEffect, useState } from 'react';
+import { Card, Col, Row, Space, Typography, Button, Select, Spin, Alert, Tabs, Badge, Avatar } from 'antd';
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend, Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
+import { useNavigate } from 'react-router-dom';
+import { 
+  ThunderboltOutlined, 
+  TeamOutlined, 
+  DashboardOutlined, 
+  RiseOutlined, 
+  RadarChartOutlined, 
+  DeploymentUnitOutlined, 
+  HistoryOutlined,
+  BarChartOutlined 
+} from '@ant-design/icons';
+import useStore from '../../hooks/useStore';
+import DashboardCard from './DashboardCard';
+import MatchLineup from '../matches/MatchLineup';
+import MatchFacts from '../matches/MatchFacts';
+import PredictionHistory from '../predictions/PredictionHistory';
+import TeamFormGuide from '../matches/TeamFormGuide';
 
-const { Title, Text } = Typography
+const { Title, Text } = Typography;
+
+const COLORS = { H: '#14b8a6', D: '#94a3b8', A: '#3b82f6' };
 
 const sharedCardStyle = {
   borderRadius: '12px',
@@ -23,24 +38,27 @@ export default function DashboardPage() {
     selectedMatch, 
     predictionData, 
     accuracyMetrics,
+    predictionHistory,
     isMatchesLoading, 
     isPredicting, 
     fetchUpcomingMatches, 
     runAiPrediction, 
     setSelectedMatch,
     fetchAccuracy,
+    fetchPredictionHistory,
     error
   } = useStore();
 
   const [hasAutoSelected, setHasAutoSelected] = useState(false);
 
-  // 1. Fetch matches and accuracy on load
+  // 1. Initial Data Fetch
   useEffect(() => {
     fetchUpcomingMatches();
     fetchAccuracy();
-  }, [fetchUpcomingMatches, fetchAccuracy]);
+    fetchPredictionHistory();
+  }, [fetchUpcomingMatches, fetchAccuracy, fetchPredictionHistory]);
 
-  // 2. Auto-select a random match on load
+  // 2. Auto-select logic
   useEffect(() => {
     if (rawMatches.length > 0 && !hasAutoSelected && !selectedMatch) {
       const randomIndex = Math.floor(Math.random() * rawMatches.length);
@@ -51,7 +69,6 @@ export default function DashboardPage() {
     }
   }, [rawMatches, hasAutoSelected, selectedMatch, setSelectedMatch, runAiPrediction]);
 
-  // 3. Handle manual selection from dropdown
   const handleMatchChange = (value) => {
     setSelectedMatch(value);
     if (value) {
@@ -59,18 +76,19 @@ export default function DashboardPage() {
     }
   };
 
-  // Map real data to the charts
-  const matchesData = predictionData ? [
-    { name: 'Possession', home: predictionData.stats.possession.home, away: predictionData.stats.possession.away },
-    { name: 'Passes (%)', home: predictionData.stats.passes.home, away: predictionData.stats.passes.away },
-    { name: 'Shots', home: predictionData.stats.shots.home, away: predictionData.stats.shots.away },
-    { name: 'Goals', home: predictionData.stats.goals.home, away: predictionData.stats.goals.away }
+  // --- DATA MAPPING FOR CHARTS ---
+  const donutData = (predictionData && predictionData.confidence_scores) ? [
+    { name: 'Home Win', value: predictionData.confidence_scores.H || 0, color: COLORS.H },
+    { name: 'Draw', value: predictionData.confidence_scores.D || 0, color: COLORS.D },
+    { name: 'Away Win', value: predictionData.confidence_scores.A || 0, color: COLORS.A },
   ] : [];
 
-  const probabilityData = predictionData ? [
-    { name: 'Home Win', value: predictionData.confidence_scores.H, fill: '#14b8a6' },
-    { name: 'Draw', value: predictionData.confidence_scores.D, fill: '#94a3b8' },
-    { name: 'Away Win', value: predictionData.confidence_scores.A, fill: '#3b82f6' },
+  const radarData = (predictionData && predictionData.stats) ? [
+    { subject: 'Possession %', home: predictionData.stats.possession?.home || 0, away: predictionData.stats.possession?.away || 0 },
+    { subject: 'Pass Accuracy %', home: predictionData.stats.passes?.home || 0, away: predictionData.stats.passes?.away || 0 },
+    { subject: 'Form Points', home: predictionData.stats.form?.home || 0, away: predictionData.stats.form?.away || 0 },
+    { subject: 'Shots on Target', home: predictionData.stats.shots?.home || 0, away: predictionData.stats.shots?.away || 0 },
+    { subject: 'Goals Scored', home: predictionData.stats.goals?.home || 0, away: predictionData.stats.goals?.away || 0 }
   ] : [];
 
   const topConfidence = predictionData 
@@ -79,184 +97,187 @@ export default function DashboardPage() {
 
   const nextMatchText = predictionData 
     ? `${predictionData.home_team} vs ${predictionData.away_team}`
-    : 'TBD';
+    : 'Select Match';
+
+  // --- TABS CONFIGURATION ---
+  const detailTabs = [
+    {
+      key: 'pitch',
+      label: <Space><DeploymentUnitOutlined />Tactical Pitch</Space>,
+      children: (
+        <div style={{ marginTop: '16px' }}>
+          <MatchLineup 
+            lineup={predictionData?.lineup} 
+            homeTeamName={predictionData?.home_team} 
+            awayTeamName={predictionData?.away_team} 
+          />
+        </div>
+      ),
+    },
+    {
+      key: 'facts',
+      label: <Space><BarChartOutlined />Match Facts</Space>,
+      children: (
+        <div style={{ marginTop: '16px' }}>
+          <MatchFacts statistics={predictionData?.raw_stats} /> 
+        </div>
+      ),
+    },
+    {
+      key: 'history',
+      label: <Space><HistoryOutlined />System Logs</Space>,
+      children: (
+        <div style={{ marginTop: '16px' }}>
+          <PredictionHistory history={predictionHistory} />
+        </div>
+      ),
+    },
+  ];
 
   return (
     <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-      {/* HEADER SECTION */}
-      <div style={{ marginBottom: '40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '24px' }}>
-        <div>
+      {/* HEADER */}
+      <div style={{ marginBottom: '32px' }}>
+        <Space align="center" style={{ marginBottom: '8px' }}>
+          <RadarChartOutlined style={{ fontSize: '32px', color: '#14b8a6' }} />
           <Title level={2} style={{ margin: 0, fontWeight: 700, color: '#0f172a', letterSpacing: '-0.5px' }}>
-            System Analytics
+            Intelligence Command Center
           </Title>
-          <Text style={{ color: '#64748b', fontSize: '14px' }}>
-            Predictive insights and real-time match data processing
+        </Space>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <Badge status="processing" text={<span style={{ color: '#14b8a6', fontWeight: 'bold' }}>Live Analysis Engine</span>} />
+          <Text type="secondary">|</Text>
+          <Text type="secondary" style={{ letterSpacing: '1px', textTransform: 'uppercase', fontSize: '11px', fontWeight: 700, color: '#64748b' }}>
+            Centralized Tactical & Predictive Data
           </Text>
         </div>
-        
-        {/* ACTION BUTTONS */}
-        <Space size="middle">
-          <Button 
-            type="default" 
-            size="large" 
-            icon={<TeamOutlined />}
-            onClick={() => navigate('/matches')}
-            style={{ 
-              height: '40px',
-              fontSize: '14px',
-              fontWeight: 600,
-              borderRadius: '8px',
-            }}
-          >
-            Match Database
-          </Button>
-          <Button 
-            type="primary" 
-            size="large" 
-            icon={<ThunderboltOutlined />}
-            onClick={() => navigate('/predictions')}
-            style={{ 
-              background: '#0f172a',
-              borderColor: '#0f172a',
-              height: '40px',
-              fontSize: '14px',
-              fontWeight: 600,
-              borderRadius: '8px'
-            }}
-          >
-            Launch Prediction
-          </Button>
-        </Space>
       </div>
 
-      {error && (
-        <Alert
-          message="Connection Error"
-          description={`Unable to fetch data from the backend: ${error}. Please make sure your Django backend is running.`}
-          type="error"
-          showIcon
-          style={{ marginBottom: '24px', borderRadius: '8px' }}
-        />
-      )}
+      {error && <Alert message="Connection Error" description={error} type="error" showIcon style={{ marginBottom: '24px', borderRadius: '8px' }} />}
 
       <Space direction="vertical" size="large" style={{ width: '100%' }}>
         
-        {/* MATCH SELECTOR */}
-        <Card bordered={false} style={{ ...sharedCardStyle, padding: '8px' }}>
-          <Space style={{ width: '100%' }} direction="vertical">
-            <Text style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '1px', color: '#64748b', textTransform: 'uppercase' }}>
-              Select Focus Match
-            </Text>
-            <Select
-              style={{ width: '100%', maxWidth: '400px' }}
-              placeholder="Choose a match..."
-              options={matchOptions}
-              onChange={handleMatchChange}
-              value={selectedMatch}
-              size="large"
-              loading={isMatchesLoading}
-              showSearch
-            />
-          </Space>
+        {/* COMMAND CONTROLS */}
+        <Card bordered={false} style={{ ...sharedCardStyle, background: '#0f172a', borderColor: '#1e293b' }} styles={{ body: { padding: '24px 32px' } }}>
+          <Row gutter={[24, 16]} align="bottom">
+            <Col xs={24} md={18}>
+              <Text style={{ display: 'block', marginBottom: '8px', fontSize: '11px', fontWeight: 700, letterSpacing: '1px', color: '#94a3b8', textTransform: 'uppercase' }}>
+                Active Target Selection
+              </Text>
+              <Select
+                style={{ width: '100%' }}
+                placeholder="Choose a fixture for immediate analysis..."
+                options={matchOptions}
+                onChange={handleMatchChange}
+                value={selectedMatch}
+                size="large"
+                loading={isMatchesLoading}
+                showSearch
+              />
+            </Col>
+            <Col xs={24} md={6}>
+              <Button type="primary" size="large" block icon={<TeamOutlined />} onClick={() => navigate('/matches')} style={{ borderRadius: '8px' }}>
+                Fixture Database
+              </Button>
+            </Col>
+          </Row>
         </Card>
 
-        {isPredicting && (
-          <div style={{ textAlign: 'center', padding: '40px 0' }}>
-            <Spin size="large" tip="Processing neural data..." />
+        {isPredicting ? (
+          <div style={{ textAlign: 'center', padding: '100px 0' }}>
+            <Spin size="large" tip="Synthesizing tactical data..." />
           </div>
-        )}
-
-        {!isPredicting && (
+        ) : (
           <>
             {/* STAT CARDS */}
             <Row gutter={[24, 24]}>
               <Col xs={24} sm={12} lg={6}>
-                <DashboardCard 
-                  title="Target Match" 
-                  value={nextMatchText} 
-                  icon={<TeamOutlined />} 
-                />
+                <DashboardCard title="Analysis Target" value={nextMatchText} icon={<TeamOutlined />} />
               </Col>
               <Col xs={24} sm={12} lg={6}>
-                <DashboardCard 
-                  title="Intelligence Confidence" 
-                  value={predictionData ? `${topConfidence}%` : 'N/A'} 
-                  icon={<ThunderboltOutlined />}
-                  gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)"
-                />
+                <DashboardCard title="AI Confidence" value={predictionData ? `${topConfidence}%` : 'N/A'} icon={<ThunderboltOutlined />} gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)" />
               </Col>
               <Col xs={24} sm={12} lg={6}>
-                <DashboardCard 
-                  title="AI Success Rate" 
-                  value={accuracyMetrics ? `${accuracyMetrics.accuracy_percentage}%` : '0%'} 
-                  icon={<RiseOutlined />}
-                  gradient="linear-gradient(135deg, #14b8a6 0%, #0d9488 100%)"
-                />
+                <DashboardCard title="System Accuracy" value={accuracyMetrics ? `${accuracyMetrics.accuracy_percentage}%` : '0%'} icon={<RiseOutlined />} gradient="linear-gradient(135deg, #14b8a6 0%, #0d9488 100%)" />
               </Col>
               <Col xs={24} sm={12} lg={6}>
-                <DashboardCard 
-                  title="Data Points" 
-                  value={rawMatches.length > 0 ? `${rawMatches.length} Matches` : '0'} 
-                  icon={<DashboardOutlined />} 
-                />
+                <DashboardCard title="Data Pool" value={rawMatches.length > 0 ? `${rawMatches.length} Matches` : '0'} icon={<DashboardOutlined />} />
               </Col>
             </Row>
 
-            {/* CHARTS */}
-            <Row gutter={[24, 24]}>
-              <Col xs={24} lg={12}>
-                <Card title={<span style={{ fontWeight: 700, color: '#0f172a' }}>Performance Comparison</span>} bordered={false} style={{...sharedCardStyle, height: '380px'}}>
-                  <ResponsiveContainer width="100%" height={260}>
-                    <LineChart data={matchesData} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
-                      <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 12 }} />
-                      <YAxis axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 12 }} />
-                      <Tooltip 
-                        contentStyle={{ borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}
-                      />
-                      <Legend iconType="circle" />
-                      <Line type="monotone" name={predictionData?.home_team || 'Home'} dataKey="home" stroke="#14b8a6" strokeWidth={3} dot={{ r: 4, fill: '#14b8a6' }} activeDot={{ r: 6 }} />
-                      <Line type="monotone" name={predictionData?.away_team || 'Away'} dataKey="away" stroke="#3b82f6" strokeWidth={3} dot={{ r: 4, fill: '#3b82f6' }} activeDot={{ r: 6 }} />
-                    </LineChart>
-                  </ResponsiveContainer>
+            {predictionData && (
+              <>
+                {/* HERO VERDICT */}
+                <Card style={sharedCardStyle} bordered={false} styles={{ body: { padding: '32px 24px' } }}>
+                  <Row align="middle" justify="space-between">
+                    <Col xs={8} style={{ textAlign: 'right' }}>
+                      {predictionData.home_logo && <Avatar src={predictionData.home_logo} size={64} shape="square" style={{ marginBottom: '12px' }} />}
+                      <Title level={2} style={{ margin: 0, fontWeight: 700 }}>{predictionData.home_team}</Title>
+                      <div style={{ marginTop: 8, display: 'flex', justifyContent: 'flex-end' }}>
+                        <TeamFormGuide formPoints={predictionData.home_form_string} />
+                      </div>
+                    </Col>
+                    <Col xs={8} style={{ textAlign: 'center', borderLeft: '1px solid #e2e8f0', borderRight: '1px solid #e2e8f0' }}>
+                      <Text style={{ letterSpacing: '2px', fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>CORE PREDICTION</Text>
+                      <Title level={1} style={{ margin: '12px 0', color: predictionData.prediction === 'Home Win' ? COLORS.H : predictionData.prediction === 'Away Win' ? COLORS.A : COLORS.D }}>
+                        {predictionData.prediction?.toUpperCase()}
+                      </Title>
+                    </Col>
+                    <Col xs={8} style={{ textAlign: 'left' }}>
+                      {predictionData.away_logo && <Avatar src={predictionData.away_logo} size={64} shape="square" style={{ marginBottom: '12px' }} />}
+                      <Title level={2} style={{ margin: 0, fontWeight: 700 }}>{predictionData.away_team}</Title>
+                      <div style={{ marginTop: 8, display: 'flex', justifyContent: 'flex-start' }}>
+                        <TeamFormGuide formPoints={predictionData.away_form_string} />
+                      </div>
+                    </Col>
+                  </Row>
                 </Card>
-              </Col>
-              <Col xs={24} lg={12}>
-                <Card title={<span style={{ fontWeight: 700, color: '#0f172a' }}>Outcome Probability</span>} bordered={false} style={{...sharedCardStyle, height: '380px'}}>
-                  <ResponsiveContainer width="100%" height={260}>
-                    <RadialBarChart innerRadius="30%" outerRadius="100%" data={probabilityData} startAngle={180} endAngle={-180}>
-                      <RadialBar minAngle={15} background clockWise dataKey="value" cornerRadius={10} />
-                      <Tooltip 
-                        contentStyle={{ borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}
-                      />
-                      <Legend iconSize={10} layout="vertical" verticalAlign="middle" wrapperStyle={{ right: 0 }} />
-                    </RadialBarChart>
-                  </ResponsiveContainer>
-                </Card>
-              </Col>
-            </Row>
 
-            <Row gutter={[24, 24]}>
-              <Col span={24}>
-                <Card title={<span style={{ fontWeight: 700, color: '#0f172a' }}>Strategic Data Metrics</span>} bordered={false} style={sharedCardStyle}>
-                  <ResponsiveContainer width="100%" height={280}>
-                    <BarChart data={matchesData} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}> 
-                      <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 12 }} />
-                      <YAxis axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 12 }} />
-                      <Tooltip 
-                        contentStyle={{ borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}
-                        cursor={{ fill: '#f1f5f9' }}
-                      />
-                      <Legend iconType="circle" />
-                      <Bar name={predictionData?.home_team || 'Home'} dataKey="home" fill="#14b8a6" radius={[4, 4, 0, 0]} barSize={32} />
-                      <Bar name={predictionData?.away_team || 'Away'} dataKey="away" fill="#3b82f6" radius={[4, 4, 0, 0]} barSize={32} />
-                    </BarChart>
-                  </ResponsiveContainer>
+                {/* VISUALIZATIONS ROW */}
+                <Row gutter={24}>
+                  <Col xs={24} lg={12}>
+                    <Card title={<span style={{ fontWeight: 700 }}>Neural Probability Distribution</span>} bordered={false} style={{...sharedCardStyle, height: '420px'}}>
+                      <div style={{ height: '300px', width: '100%' }}>
+                        <ResponsiveContainer width="100%" height="100%">
+                          <PieChart>
+                            <Pie data={donutData} cx="50%" cy="50%" innerRadius={70} outerRadius={100} paddingAngle={5} dataKey="value">
+                              {donutData.map((entry, index) => <Cell key={`cell-${index}`} fill={entry.color} />)}
+                            </Pie>
+                            <Tooltip formatter={(value) => `${value}%`} />
+                            <Legend verticalAlign="bottom" height={36} />
+                          </PieChart>
+                        </ResponsiveContainer>
+                      </div>
+                    </Card>
+                  </Col>
+                  <Col xs={24} lg={12}>
+                    <Card title={<span style={{ fontWeight: 700 }}>Tactical Matrix Comparison</span>} bordered={false} style={{...sharedCardStyle, height: '420px'}}>
+                      <div style={{ height: '300px', width: '100%' }}>
+                        <ResponsiveContainer width="100%" height="100%">
+                          <RadarChart cx="50%" cy="50%" outerRadius="80%" data={radarData}>
+                            <PolarGrid stroke="#e2e8f0" />
+                            <PolarAngleAxis dataKey="subject" tick={{ fill: '#64748b', fontSize: 12 }} />
+                            <PolarRadiusAxis angle={30} domain={[0, 'auto']} tick={false} axisLine={false} />
+                            <Radar name={predictionData.home_team} dataKey="home" stroke={COLORS.H} fill={COLORS.H} fillOpacity={0.4} />
+                            <Radar name={predictionData.away_team} dataKey="away" stroke={COLORS.A} fill={COLORS.A} fillOpacity={0.4} />
+                            <Tooltip />
+                            <Legend />
+                          </RadarChart>
+                        </ResponsiveContainer>
+                      </div>
+                    </Card>
+                  </Col>
+                </Row>
+
+                {/* INTERACTIVE DETAILS TABS */}
+                <Card bordered={false} style={sharedCardStyle} styles={{ body: { padding: '16px 24px' } }}>
+                  <Tabs defaultActiveKey="pitch" items={detailTabs} size="large" />
                 </Card>
-              </Col>
-            </Row>
+              </>
+            )}
           </>
         )}
       </Space>
     </div>
-  )
+  );
 }

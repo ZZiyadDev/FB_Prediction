@@ -15,7 +15,18 @@ DEBUG = env('DEBUG', 'True') == 'True'
 API_FOOTBALL_KEY = os.environ.get('FOOTBALL_API_KEY')
 
 ALLOWED_HOSTS = [host.strip() for host in env('ALLOWED_HOSTS', 'localhost').split(',') if host.strip()]
-CORS_ALLOWED_ORIGINS = [origin.strip() for origin in env('CORS_ALLOWED_ORIGINS', '').split(',') if origin.strip()]
+
+# Consolidate CORS origins from env and hardcoded defaults
+ENV_CORS = [origin.strip() for origin in env('CORS_ALLOWED_ORIGINS', '').split(',') if origin.strip()]
+DEFAULT_CORS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:5174",
+    "http://127.0.0.1:5174",
+    "http://localhost:5175",
+    "http://127.0.0.1:5175",
+]
+CORS_ALLOWED_ORIGINS = list(set(ENV_CORS + DEFAULT_CORS))
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -93,13 +104,3 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': True,
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
-
-# Tell Django to trust your React Vite server
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "http://localhost:5174",
-    "http://127.0.0.1:5174",
-    "http://localhost:5175",
-    "http://127.0.0.1:5175",
-]

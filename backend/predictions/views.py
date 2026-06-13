@@ -160,6 +160,8 @@ class PredictionViewSet(viewsets.ViewSet):
             )
 
             # --- SEND THE DEEP STATS TO REACT ---
+            from matches.serializers import MatchStatisticsSerializer
+            
             return Response({
                 "match": f"{match.home_team.name} vs {match.away_team.name}",
                 "home_team": match.home_team.name, 
@@ -169,14 +171,14 @@ class PredictionViewSet(viewsets.ViewSet):
                 "prediction": pred_label,
                 "confidence_scores": confidence_scores,
                 
-                # 🚨 ADD THESE TWO LINES FOR THE UI BADGES 🚨
                 "home_form_string": f.get("home_form_string", ""),
                 "away_form_string": f.get("away_form_string", ""),
 
-                # --- ADD LINEUP DATA ---
+                # --- NEW: RAW STATS & LINEUP FOR TABS ---
+                "raw_stats": MatchStatisticsSerializer(getattr(match, 'statistics', None)).data if hasattr(match, 'statistics') else None,
                 "lineup": MatchLineupSerializer(getattr(match, 'lineup', None)).data if hasattr(match, 'lineup') else None,
                 
-                # --- SEND THE DEEP STATS TO REACT ---
+                # --- SEND THE CHART DATA ---
                 "stats": {
                     "possession": {
                         "home": round(f.get("HT_Possession", 50), 1), 
