@@ -1,0 +1,234 @@
+\chapter{Mise en œuvre : Backend, Frontend et Validation}
+
+Ce chapitre aborde la mise en œuvre technique de l'application dans son ensemble. Il détaille d'abord le développement côté serveur (Backend), puis la matérialisation de l'interface utilisateur (Frontend), pour se conclure par une phase exhaustive de tests et de validation.
+
+% ================= BACKEND =================
+\section{Implémentation Backend et Pipeline de Données}
+Le backend est développé en \textbf{Python} avec le framework \textbf{Django}, réputé pour sa robustesse et sa sécurité native (\textit{Out-of-the-box}).
+
+\subsection{Sécurisation et Authentification JWT}
+L'authentification traditionnelle par session n'est pas adaptée aux applications \textit{Single-Page} (SPA) modernes. Nous avons implémenté le standard JWT (\textit{JSON Web Token}) \cite{jones2015jwt}.
+
+\subsubsection{Déroulement de l'Authentification}
+Lorsqu'un utilisateur se connecte, le serveur génère deux tokens chiffrés :
+\begin{enumerate}
+    \item \textbf{Access Token} : Durée de vie courte (60 minutes). Il contient l'identifiant de l'utilisateur et son rôle.
+    \item \textbf{Refresh Token} : Durée de vie longue (plusieurs jours). Il permet de générer un nouvel Access Token sans obliger l'utilisateur à se reconnecter.
+\end{enumerate}
+
+\subsubsection{Séparation des rôles (Admin/User)}
+Pour respecter le principe de préservation de la base de données existante, la notion de rôle n'a pas été codée en remplaçant le modèle utilisateur natif de Django, mais en lui liant un \texttt{UserProfile} :
+
+\begin{lstlisting}[language=Python, caption=Création du profil et des signaux (users/models.py)]
+from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+class UserProfile(models.Model):
+    ADMIN = 'ADMIN'
+    USER = 'USER'
+    ROLE_CHOICES = [(ADMIN, 'Admin'), (USER, 'User')]
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default=USER)
+
+# Signal automatisant la creation du profil
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+\end{lstlisting}
+
+La protection des routes sensibles est assurée par une permission personnalisée \texttt{IsAdminRole} qui vérifie la propriété \texttt{role} avant d'autoriser l'exécution de la vue.
+
+\subsection{Orchestration du Pipeline de Données}
+La récolte des données depuis l'API-Football externe doit être soigneusement gérée pour ne pas dépasser les limites de requêtes (\textit{Rate Limits}) imposées par le fournisseur.
+
+Nous avons développé des \textbf{Commandes de Management Django} exécutables via le terminal ou déclenchables par l'interface d'administration.
+Le script ci-dessous montre la logique de protection implémentée lors de la récupération des compositions d'équipes (\texttt{fetch\_match\_lineups.py}) :
+
+\begin{lstlisting}[language=Python, caption=Logique de Batching et Rate Limiting]
+matches_to_fetch = Match.objects.filter(
+    status="FT",
+    lineup__isnull=True,
+    match_date__lte=timezone.now()
+).order_by('-match_date')[:20] # BATCH: Max 20 requetes par execution
+
+for match in matches_to_fetch:
+    response = requests.get(f"{base_url}/fixtures/lineups", headers=headers, params={'fixture': match.fixture_id})
+    data = response.json()
+
+    # Verification Critique : Rate Limit
+    if data.get('errors') and 'requests' in data.get('errors'):
+        self.stderr.write("Limite quotidienne atteinte. Arret de securite.")
+        break # Protection de la cle API
+
+    time.sleep(6.2) # Delai obligatoire de 6 secondes entre chaque requete
+\end{lstlisting}
+
+\subsection{Le Endpoint de Prédiction}
+Le module \texttt{predictions/views.py} charge en mémoire RAM le modèle XGBoost préalablement entraîné (\texttt{.pkl}) ainsi que son outil de normalisation (\texttt{StandardScaler}). À la volée, le serveur récupère les 25 statistiques du match demandé, les normalise, et interroge le modèle. L'API REST expose ensuite un point de terminaison sécurisé retournant le résultat sous un format JSON exploitable par le client.
+
+% ================= FRONTEND =================
+\section{Implémentation Frontend et UI/UX}
+
+L'interface utilisateur est le point d'interaction critique. Elle doit retranscrire la complexité mathématique des algorithmes en visuels clairs et actionnables.
+
+\subsection{Choix Technologiques et Architecture}
+Le frontend est développé en \textbf{React JS}, compilé avec \textbf{Vite} pour des performances optimales. L'écosystème s'appuie sur :
+\begin{itemize}
+    \item \textbf{Ant Design (AntD)} : Bibliothèque de composants UI fournissant des grilles, des cartes et des tableaux hautement personnalisables.
+    \item \textbf{Recharts} : Bibliothèque D3.js pour React, utilisée pour le rendu du Radar tactique et du graphique probabiliste.
+    \item \textbf{Zustand} : Outil de gestion d'état global (\textit{State Management}), plus léger et performant que Redux.
+\end{itemize}
+
+\subsection{Gestion de l'État (\textit{State Management})}
+La communication avec le backend et la sauvegarde des tokens de sécurité sont centralisées dans le Hook personnalisé \texttt{useStore.js}.
+
+\begin{lstlisting}[language=Python, caption=Gestion globale de l'authentification avec Zustand]
+import { create } from 'zustand';
+import { jwtDecode } from 'jwt-decode';
+
+const useStore = create((set) => ({
+  user: JSON.parse(localStorage.getItem('user')) || null,
+  isAuthenticated: !!localStorage.getItem('token'),
+
+  login: async (credentials) => {
+    const response = await authService.login(credentials);
+    const decoded = jwtDecode(response.data.access); // Extraction des claims
+    const userData = { id: decoded.user_id, username: decoded.username, role: decoded.role };
+
+    localStorage.setItem('token', response.data.access);
+    localStorage.setItem('user', JSON.stringify(userData));
+    set({ user: userData, isAuthenticated: true });
+  },
+
+  logout: () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    set({ user: null, isAuthenticated: false });
+  }
+}));
+\end{lstlisting}
+
+De plus, l'outil \textbf{Axios} a été configuré avec un intercepteur de requêtes. Ainsi, le jeton JWT est attaché de manière automatique et transparente dans l'en-tête \texttt{Authorization: Bearer <token>} de chaque requête sortante.
+
+\subsection{Conception Visuelle (UI/UX)}
+
+\subsubsection{La Charte ``Minimalist Blue''}
+Nous avons configuré Ant Design via un \texttt{ConfigProvider} pour écraser le style par défaut et injecter notre propre identité visuelle. La couleur \textit{Navy} (\texttt{\#0f172a}) sert de base pour la structure (Menu, Header), garantissant un fort contraste, tandis que la couleur d'accentuation \textit{Teal} (\texttt{\#14b8a6}) guide l'œil de l'utilisateur vers les actions prédictives.
+
+\subsubsection{Le Tableau de Bord Analytique}
+Le composant central de l'application est la \texttt{PredictionsPage}. Elle est organisée en plusieurs blocs logiques :
+\begin{enumerate}
+    \item \textbf{Zone de Contrôle} : Un sélecteur stylisé en Navy foncé permettant de cibler un match.
+    \item \textbf{Hero Banner (Scorecard)} : Affiche les logos des équipes, leurs formes récentes sous forme de ``badges'' visuels (W, D, L) et donne la prédiction principale en très gros caractères.
+    \item \textbf{Radar Tactique} : Superpose la forme tactique (Possession, Passes, Tirs) de l'équipe locale et extérieure. Si la surface du polygone \textit{Home} couvre entièrement le polygone \textit{Away}, cela valide visuellement l'écart de niveau.
+    \item \textbf{Compositions (Lineups)} : Présente le schéma tactique (ex : 4-2-3-1) et dresse la liste des joueurs titulaires pour fournir le contexte matériel de la prédiction.
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \node[draw=Slate, thick, fill=LightGray, minimum width=14cm, minimum height=8cm, rounded corners, dashed] {
+            \color{Slate}\Large \textit{[Espace réservé pour la capture d'écran du Dashboard React]}
+        };
+    \end{tikzpicture}
+    \caption{Aperçu de l'interface du Dashboard analytique}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \node[draw=Slate, thick, fill=LightGray, minimum width=14cm, minimum height=8cm, rounded corners, dashed] {
+            \color{Slate}\Large \textit{[Espace réservé pour la capture d'écran de l'authentification]}
+        };
+    \end{tikzpicture}
+    \caption{Aperçu de l'interface de Connexion et Sécurité}
+\end{figure}
+
+% ================= TESTS =================
+\section{Tests, Validation et Résultats}
+
+La phase de validation est cruciale pour certifier la robustesse de l'application et la fiabilité des prédictions. Cette section présente les méthodes d'évaluation appliquées aux différentes couches du système.
+
+\subsection{Évaluation du Modèle d'Intelligence Artificielle}
+
+Pour évaluer de manière empirique notre modèle \textbf{XGBoost}, nous avons divisé notre jeu de données historique en un ensemble d'entraînement (80\%) et un ensemble de test (20\%). 
+
+\subsubsection{Matrice de Confusion Multiclasse}
+La matrice de confusion permet de visualiser les performances de l'algorithme sur les trois classes possibles : Victoire à Domicile (H), Match Nul (D), et Victoire à l'Extérieur (A).
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabularx}{0.8\textwidth}{|c|c|Y|Y|Y|}
+        \cline{3-5}
+        \multicolumn{2}{c|}{} & \multicolumn{3}{c|}{\textbf{Prédictions du Modèle}} \\
+        \cline{3-5}
+        \multicolumn{2}{c|}{} & \textbf{Home (H)} & \textbf{Draw (D)} & \textbf{Away (A)} \\
+        \hline
+        \multirow{3}{*}{\rotatebox[origin=c]{90}{\textbf{Réalité}}} 
+        & \textbf{Home (H)} & \cellcolor{MediumGray} Vrais Positifs (H) & Faux Négatifs & Faux Négatifs \\
+        \cline{2-5}
+        & \textbf{Draw (D)} & Faux Positifs & \cellcolor{MediumGray} Vrais Positifs (D) & Faux Positifs \\
+        \cline{2-5}
+        & \textbf{Away (A)} & Faux Positifs & Faux Négatifs & \cellcolor{MediumGray} Vrais Positifs (A) \\
+        \hline
+    \end{tabularx}
+    \caption{Structure de la Matrice de Confusion pour l'évaluation du modèle}
+\end{table}
+
+\subsubsection{Métriques de Performance (Accuracy \& F1-Score)}
+Suite à l'entraînement, nous avons obtenu une \textbf{Précision globale (Accuracy) de 62\%}. Dans le domaine très spécifique des paris sportifs et de la prédiction de football, une précision supérieure à 55\% est souvent le seuil de rentabilité (\textit{break-even point}) pour les modèles algorithmiques, rendant notre résultat particulièrement satisfaisant.
+
+De plus, grâce à l'application rigoureuse de l'algorithme \textbf{SMOTE} détaillé au Chapitre 2, le \textbf{Rappel (Recall)} pour la classe minoritaire "Match Nul" a considérablement augmenté. Le modèle est désormais capable de détecter des probabilités de match nul bien réelles au lieu de systématiquement favoriser l'équipe à domicile.
+
+\subsection{Validation du Backend (API REST)}
+
+Nous avons utilisé des outils standardisés tels que \textbf{Postman} et \textbf{pytest} pour valider de bout en bout les \textit{endpoints} de notre API Django.
+
+\subsubsection{Scénarios de Tests d'Intégration}
+Voici un extrait des scénarios validés garantissant la sécurité et le bon fonctionnement de la plateforme :
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabularx}{\textwidth}{|L|Y|c|}
+        \hline
+        \rowcolor{Navy}
+        \textcolor{white}{\textbf{Cas de Test}} & \textcolor{white}{\textbf{Résultat Attendu}} & \textcolor{white}{\textbf{Statut}} \\
+        \hline
+        Connexion avec des identifiants valides & Retourne HTTP 200 OK + Access/Refresh Tokens & \textcolor{EMSIGreen}{Succès} \\
+        \hline
+        Connexion avec un mot de passe erroné & Retourne HTTP 401 Unauthorized & \textcolor{EMSIGreen}{Succès} \\
+        \hline
+        Accès à une route protégée sans Token & Retourne HTTP 401 Unauthorized & \textcolor{EMSIGreen}{Succès} \\
+        \hline
+        Accès à l'administration sans rôle ADMIN & Retourne HTTP 403 Forbidden & \textcolor{EMSIGreen}{Succès} \\
+        \hline
+        Requête de prédiction sur un match valide & Retourne HTTP 200 + Probabilités H/D/A en JSON & \textcolor{EMSIGreen}{Succès} \\
+        \hline
+    \end{tabularx}
+    \caption{Résultats des cas de tests d'intégration de l'API Backend}
+\end{table}
+
+\subsection{Validation du Frontend et de l'Ergonomie}
+L'interface utilisateur a subi des tests empiriques d'intégration et d'ergonomie (UI/UX) pour s'assurer que le livrable final est robuste.
+\begin{itemize}
+    \item \textbf{Tests de Réactivité (Responsive Design)} : Vérification du bon affichage du Dashboard sur des résolutions \textit{desktop} (1920x1080) et tablettes. Les graphiques dynamiques \textit{Recharts} se redimensionnent correctement sans perte de qualité.
+    \item \textbf{Gestion des Erreurs Utilisateur} : Si l'API retourne une erreur (par exemple, un token expiré) ou est momentanément indisponible, l'intercepteur Axios capte le code d'erreur et l'interface affiche un message convivial (via le composant \texttt{Alert} ou \texttt{Notification} d'Ant Design) au lieu de bloquer l'application.
+\end{itemize}
+
+\section{Limites du système}
+Malgré les performances encourageantes, notre solution présente certaines limites techniques et fonctionnelles :
+\begin{itemize}
+    \item \textbf{Dépendance aux API tierces} : La gratuité de l'API-Football limite le volume de données récupérables en temps réel, ce qui peut restreindre l'actualisation immédiate de certains championnats mineurs.
+    \item \textbf{Absence de données contextuelles} : Le modèle actuel ne prend pas encore en compte des facteurs externes imprévisibles tels que les conditions météorologiques, les transferts de dernière minute ou l'état psychologique individuel des joueurs.
+    \item \textbf{Infrastructure de calcul} : L'utilisation d'une base SQLite limite le passage à l'échelle pour une application grand public supportant des milliers d'utilisateurs simultanés.
+\end{itemize}
+
+\section*{Conclusion du chapitre}
+\addcontentsline{toc}{section}{Conclusion du chapitre}
+Ce dernier chapitre confirme que le socle technique mis en place respecte les standards de qualité de l'ingénierie logicielle. L'implémentation complète, couplée à un modèle d'IA finement paramétré et rigoureusement testé, aboutit à un produit final stable, sécurisé et performant. Bien que des limites subsistent, elles ouvrent des perspectives d'évolution pour de futures versions de la plateforme.

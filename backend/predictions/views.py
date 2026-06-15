@@ -199,6 +199,11 @@ class PredictionViewSet(viewsets.ViewSet):
                     "goals": {
                         "home": f.get("HTGS", 0), 
                         "away": f.get("ATGS", 0)
+                    },
+                    "h2h_pts": f.get("H2H_Pts", 0),
+                    "fatigue": {
+                        "home": f.get("HT_Fatigue", 14),
+                        "away": f.get("AT_Fatigue", 14)
                     }
                 }
             })

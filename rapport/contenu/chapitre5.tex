@@ -1,0 +1,76 @@
+\chapter{Implémentation Frontend et UI/UX}
+
+L'interface utilisateur est le point d'interaction critique. Elle doit retranscrire la complexité mathématique des algorithmes en visuels clairs et actionnables.
+
+\section{Choix Technologiques et Architecture}
+Le frontend est développé en \textbf{React JS}, compilé avec \textbf{Vite} pour des performances optimales. L'écosystème s'appuie sur :
+\begin{itemize}
+    \item \textbf{Ant Design (AntD)} : Bibliothèque de composants UI fournissant des grilles, des cartes et des tableaux hautement personnalisables.
+    \item \textbf{Recharts} : Bibliothèque D3.js pour React, utilisée pour le rendu du Radar tactique et du graphique probabiliste.
+    \item \textbf{Zustand} : Outil de gestion d'état global (\textit{State Management}), plus léger et performant que Redux.
+\end{itemize}
+
+\section{Gestion de l'État (\textit{State Management})}
+La communication avec le backend et la sauvegarde des tokens de sécurité sont centralisées dans le Hook personnalisé \texttt{useStore.js}.
+
+\begin{lstlisting}[language={C++}, caption=Gestion globale de l'authentification avec Zustand]
+import { create } from 'zustand';
+import { jwtDecode } from 'jwt-decode';
+
+const useStore = create((set) => ({
+  user: JSON.parse(localStorage.getItem('user')) || null,
+  isAuthenticated: !!localStorage.getItem('token'),
+
+  login: async (credentials) => {
+    const response = await authService.login(credentials);
+    const decoded = jwtDecode(response.data.access); // Extraction des claims
+    const userData = { id: decoded.user_id, username: decoded.username, role: decoded.role };
+
+    localStorage.setItem('token', response.data.access);
+    localStorage.setItem('user', JSON.stringify(userData));
+    set({ user: userData, isAuthenticated: true });
+  },
+
+  logout: () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    set({ user: null, isAuthenticated: false });
+  }
+}));
+\end{lstlisting}
+
+De plus, l'outil \textbf{Axios} a été configuré avec un intercepteur de requêtes. Ainsi, le jeton JWT est attaché de manière automatique et transparente dans l'en-tête \texttt{Authorization: Bearer <token>} de chaque requête sortante.
+
+\section{Conception Visuelle (UI/UX)}
+
+\subsection{La Charte ``Minimalist Blue''}
+Nous avons configuré Ant Design via un \texttt{ConfigProvider} pour écraser le style par défaut et injecter notre propre identité visuelle. La couleur \textit{Navy} (\texttt{\#0f172a}) sert de base pour la structure (Menu, Header), garantissant un fort contraste, tandis que la couleur d'accentuation \textit{Teal} (\texttt{\#14b8a6}) guide l'œil de l'utilisateur vers les actions prédictives.
+
+\subsection{Le Tableau de Bord Analytique}
+Le composant central de l'application est la \texttt{PredictionsPage}. Elle est organisée en plusieurs blocs logiques :
+\begin{enumerate}
+    \item \textbf{Zone de Contrôle} : Un sélecteur stylisé en Navy foncé permettant de cibler un match.
+    \item \textbf{Hero Banner (Scorecard)} : Affiche les logos des équipes, leurs formes récentes sous forme de ``badges'' visuels (W, D, L) et donne la prédiction principale en très gros caractères.
+    \item \textbf{Radar Tactique} : Superpose la forme tactique (Possession, Passes, Tirs) de l'équipe locale et extérieure. Si la surface du polygone \textit{Home} couvre entièrement le polygone \textit{Away}, cela valide visuellement l'écart de niveau.
+    \item \textbf{Compositions (Lineups)} : Présente le schéma tactique (ex : 4-2-3-1) et dresse la liste des joueurs titulaires pour fournir le contexte matériel de la prédiction.
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \node[draw=Slate, thick, fill=LightGray, minimum width=14cm, minimum height=8cm, rounded corners, dashed] {
+            \color{Slate}\Large \textit{[Espace réservé pour la capture d'écran du Dashboard React]}
+        };
+    \end{tikzpicture}
+    \caption{Aperçu de l'interface du Dashboard analytique}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \node[draw=Slate, thick, fill=LightGray, minimum width=14cm, minimum height=8cm, rounded corners, dashed] {
+            \color{Slate}\Large \textit{[Espace réservé pour la capture d'écran de l'authentification]}
+        };
+    \end{tikzpicture}
+    \caption{Aperçu de l'interface de Connexion et Sécurité}
+\end{figure}

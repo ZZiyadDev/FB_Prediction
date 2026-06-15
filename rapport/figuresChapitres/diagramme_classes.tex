@@ -1,0 +1,115 @@
+\begin{figure}[H]
+    \centering
+    \resizebox{0.85\textwidth}{!}{%
+    \begin{tikzpicture}[
+        font=\footnotesize,
+        entity/.style={
+            draw=black,
+            thick,
+            rounded corners=2pt,
+            rectangle split,
+            rectangle split parts=2,
+            rectangle split part align={center,left},
+            minimum width=3.7cm,
+            text width=3.5cm,
+            fill=white,
+            inner sep=3pt
+        },
+        rel/.style={
+            draw=black,
+            thick,
+            -{Stealth[length=2.3mm]}
+        },
+        card/.style={
+            font=\scriptsize,
+            fill=white,
+            inner sep=1pt
+        }
+    ]
+
+    %========================
+    % Entities
+    %========================
+
+    \node[entity] (league) {
+        \textbf{League}
+        \nodepart{second}
+        + id : Int\\
+        + name : String\\
+        + country : String
+    };
+
+    \node[entity, right=2.8cm of league] (season) {
+        \textbf{Season}
+        \nodepart{second}
+        + id : Int\\
+        + year : Int\\
+        + start\_date : Date\\
+        + end\_date : Date
+    };
+
+    \node[entity, below=2.2cm of season] (match) {
+        \textbf{Match}
+        \nodepart{second}
+        + fixture\_id : Int\\
+        + match\_date : DateTime\\
+        + status : String\\
+        + score\_home : Int\\
+        + score\_away : Int
+    };
+
+    \node[entity, left=2.8cm of match] (team) {
+        \textbf{Team}
+        \nodepart{second}
+        + team\_id : Int\\
+        + name : String\\
+        + logo\_url : URL
+    };
+
+    \node[entity, right=2.8cm of match] (stats) {
+        \textbf{MatchStatistics}
+        \nodepart{second}
+        + possession : Float\\
+        + shots : Int\\
+        + passes\_acc : Float
+    };
+
+    \node[entity, below=2.2cm of match] (lineup) {
+        \textbf{MatchLineup}
+        \nodepart{second}
+        + home\_formation : String\\
+        + away\_formation : String\\
+        + home\_xi : JSON\\
+        + away\_xi : JSON
+    };
+
+    %========================
+    % Relations
+    %========================
+
+    \draw[rel] (league) -- (season)
+        node[midway, above, card] {1}
+        node[midway, below, card] {0..*};
+
+    \draw[rel] (season) -- (match)
+        node[midway, right, card] {1}
+        node[midway, left, card] {0..*};
+
+    \draw[rel] (team) -- (match)
+        node[pos=0.35, above, card] {1}
+        node[pos=0.70, above, card] {0..*}
+        node[midway, above=0.35cm, font=\scriptsize] {home / away};
+
+    \draw[rel] (match) -- (stats)
+        node[midway, above, card] {1}
+        node[midway, below, card] {1};
+
+    \draw[rel] (match) -- (lineup)
+        node[midway, right, card] {1}
+        node[midway, left, card] {1};
+
+    \end{tikzpicture}%
+    }
+    \caption{Modèle conceptuel de données simplifié de l'application (ORM Django)}
+    \label{fig:mcd_django}
+\end{figure}

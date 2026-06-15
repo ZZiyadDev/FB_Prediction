@@ -1,0 +1,109 @@
+\begin{figure}[H]
+    \centering
+    \resizebox{0.95\textwidth}{!}{%
+    \begin{tikzpicture}[
+        font=\small,
+        box/.style={
+            draw=black,
+            thick,
+            rounded corners=3pt,
+            minimum width=3.6cm,
+            minimum height=0.85cm,
+            align=center,
+            fill=white
+        },
+        tier/.style={
+            draw=black,
+            thick,
+            rounded corners=5pt,
+            inner sep=0.35cm,
+            fill=white
+        },
+        db/.style={
+            draw=black,
+            thick,
+            cylinder,
+            shape border rotate=90,
+            aspect=0.25,
+            minimum width=3.4cm,
+            minimum height=1.1cm,
+            align=center,
+            fill=white
+        },
+        arrow/.style={
+            draw=black,
+            thick,
+            -{Stealth[length=2.5mm]}
+        },
+        bidir/.style={
+            draw=black,
+            thick,
+            {Stealth[length=2.5mm]}-{Stealth[length=2.5mm]}
+        },
+        label/.style={
+            font=\scriptsize,
+            fill=white,
+            inner sep=1pt
+        }
+    ]
+
+    %================================================
+    % Client Tier
+    %================================================
+
+    \node[box] (ui) {UI Components\\\footnotesize Ant Design};
+    \node[box, below=0.55cm of ui] (state) {State Management\\\footnotesize Zustand};
+    \node[box, below=0.55cm of state] (axios) {HTTP Client\\\footnotesize Axios};
+
+    \node[tier, fit=(ui)(state)(axios), label={[font=\bfseries]above:Client Tier -- React}] (clientTier) {};
+
+    %================================================
+    % Application Tier
+    %================================================
+
+    \node[box, right=2.3cm of ui] (api) {REST API\\\footnotesize Django REST Framework};
+    \node[box, below=0.55cm of api] (auth) {Authentication\\\footnotesize SimpleJWT};
+    \node[box, below=0.55cm of auth] (ml) {Prediction Engine\\\footnotesize XGBoost};
+
+    \node[tier, fit=(api)(auth)(ml), label={[font=\bfseries]above:Application Tier -- Django}] (appTier) {};
+
+    %================================================
+    % Data Tier
+    %================================================
+
+    \node[db, right=2.3cm of api] (database) {SQLite\\Database};
+    \node[box, below=0.85cm of database] (external) {External API\\\footnotesize API-Football};
+
+    \node[tier, fit=(database)(external), label={[font=\bfseries]above:Data Tier}] (dataTier) {};
+
+    %================================================
+    % Internal flows
+    %================================================
+
+    \draw[arrow] (ui) -- node[right, label] {user actions} (state);
+    \draw[arrow] (state) -- node[right, label] {API calls} (axios);
+
+    \draw[arrow] (api) -- node[right, label] {token check} (auth);
+    \draw[arrow] (api) -- node[right, label] {prediction} (ml);
+
+    %================================================
+    % Cross-tier flows
+    %================================================
+
+    \draw[bidir] (axios.east) -- node[above, label] {JSON / HTTP} (api.west);
+
+    \draw[bidir] (api.east) -- node[above, label] {ORM queries} (database.west);
+
+    \draw[arrow, dashed] (api.east) -- ++(0.7,0) |- 
+        node[pos=0.28, right, label] {HTTPS requests}
+        (external.west);
+
+    \draw[arrow, dashed] (external.west) -- ++(-0.7,0) |- 
+        node[pos=0.25, left, label] {football data}
+        (ml.east);
+
+    \end{tikzpicture}%
+    }
+    \caption{Architecture technique à N-tiers de l'application}
+    \label{fig:architecture_n_tiers}
+\end{figure}

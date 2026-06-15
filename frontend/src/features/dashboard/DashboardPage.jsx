@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Col, Row, Space, Typography, Button, Select, Spin, Alert, Tabs, Badge, Avatar } from 'antd';
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend, Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
+import { 
+  PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend, 
+  Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis,
+  LineChart, Line, BarChart, Bar, XAxis, YAxis
+} from 'recharts';
 import { useNavigate } from 'react-router-dom';
 import { 
   ThunderboltOutlined, 
@@ -77,6 +81,13 @@ export default function DashboardPage() {
   };
 
   // --- DATA MAPPING FOR CHARTS ---
+  const matchesData = (predictionData && predictionData.stats) ? [
+    { name: 'Possession', home: predictionData.stats.possession?.home || 0, away: predictionData.stats.possession?.away || 0 },
+    { name: 'Passes (%)', home: predictionData.stats.passes?.home || 0, away: predictionData.stats.passes?.away || 0 },
+    { name: 'Shots', home: predictionData.stats.shots?.home || 0, away: predictionData.stats.shots?.away || 0 },
+    { name: 'Goals', home: predictionData.stats.goals?.home || 0, away: predictionData.stats.goals?.away || 0 }
+  ] : [];
+
   const donutData = (predictionData && predictionData.confidence_scores) ? [
     { name: 'Home Win', value: predictionData.confidence_scores.H || 0, color: COLORS.H },
     { name: 'Draw', value: predictionData.confidence_scores.D || 0, color: COLORS.D },
@@ -222,6 +233,15 @@ export default function DashboardPage() {
                       <Title level={1} style={{ margin: '12px 0', color: predictionData.prediction === 'Home Win' ? COLORS.H : predictionData.prediction === 'Away Win' ? COLORS.A : COLORS.D }}>
                         {predictionData.prediction?.toUpperCase()}
                       </Title>
+                      
+                      {/* NEW: H2H INDICATOR */}
+                      <div style={{ marginTop: '16px', borderTop: '1px dashed #e2e8f0', paddingTop: '12px' }}>
+                         <Text type="secondary" style={{ fontSize: '10px', textTransform: 'uppercase' }}>H2H Advantage</Text>
+                         <div style={{ fontWeight: 700, color: '#0f172a' }}>
+                            {predictionData.stats?.h2h_pts > 7 ? 'Significant Home Bias' : 
+                             predictionData.stats?.h2h_pts < 3 ? 'Significant Away Bias' : 'Neutral History'}
+                         </div>
+                      </div>
                     </Col>
                     <Col xs={8} style={{ textAlign: 'left' }}>
                       {predictionData.away_logo && <Avatar src={predictionData.away_logo} size={64} shape="square" style={{ marginBottom: '12px' }} />}
@@ -233,8 +253,8 @@ export default function DashboardPage() {
                   </Row>
                 </Card>
 
-                {/* VISUALIZATIONS ROW */}
-                <Row gutter={24}>
+                {/* VISUALIZATIONS ROW 1 */}
+                <Row gutter={[24, 24]}>
                   <Col xs={24} lg={12}>
                     <Card title={<span style={{ fontWeight: 700 }}>Neural Probability Distribution</span>} bordered={false} style={{...sharedCardStyle, height: '420px'}}>
                       <div style={{ height: '300px', width: '100%' }}>
@@ -265,6 +285,81 @@ export default function DashboardPage() {
                           </RadarChart>
                         </ResponsiveContainer>
                       </div>
+                    </Card>
+                  </Col>
+                </Row>
+
+                {/* RESTORED VISUALIZATIONS ROW 2 */}
+                <Row gutter={[24, 24]}>
+                  <Col xs={24} lg={12}>
+                    <Card title={<span style={{ fontWeight: 700 }}>Historical Performance Trend</span>} bordered={false} style={{...sharedCardStyle, height: '380px'}}>
+                      <ResponsiveContainer width="100%" height={260}>
+                        <LineChart data={matchesData} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
+                          <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 12 }} />
+                          <YAxis axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 12 }} />
+                          <Tooltip contentStyle={{ borderRadius: '12px', border: '1px solid #e2e8f0' }} />
+                          <Legend iconType="circle" />
+                          <Line type="monotone" name={predictionData.home_team} dataKey="home" stroke={COLORS.H} strokeWidth={3} dot={{ r: 4, fill: COLORS.H }} />
+                          <Line type="monotone" name={predictionData.away_team} dataKey="away" stroke={COLORS.A} strokeWidth={3} dot={{ r: 4, fill: COLORS.A }} />
+                        </LineChart>
+                      </ResponsiveContainer>
+                    </Card>
+                  </Col>
+                  <Col xs={24} lg={12}>
+                    <Card title={<span style={{ fontWeight: 700 }}>Condition & Fatigue Assessment</span>} bordered={false} style={{...sharedCardStyle, height: '380px'}}>
+                       <div style={{ padding: '20px' }}>
+                          <Text type="secondary" style={{ fontSize: '12px' }}>DAYS SINCE LAST MATCH (Higher is more rested)</Text>
+                          <div style={{ marginTop: '32px' }}>
+                             <div style={{ marginBottom: '24px' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                                   <Text strong>{predictionData.home_team}</Text>
+                                   <Text>{predictionData.stats?.fatigue?.home} Days</Text>
+                                </div>
+                                <div style={{ height: '8px', background: '#f1f5f9', borderRadius: '4px', overflow: 'hidden' }}>
+                                   <div style={{ 
+                                      width: `${Math.min((predictionData.stats?.fatigue?.home / 14) * 100, 100)}%`, 
+                                      height: '100%', 
+                                      background: COLORS.H,
+                                      transition: 'width 1s ease-in-out'
+                                   }} />
+                                </div>
+                             </div>
+                             <div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                                   <Text strong>{predictionData.away_team}</Text>
+                                   <Text>{predictionData.stats?.fatigue?.away} Days</Text>
+                                </div>
+                                <div style={{ height: '8px', background: '#f1f5f9', borderRadius: '4px', overflow: 'hidden' }}>
+                                   <div style={{ 
+                                      width: `${Math.min((predictionData.stats?.fatigue?.away / 14) * 100, 100)}%`, 
+                                      height: '100%', 
+                                      background: COLORS.A,
+                                      transition: 'width 1s ease-in-out'
+                                   }} />
+                                </div>
+                             </div>
+                          </div>
+                          <Text type="secondary" style={{ display: 'block', marginTop: '40px', fontSize: '11px', fontStyle: 'italic' }}>
+                             * fatigue level is a critical weight in the AI's neural processing layer.
+                          </Text>
+                       </div>
+                    </Card>
+                  </Col>
+                </Row>
+
+                <Row gutter={[24, 24]}>
+                  <Col span={24}>
+                    <Card title={<span style={{ fontWeight: 700 }}>Strategic Data Metrics Comparison</span>} bordered={false} style={sharedCardStyle}>
+                      <ResponsiveContainer width="100%" height={280}>
+                        <BarChart data={matchesData} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}> 
+                          <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 12 }} />
+                          <YAxis axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 12 }} />
+                          <Tooltip contentStyle={{ borderRadius: '12px', border: '1px solid #e2e8f0' }} />
+                          <Legend iconType="circle" />
+                          <Bar name={predictionData.home_team} dataKey="home" fill={COLORS.H} radius={[4, 4, 0, 0]} barSize={32} />
+                          <Bar name={predictionData.away_team} dataKey="away" fill={COLORS.A} radius={[4, 4, 0, 0]} barSize={32} />
+                        </BarChart>
+                      </ResponsiveContainer>
                     </Card>
                   </Col>
                 </Row>

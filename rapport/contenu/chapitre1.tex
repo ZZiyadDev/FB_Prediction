@@ -1,0 +1,174 @@
+\chapter{Analyse et Étude Préalable}
+
+Ce premier chapitre a pour objectif de poser les bases du projet. Il définit le cadre du travail, décrit les besoins des utilisateurs et définit les caractéristiques techniques et fonctionnelles.
+
+\section{État de l'art}
+L'application de l'intelligence artificielle au football n'est pas nouvelle, mais ses méthodes ont beaucoup évolué.
+
+Historiquement, les modèles de prédiction utilisaient la loi de Poisson pour calculer la distribution des buts \cite{maher1982}. Bien qu'efficaces, ces modèles ont un problème majeur : ils supposent que les buts marqués par chaque équipe sont des événements indépendants, ce qui est contredit par la réalité d'un match (un but change la stratégie adverse). Dixon et Coles \cite{dixon1997} ont proposé une correction de cette indépendance pour les petits scores (0-0, 1-0, etc.), améliorant les prédictions.
+
+Récemment, l'utilisation des méthodes d'apprentissage automatique a transformé ce domaine, permettant d'utiliser des variables complexes (fatigue, forme récente, expected goals). Afin d'expliquer notre choix technique, le tableau \ref{tab:comparatif_modeles} présente un résumé des différents modèles de classification habituellement utilisés dans les études existantes \cite{bunker2019}.
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabularx}{\textwidth}{|L|c|Y|Y|c|}
+        \hline
+        \rowcolor{MediumGray}
+        \textbf{Modèle} & \textbf{Int.} & \textbf{Avantages} & \textbf{Limites} & \textbf{Réf.} \\
+        \hline
+        Régression Logistique & Haute & Rapide, simple, probabilités claires. & Difficulté avec les relations complexes. & \cite{bunker2019} \\
+        \hline
+        SVM & Faible & Efficace pour les données complexes. & Sensible à l'échelle des données. & \cite{cortes1995svm} \\
+        \hline
+        Random Forest & Moyenne & Modèle robuste, réduit le surapprentissage. & Aspect "boîte noire", lourd en mémoire. & \cite{breiman2001rf} \\
+        \hline
+        \rowcolor{LightGray}
+        \textbf{XGBoost} & \textbf{Moyenne} & \textbf{Correction des erreurs, très haute précision.} & \textbf{Risque de surapprentissage si mal réglé.} & \cite{chen2016xgboost} \\
+        \hline
+    \end{tabularx}
+    \caption{Tableau comparatif des modèles d'apprentissage automatique pour la prédiction sportive}
+    \label{tab:comparatif_modeles}
+\end{table}
+
+Face à ces alternatives, notre choix s'est porté sur une méthode plus performante pour les données tabulaires : le \textbf{Gradient Boosting}, et plus particulièrement son implémentation \textbf{XGBoost} \cite{chen2016xgboost}. Contrairement au Random Forest qui construit ses arbres séparément, XGBoost les construit l'un après l'autre, chaque nouvel arbre corrigeant les erreurs des précédents. Cette approche offre une grande souplesse et des performances souvent supérieures aux modèles traditionnels.
+
+\section{Cahier des charges fonctionnel}
+L'application doit proposer un ensemble de fonctionnalités selon le type d'utilisateur.
+
+\subsection{Fonctionnalités pour l'Utilisateur Standard}
+\begin{itemize}
+    \item \textbf{Consultation des matchs} : Voir le calendrier des matchs à venir et les résultats récents.
+    \item \textbf{Analyse des compositions} : Consulter les formations (ex : 4-3-3), les titulaires et les remplaçants.
+    \item \textbf{Demande de prédiction} : Obtenir l'estimation de l'IA (pourcentages de chances) pour un match précis.
+    \item \textbf{Comparatif tactique} : Comparer visuellement (graphiques Radar) la forme et les statistiques des deux équipes.
+\end{itemize}
+
+\subsection{Fonctionnalités pour l'Administrateur}
+\begin{itemize}
+    \item \textbf{Gestion des accès} : Voir les utilisateurs inscrits sur la plateforme.
+    \item \textbf{Mise à jour des données} : Lancer manuellement la récupération des données depuis l'API-Football (Matchs, Statistiques, Compositions).
+\end{itemize}
+
+\section{Exigences Non-Fonctionnelles}
+En plus des fonctionnalités de base, le système doit répondre à des critères de qualité précis :
+\begin{itemize}
+    \item \textbf{Sécurité} : L'accès doit être protégé par une connexion sécurisée (JWT). Les mots de passe sont cryptés en base de données.
+    \item \textbf{Qualité des données} : Le système garantit l'unicité des matchs importés via l'identifiant \texttt{fixture\_id} pour éviter les doublons.
+    \item \textbf{Rapidité} : Le moteur d'IA doit fournir une réponse en moins de 0,5 seconde une fois les données chargées.
+\end{itemize}
+
+\section{Analyse des Risques}
+Le projet identifie deux risques majeurs liés aux données externes :
+\begin{itemize}
+    \item \textbf{Limitation des API (Rate Limiting)} : L'API gratuite limite le nombre de requêtes par jour. Pour résoudre cela, nous enregistrons les données localement (SQLite) pour ne pas interroger l'API plusieurs fois pour le même match.
+    \item \textbf{Qualité des données} : Certaines compositions peuvent être incomplètes. Le système a été conçu pour être souple et traiter ces cas sans bloquer l'utilisateur.
+\end{itemize}
+
+\section{Modélisation des Processus (UML)}
+
+\subsection{Diagramme de Cas d'Utilisation}
+Le diagramme de cas d'utilisation permet d'identifier les acteurs du système et leurs interactions directes avec les fonctionnalités offertes.
+
+\begin{figure}[H]
+    \centering
+    \resizebox{0.85\textwidth}{!}{%
+    \begin{tikzpicture}[
+        node distance=2.5cm,
+        actor/.style={draw, thick, circle, minimum size=1.2cm, fill=LightGray, font=\large},
+        usecase/.style={draw, thick, ellipse, minimum width=3.8cm, minimum height=1cm, fill=white, font=\small},
+        system/.style={draw, Navy, thick, rounded corners, inner sep=20pt, fill=Navy!2, minimum width=8cm, minimum height=14cm}
+    ]
+        % System Boundary
+        \node[system] (boundary) at (0,0) {};
+        \node[above=0.2cm of boundary.south, font=\bfseries\large, text=Navy] {Tableau de Bord Prédictif};
+
+        % Usecases
+        \node[usecase, yshift=5cm] (uc_auth) at (boundary.center) {S'authentifier (JWT)};
+        \node[usecase, yshift=3cm] (uc_view) at (boundary.center) {Consulter les matchs};
+        \node[usecase, yshift=1cm] (uc_pred) at (boundary.center) {Consulter les Prédictions};
+        \node[usecase, yshift=-1cm] (uc_line) at (boundary.center) {Voir les Compositions};
+        \node[usecase, yshift=-3cm] (uc_sync) at (boundary.center) {Synchroniser les API};
+        \node[usecase, yshift=-5cm] (uc_user) at (boundary.center) {Gérer les Utilisateurs};
+
+        % Actors
+        \node[left=3cm of uc_pred, actor] (user) {\faUser};
+        \node[below=0.1cm of user] {Utilisateur};
+
+        \node[left=3cm of uc_sync, actor] (admin) {\faUserTie};
+        \node[below=0.1cm of admin] {Administrateur};
+
+        \node[right=3cm of uc_sync, actor] (api) {\faCloud};
+        \node[below=0.1cm of api] {API-Football};
+
+        % Connections
+        \draw[->, thick] (user) -- (uc_auth);
+        \draw[->, thick] (user) -- (uc_view);
+        \draw[->, thick] (user) -- (uc_pred);
+        \draw[->, thick] (user) -- (uc_line);
+
+        \draw[->, thick, dashed] (admin) -- node[left, font=\tiny, xshift=-0.2cm] {hérite} (user);
+        \draw[->, thick] (admin) -- (uc_sync);
+        \draw[->, thick] (admin) -- (uc_user);
+
+        \draw[->, thick, dashed] (uc_sync) -- (api);
+    \end{tikzpicture}%
+    }
+    \caption{Diagramme de Cas d'Utilisation du système complet}
+\end{figure}
+
+\subsection{Spécification détaillée des cas d'utilisation}
+
+\begin{table}[H]
+    \centering
+    \begin{usecasebox}{CU-01 — Consulter les prédictions}
+        \begin{tabularx}{\textwidth}{@{}L Y@{}}
+            Acteur principal &
+            Utilisateur, Administrateur
+            \\[0.6em]
+
+            Précondition &
+            L'utilisateur doit être authentifié sur la plateforme.
+            \\[0.6em]
+
+            Scénario nominal &
+            L'utilisateur accède à l'onglet \textit{Predictions}, le système affiche la liste des matchs à venir, puis il sélectionne un match. Le frontend envoie ensuite une requête API au backend, qui interroge le modèle XGBoost à partir des données du match. Le système affiche enfin les probabilités de résultat ainsi que le radar tactique.
+            \\[0.6em]
+
+            Post-condition &
+            Les statistiques prédictives du match sélectionné sont affichées à l'écran.
+        \end{tabularx}
+    \end{usecasebox}
+    \caption{Description textuelle du cas d'utilisation « Consulter les prédictions »}
+    \label{tab:cu_consulter_predictions}
+\end{table}
+
+
+\begin{table}[H]
+    \centering
+    \begin{usecasebox}{CU-02 — Synchroniser les données API}
+        \begin{tabularx}{\textwidth}{@{}L Y@{}}
+            Acteur principal &
+            Administrateur
+            \\[0.6em]
+
+            Précondition &
+            L'utilisateur doit être authentifié et disposer du rôle \texttt{ADMIN}.
+            \\[0.6em]
+
+            Scénario nominal &
+            L'administrateur accède au panneau d'administration, clique sur le bouton \textit{Fetch Latest Fixtures}, puis le système lance un processus d'arrière-plan. Le serveur récupère ensuite les données au format JSON depuis API-Football et met à jour la base de données SQLite locale.
+            \\[0.6em]
+
+            Exception &
+            En cas de dépassement de la limite de requêtes API, le système interrompt le processus proprement et affiche un message d'erreur.
+        \end{tabularx}
+    \end{usecasebox}
+    \caption{Description textuelle du cas d'utilisation « Synchroniser les données API »}
+    \label{tab:cu_synchroniser_api}
+\end{table}
+
+\section*{Conclusion du chapitre}
+\addcontentsline{toc}{section}{Conclusion du chapitre}
+Ce chapitre a permis de définir le cadre de notre projet et d'identifier les besoins essentiels des utilisateurs. L'étude de l'état de l'art a justifié le choix de l'algorithme XGBoost, tandis que la modélisation UML a clarifié les interactions au sein du système. Ces bases solides nous permettent maintenant d'aborder les choix technologiques et la modélisation mathématique du moteur de prédiction.
+

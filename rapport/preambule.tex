@@ -1,0 +1,105 @@
+%------------ Debut Packages ----------------
+\usepackage{lmodern}
+\usepackage[table]{xcolor} % pour ajouter de la couleur (si besoin)
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{float}
+\usepackage{tablefootnote}
+\usepackage{bookmark}
+\usepackage{pdfpages}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{lipsum}
+\usepackage{listings}
+\usepackage{lscape}
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fontawesome5}
+\usepackage{tabularx}
+\usepackage{ragged2e}
+\usepackage[most]{tcolorbox}
+
+% --- Custom Colors ---
+\definecolor{Navy}{RGB}{15,23,42}
+\definecolor{Teal}{RGB}{20,184,166}
+\definecolor{Slate}{RGB}{71,85,105}
+\definecolor{LightGray}{RGB}{248,250,252}
+\definecolor{MediumGray}{RGB}{230,235,240}
+\definecolor{CodeBg}{RGB}{241,245,249}
+\definecolor{EMSIGreen}{RGB}{12, 114, 56} 
+
+% --- Tabularx Column Types ---
+\newcolumntype{L}{>{\bfseries\RaggedRight\arraybackslash}p{3.6cm}}
+\newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
+
+% --- TikZ Libraries ---
+\usepackage{tikz}
+\usetikzlibrary{
+    shapes.geometric,
+    shapes.symbols,
+    shapes.multipart,
+    arrows.meta,
+    positioning,
+    fit,
+    backgrounds,
+    shadows,
+    calc,
+    matrix
+}
+
+% --- Use Case Box ---
+\newtcolorbox{usecasebox}[1]{
+    enhanced,
+    colback=white,
+    colframe=black,
+    boxrule=0.6pt,
+    arc=2mm,
+    left=3mm,
+    right=3mm,
+    top=4mm,
+    bottom=3mm,
+    title={#1},
+    fonttitle=\bfseries,
+    coltitle=black,
+    colbacktitle=MediumGray,
+    attach boxed title to top left={
+        xshift=3mm,
+        yshift=-2mm
+    },
+    boxed title style={
+        colframe=black,
+        colback=MediumGray,
+        boxrule=0.6pt,
+        arc=1mm
+    }
+}
+
+% --- Listings Settings ---
+\lstset{
+    backgroundcolor=\color{CodeBg},
+    basicstyle=\ttfamily\footnotesize\color{Navy},
+    keywordstyle=\color{Teal}\bfseries,
+    stringstyle=\color{Slate},
+    commentstyle=\color{gray}\itshape,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    breaklines=true,
+    frame=single,
+    rulecolor=\color{Navy!20},
+    captionpos=b,
+    showstringspaces=false,
+    tabsize=2
+}
+
+% cleveref should be loaded after hyperref (loaded in .cls)
+\usepackage[nameinlink]{cleveref}
+
+% On définit le style pour les pages "normales"
+\pagestyle{fancy}
+\renewcommand{\chaptermark}[1]{\markboth{\chaptername \ \thechapter.\ #1}{}} % sert à personnaliser l'affichage de \leftmark (ici : le mot "Chapitre", le numéro, un point, et le titre du chapitre, sans écrire en majuscules)
+\renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}} % sert à personnaliser l'affichage de \rightmark (ici : le numéro et le titre de la section en cours, sans écrire en majuscules),chaptermark sert à dire :Quel titre de chapitre doit apparaître en haut de la page ?
+%\renewcommand{\thesection}{\arabic{section}}
+\usepackage{chngcntr}
+\counterwithin{section}{chapter}
+
+%------------ Fin Packages ----------------

@@ -1,0 +1,39 @@
+{
+  "latex-workshop.latex.path": "C:\\Users\\ASUS\\AppData\\Local\\Programs\\MiKTeX\\miktex\\bin\\x64",
+  "latex-workshop.latex.recipe.default": "Custom pdflatex -> bibtex -> pdflatex * 2",
+  "latex-workshop.latex.clean.method": "glob",
+  "latex-workshop.latex.tools": [
+    {
+      "name": "pdflatex",
+      "command": "C:\\Users\\ASUS\\AppData\\Local\\Programs\\MiKTeX\\miktex\\bin\\x64\\pdflatex.exe",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "%DOC%"
+      ]
+    },
+    {
+      "name": "bibtex",
+      "command": "C:\\Users\\ASUS\\AppData\\Local\\Programs\\MiKTeX\\miktex\\bin\\x64\\bibtex.exe",
+      "args": ["%DOCFILE%"]
+    },
+  ],
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "Custom pdflatex",
+      "tools": [
+        "pdflatex"
+      ]
+    },
+    {
+      "name": "Custom pdflatex -> bibtex -> pdflatex * 2",
+      "tools": [
+        "pdflatex",
+        "bibtex",
+        "pdflatex",
+        "pdflatex"
+      ]
+    }
+  ]
+}

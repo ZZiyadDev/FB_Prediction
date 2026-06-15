@@ -1,0 +1,19 @@
+\chapter*{Conclusion générale}
+\addcontentsline{toc}{chapter}{Conclusion générale}
+\markboth{Conclusion générale}{Conclusion générale}
+
+Le projet ``Intelligent Football Prediction Dashboard'' a représenté un défi d'ingénierie complet, exigeant la maîtrise simultanée de trois domaines distincts : le génie logiciel (architecture N-Tiers, REST), la science des données (Machine Learning, XGBoost, SMOTE) et l'expérience utilisateur (React, Visualisation de données).
+
+Nous avons réussi à concevoir un système automatisé capable non seulement de récolter des données mondiales via des API tierces, mais de les structurer pour en extraire une valeur prédictive. L'implémentation de fonctionnalités avancées, telles qu'un pipeline d'authentification robuste par JWT, une protection des ressources par rôles, et la synchronisation intelligente par lot (\textit{Batch processing}) démontrent la maturité technique de la solution. L'interface utilisateur, s'appuyant sur les principes du design analytique, permet aujourd'hui à n'importe quel décideur ou passionné de comprendre instantanément les dynamiques d'un match complexe.
+
+Bien que le football reste, par nature, sujet à des événements imprévisibles (cartons rouges précoces, conditions météorologiques), les probabilités mathématiques offrent une aide précieuse.
+
+\section*{Perspectives d'Évolution}
+Plusieurs axes d'amélioration peuvent être envisagés pour accroître la précision et l'utilité du système :
+\begin{itemize}
+    \item \textbf{Deep Learning et Réseaux de Neurones Récurrents (RNN)} : Pour mieux capturer la temporalité des performances (Séquences de matchs) au lieu d'utiliser de simples moyennes lissées.
+    \item \textbf{Données individuelles des joueurs} : Intégrer les blessures, les suspensions et l'historique personnel (ex : \textit{Expected Goals} --- xG individuels) directement dans le vecteur de caractéristiques du modèle, rendu désormais possible par notre nouvelle table \texttt{MatchLineup}.
+    \item \textbf{Marchés financiers (\textit{Odds})} : Connecter l'application à des flux de données en temps réel pour superposer nos prédictions avec les cotes en direct (\textit{Live Odds}) des bookmakers.
+\end{itemize}
+
+Ces évolutions permettraient de transformer ce projet académique robuste en une véritable plateforme d'aide à la décision professionnelle pour les clubs de football et les analystes du monde sportif.

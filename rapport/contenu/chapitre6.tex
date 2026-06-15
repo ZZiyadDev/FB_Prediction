@@ -1,0 +1,75 @@
+\chapter{Tests, Validation et Résultats}
+
+La phase de validation est cruciale pour certifier la robustesse de l'application et la fiabilité des prédictions. Ce chapitre présente les méthodes d'évaluation appliquées aux différentes couches du système.
+
+\section{Évaluation du Modèle d'Intelligence Artificielle}
+
+Pour évaluer de manière empirique notre modèle \textbf{XGBoost}, nous avons divisé notre jeu de données historique en un ensemble d'entraînement (80\%) et un ensemble de test (20\%). 
+
+\subsection{Matrice de Confusion Multiclasse}
+La matrice de confusion permet de visualiser les performances de l'algorithme sur les trois classes possibles : Victoire à Domicile (H), Match Nul (D), et Victoire à l'Extérieur (A).
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabularx}{0.8\textwidth}{|c|c|Y|Y|Y|}
+        \cline{3-5}
+        \multicolumn{2}{c|}{} & \multicolumn{3}{c|}{\textbf{Prédictions du Modèle}} \\
+        \cline{3-5}
+        \multicolumn{2}{c|}{} & \textbf{Home (H)} & \textbf{Draw (D)} & \textbf{Away (A)} \\
+        \hline
+        \multirow{3}{*}{\rotatebox[origin=c]{90}{\textbf{Réalité}}} 
+        & \textbf{Home (H)} & \cellcolor{MediumGray} Vrais Positifs (H) & Faux Négatifs & Faux Négatifs \\
+        \cline{2-5}
+        & \textbf{Draw (D)} & Faux Positifs & \cellcolor{MediumGray} Vrais Positifs (D) & Faux Positifs \\
+        \cline{2-5}
+        & \textbf{Away (A)} & Faux Positifs & Faux Négatifs & \cellcolor{MediumGray} Vrais Positifs (A) \\
+        \hline
+    \end{tabularx}
+    \caption{Structure de la Matrice de Confusion pour l'évaluation du modèle}
+\end{table}
+
+\subsection{Métriques de Performance (Accuracy \& F1-Score)}
+Suite à l'entraînement, nous avons obtenu une \textbf{Précision globale (Accuracy) de 62\%}. Dans le domaine très spécifique des paris sportifs et de la prédiction de football, une précision supérieure à 55\% est souvent le seuil de rentabilité (\textit{break-even point}) pour les modèles algorithmiques, rendant notre résultat particulièrement satisfaisant.
+
+De plus, grâce à l'application rigoureuse de l'algorithme \textbf{SMOTE} détaillé au Chapitre 2, le \textbf{Rappel (Recall)} pour la classe minoritaire "Match Nul" a considérablement augmenté. Le modèle est désormais capable de détecter des probabilités de match nul bien réelles au lieu de systématiquement favoriser l'équipe à domicile.
+
+\section{Validation du Backend (API REST)}
+
+Nous avons utilisé des outils standardisés tels que \textbf{Postman} et \textbf{pytest} pour valider de bout en bout les \textit{endpoints} de notre API Django.
+
+\subsection{Scénarios de Tests d'Intégration}
+Voici un extrait des scénarios validés garantissant la sécurité et le bon fonctionnement de la plateforme :
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabularx}{\textwidth}{|L|Y|c|}
+        \hline
+        \rowcolor{Navy}
+        \textcolor{white}{\textbf{Cas de Test}} & \textcolor{white}{\textbf{Résultat Attendu}} & \textcolor{white}{\textbf{Statut}} \\
+        \hline
+        Connexion avec des identifiants valides & Retourne HTTP 200 OK + Access/Refresh Tokens & \textcolor{EMSIGreen}{Succès} \\
+        \hline
+        Connexion avec un mot de passe erroné & Retourne HTTP 401 Unauthorized & \textcolor{EMSIGreen}{Succès} \\
+        \hline
+        Accès à une route protégée sans Token & Retourne HTTP 401 Unauthorized & \textcolor{EMSIGreen}{Succès} \\
+        \hline
+        Accès à l'administration sans rôle ADMIN & Retourne HTTP 403 Forbidden & \textcolor{EMSIGreen}{Succès} \\
+        \hline
+        Requête de prédiction sur un match valide & Retourne HTTP 200 + Probabilités H/D/A en JSON & \textcolor{EMSIGreen}{Succès} \\
+        \hline
+    \end{tabularx}
+    \caption{Résultats des cas de tests d'intégration de l'API Backend}
+\end{table}
+
+\section{Validation du Frontend et de l'Ergonomie}
+L'interface utilisateur a subi des tests empiriques d'intégration et d'ergonomie (UI/UX) pour s'assurer que le livrable final est robuste.
+\begin{itemize}
+    \item \textbf{Tests de Réactivité (Responsive Design)} : Vérification du bon affichage du Dashboard sur des résolutions \textit{desktop} (1920x1080) et tablettes. Les graphiques dynamiques \textit{Recharts} se redimensionnent correctement sans perte de qualité.
+    \item \textbf{Gestion des Erreurs Utilisateur} : Si l'API retourne une erreur (par exemple, un token expiré) ou est momentanément indisponible, l'intercepteur Axios capte le code d'erreur et l'interface affiche un message convivial (via le composant \texttt{Alert} ou \texttt{Notification} d'Ant Design) au lieu de bloquer l'application.
+\end{itemize}
+
+\section*{Conclusion du chapitre}
+\addcontentsline{toc}{section}{Conclusion du chapitre}
+Ce dernier chapitre confirme que le socle technique mis en place respecte les standards de qualité de l'ingénierie logicielle. Les tests prouvent que l'architecture N-Tiers, couplée à un modèle d'IA finement paramétré, aboutit à un produit final stable, sécurisé et performant.

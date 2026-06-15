@@ -1,0 +1,41 @@
+\begin{thebibliography}{1}
+
+\bibitem{maher1982}
+M.~J. Maher, ``Modelling association football scores,'' {\em Statistica
+  Neerlandica}, vol.~36, no.~3, pp.~109--118, 1982.
+
+\bibitem{dixon1997}
+M.~J. Dixon and S.~G. Coles, ``Modelling association football scores and
+  inefficiencies in the football betting market,'' {\em Journal of the Royal
+  Statistical Society: Series C (Applied Statistics)}, vol.~46, no.~2,
+  pp.~265--280, 1997.
+
+\bibitem{bunker2019}
+R.~P. Bunker and F.~Thabtah, ``A machine learning framework for sport result
+  prediction,'' {\em Applied Computing and Informatics}, vol.~15, no.~1,
+  pp.~27--33, 2019.
+
+\bibitem{cortes1995svm}
+C.~Cortes and V.~Vapnik, ``Support-vector networks,'' {\em Machine Learning},
+  vol.~20, no.~3, pp.~273--297, 1995.
+
+\bibitem{breiman2001rf}
+L.~Breiman, ``Random forests,'' {\em Machine Learning}, vol.~45, no.~1,
+  pp.~5--32, 2001.
+
+\bibitem{chen2016xgboost}
+T.~Chen and C.~Guestrin, ``Xgboost: A scalable tree boosting system,'' in {\em
+  Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge
+  Discovery and Data Mining (KDD '16)}, (San Francisco, CA, USA), pp.~785--794,
+  2016.
+
+\bibitem{chawla2002smote}
+N.~V. Chawla, K.~W. Bowyer, L.~O. Hall, and P.~W. Kegelmeyer, ``Smote:
+  Synthetic minority over-sampling technique,'' {\em Journal of Artificial
+  Intelligence Research}, vol.~16, pp.~321--357, 2002.
+
+\bibitem{jones2015jwt}
+M.~Jones, J.~Bradley, and N.~Sakimura, ``Json web token (jwt),'' Tech. Rep. RFC
+  7519, Internet Engineering Task Force (IETF), 2015.
+
+\end{thebibliography}
