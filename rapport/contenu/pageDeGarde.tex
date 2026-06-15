@@ -1,29 +1,62 @@
-
-\logoentreprise{logos/emsi.png}
-
-\titre{Football Prediction Dashboard} % Titre du fichier
-
-\mention{Ingénierie Informatique et Réseaux\\ (3IIR)} % Nom de la Mention
-%\trigrammemention{Master IA} % Pour le bas de la page
-%\master{Master Informatique} % Nom du master
-%\filiere{Filière Management de projet et Transformation} % Nom de la filière
-
-\eleve{ZERRARI Ziyad\\HAJJAD Ikrame\\ABOUJJID Mayssae\\ZIANI Mohamed Amine}
-
-
-\dates{2025 - 2026}
-
-% Informations tuteurs écoles
-\tuteuruniv{
-    \textsc{Pr. Wafae ELKAYSOUNI}
-} 
-
-% Informations membres du jury
-\membresjury{
-    \textsc{Pr. Wafae ELKAYSOUNI}
-} 
-
-%----------- Initialisation -------------------
-        
+\begin{titlepage}
 \thispagestyle{empty}
-\fairepagedegarde %Créer la page de garde
+
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[EMSIGreen] (current page.north west)
+      rectangle ([xshift=1.6cm]current page.south west);
+  \draw[white, line width=1pt]
+      ([xshift=1.6cm]current page.north west)
+   -- ([xshift=1.6cm]current page.south west);
+\end{tikzpicture}
+
+\centering
+
+\vspace*{1cm}
+
+% Logo
+\includegraphics[width=0.40\textwidth]{logos/emsi.png}\\[0.6cm]
+
+% School name
+{\Large \bfseries École Marocaine des Sciences de l'Ingénieur de Tanger\par}
+
+\vspace{1.2cm}
+
+% Year label
+{\Large \textcolor{EMSIGreen}{\bfseries Projet de Fin d’Année}}\\[0.4cm]
+
+% Department
+{\large Filière : \textbf{Ingénierie Informatique et Réseaux (3IIR)}}\\[1.0cm]
+
+% Title separators
+\noindent\makebox[\linewidth]{\color{EMSIGreen}\rule{0.75\textwidth}{1.5pt}}
+\vspace{0.5cm}
+
+{\Huge \bfseries Football Prediction Dashboard}\\[0.4cm]
+{\Large \itshape Analyse et Prédiction des Résultats en Temps Réel}
+
+\vspace{0.5cm}
+\noindent\makebox[\linewidth]{\color{EMSIGreen}\rule{0.75\textwidth}{1.5pt}}
+
+\vspace{1.8cm}
+
+% Authors + jury
+\begin{tabular}{rl}
+\textbf{Réalisé par :} & Zerrari Ziyad \\
+                       & Aboujid Mayssae \\
+                       & Hajjad Ikrame \\
+                       & Ziyani Mohamed Amine \\
+\\
+\textbf{Tuteur(s) EMSI :} & Pr. Wafae ELKAYSOUNI \\
+\\
+\textbf{Membres du jury :} & Pr. Wafae ELKAYSOUNI \\
+\end{tabular}
+
+\vfill
+
+\begin{center}
+{\large Année Universitaire 2025 -- 2026}
+\end{center}
+
+\vspace*{0.5cm}
+
+\end{titlepage}
