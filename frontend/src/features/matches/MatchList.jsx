@@ -2,11 +2,14 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { Table, Tag, Space, Avatar, Card, Typography, Alert, Skeleton, Input, Select, Row, Col } from 'antd';
 import useStore from '../../hooks/useStore'; // Ensure this path matches your setup!
 import MatchDashboard from './MatchDashboard';
+import { useThemeStyles } from '../../hooks/themeStyles';
 
 const { Title, Text } = Typography;
 const { Search } = Input;
 
 const MatchList = () => {
+  const ts = useThemeStyles();
+
   // 1. Pull the exact variables from Zustand
   const { rawMatches, isMatchesLoading, fetchUpcomingMatches, error } = useStore();
 
@@ -97,9 +100,9 @@ const MatchList = () => {
   ];
 
   return (
-    <Card bordered={false} style={{ boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
+    <Card bordered={false} style={{ boxShadow: ts.cardStyle.boxShadow, background: ts.cardBg, borderColor: ts.cardBorder }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '16px' }}>
-        <Title level={3} style={{ margin: 0 }}>
+        <Title level={3} style={{ margin: 0, color: ts.textPrimary }}>
           Season Fixtures
         </Title>
         <Text type="secondary" style={{ fontSize: '12px' }}>

@@ -1,6 +1,9 @@
 import React from 'react';
+import { useThemeStyles } from '../../hooks/themeStyles';
 
 const StatBar = ({ label, homeValue, awayValue, isPercentage = false }) => {
+  const ts = useThemeStyles();
+
   const hVal = parseFloat(homeValue) || 0;
   const aVal = parseFloat(awayValue) || 0;
   const total = hVal + aVal;
@@ -22,10 +25,10 @@ const StatBar = ({ label, homeValue, awayValue, isPercentage = false }) => {
         marginBottom: '4px',
         fontWeight: 500,
         fontSize: '14px',
-        color: '#555'
+        color: ts.statBarText
       }}>
         <span style={{ width: '40px', textAlign: 'left' }}>{formatValue(homeValue)}</span>
-        <span style={{ flex: 1, textAlign: 'center', textTransform: 'uppercase', fontSize: '12px', letterSpacing: '1px', color: '#888' }}>
+        <span style={{ flex: 1, textAlign: 'center', textTransform: 'uppercase', fontSize: '12px', letterSpacing: '1px', color: ts.statBarLabel }}>
           {label}
         </span>
         <span style={{ width: '40px', textAlign: 'right' }}>{formatValue(awayValue)}</span>
@@ -34,7 +37,7 @@ const StatBar = ({ label, homeValue, awayValue, isPercentage = false }) => {
       <div style={{ 
         display: 'flex', 
         height: '8px', 
-        backgroundColor: '#f0f2f5', 
+        backgroundColor: ts.statBarTrack, 
         borderRadius: '4px', 
         overflow: 'hidden',
         position: 'relative'
@@ -44,7 +47,7 @@ const StatBar = ({ label, homeValue, awayValue, isPercentage = false }) => {
           flex: 1, 
           display: 'flex', 
           justifyContent: 'flex-end',
-          backgroundColor: '#f0f2f5' 
+          backgroundColor: ts.statBarTrack 
         }}>
           <div style={{ 
             width: `${homePercent}%`, 
@@ -56,14 +59,14 @@ const StatBar = ({ label, homeValue, awayValue, isPercentage = false }) => {
 
         
         {/* Center Divider */}
-        <div style={{ width: '2px', backgroundColor: '#fff', zIndex: 1 }} />
+        <div style={{ width: '2px', backgroundColor: ts.statBarDivider, zIndex: 1 }} />
         
         {/* Away Side (expanding from center to right) */}
         <div style={{ 
           flex: 1, 
           display: 'flex', 
           justifyContent: 'flex-start',
-          backgroundColor: '#f0f2f5' 
+          backgroundColor: ts.statBarTrack 
         }}>
           <div style={{ 
             width: `${awayPercent}%`, 

@@ -1,7 +1,8 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   background: #f0f2f5;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 #root {
@@ -10,4 +11,111 @@ body {
 
 .ant-layout {
   min-height: 100vh;
+}
+
+/* ============================================================
+   DARK MODE OVERRIDES
+   Applied when ThemeContext adds .dark-mode to <body>
+   ============================================================ */
+
+body.dark-mode {
+  background: #0a0f1e;
+  color: #e2e8f0;
+}
+
+/* --- Ant Design Table --- */
+body.dark-mode .ant-table-expanded-row > td,
+body.dark-mode .ant-table-expanded-row:hover > td {
+  background: rgba(255, 255, 255, 0.015) !important;
+}
+
+body.dark-mode .ant-table-row-expand-icon {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #94a3b8;
+}
+
+/* --- Ant Design Empty --- */
+body.dark-mode .ant-empty-description {
+  color: #64748b;
+}
+
+/* --- Ant Design Divider --- */
+body.dark-mode .ant-divider {
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+body.dark-mode .ant-divider-inner-text {
+  color: #64748b;
+}
+
+/* --- Ant Design Segmented --- */
+body.dark-mode .ant-segmented {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+body.dark-mode .ant-segmented-item-selected {
+  background: rgba(20, 184, 166, 0.15);
+}
+
+/* --- Recharts tooltips --- */
+body.dark-mode .recharts-default-tooltip {
+  background-color: #1e293b !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 12px !important;
+}
+
+body.dark-mode .recharts-tooltip-label {
+  color: #e2e8f0 !important;
+}
+
+body.dark-mode .recharts-tooltip-item {
+  color: #cbd5e1 !important;
+}
+
+/* --- Ant Design Card inside expanded row --- */
+body.dark-mode .ant-table-expanded-row .ant-card {
+  background: rgba(255, 255, 255, 0.02);
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+/* --- Ant Design Statistic --- */
+body.dark-mode .ant-statistic-title {
+  color: #94a3b8;
+}
+
+body.dark-mode .ant-statistic-content {
+  color: #f1f5f9;
+}
+
+/* --- Smooth transitions for theme switching --- */
+.ant-card,
+.ant-table-wrapper,
+.ant-layout-content,
+.ant-statistic {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+/* --- Scrollbar for dark mode --- */
+body.dark-mode ::-webkit-scrollbar {
+  width: 8px;
+}
+
+body.dark-mode ::-webkit-scrollbar-track {
+  background: #0a0f1e;
+}
+
+body.dark-mode ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+body.dark-mode ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* --- Selection color --- */
+body.dark-mode ::selection {
+  background: rgba(20, 184, 166, 0.3);
+  color: #ffffff;
 }

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Col, Row, Space, Typography, Button, Select, Spin, Alert, Tabs, Badge, Avatar } from 'antd';
+import { Card, Col, Row, Space, Typography, Button, Select, Spin, Alert, Tabs, Badge, Avatar, Divider, Tag } from 'antd';
 import { 
   PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend, 
   Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis,
-  LineChart, Line, BarChart, Bar, XAxis, YAxis
+  LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid
 } from 'recharts';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -14,7 +14,8 @@ import {
   RadarChartOutlined, 
   DeploymentUnitOutlined, 
   HistoryOutlined,
-  BarChartOutlined 
+  BarChartOutlined,
+  CheckCircleOutlined
 } from '@ant-design/icons';
 import useStore from '../../hooks/useStore';
 import DashboardCard from './DashboardCard';
@@ -22,19 +23,14 @@ import MatchLineup from '../matches/MatchLineup';
 import MatchFacts from '../matches/MatchFacts';
 import PredictionHistory from '../predictions/PredictionHistory';
 import TeamFormGuide from '../matches/TeamFormGuide';
+import { useThemeStyles } from '../../hooks/themeStyles';
 
 const { Title, Text } = Typography;
 
 const COLORS = { H: '#14b8a6', D: '#94a3b8', A: '#3b82f6' };
 
-const sharedCardStyle = {
-  borderRadius: '12px',
-  boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
-  border: '1px solid #e2e8f0',
-  background: '#ffffff'
-};
-
 export default function DashboardPage() {
+  const ts = useThemeStyles();
   const navigate = useNavigate();
   const { 
     rawMatches, 
@@ -134,16 +130,10 @@ export default function DashboardPage() {
         </div>
       ),
     },
-    {
-      key: 'history',
-      label: <Space><HistoryOutlined />System Logs</Space>,
-      children: (
-        <div style={{ marginTop: '16px' }}>
-          <PredictionHistory history={predictionHistory} />
-        </div>
-      ),
-    },
   ];
+
+  const isFinished = predictionData?.status === 'FT';
+  const isCorrect = predictionData?.is_correct;
 
   return (
     <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
@@ -151,14 +141,14 @@ export default function DashboardPage() {
       <div style={{ marginBottom: '32px' }}>
         <Space align="center" style={{ marginBottom: '8px' }}>
           <RadarChartOutlined style={{ fontSize: '32px', color: '#14b8a6' }} />
-          <Title level={2} style={{ margin: 0, fontWeight: 700, color: '#0f172a', letterSpacing: '-0.5px' }}>
+          <Title level={2} style={{ margin: 0, fontWeight: 700, color: ts.textPrimary, letterSpacing: '-0.5px' }}>
             Intelligence Command Center
           </Title>
         </Space>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <Badge status="processing" text={<span style={{ color: '#14b8a6', fontWeight: 'bold' }}>Live Analysis Engine</span>} />
           <Text type="secondary">|</Text>
-          <Text type="secondary" style={{ letterSpacing: '1px', textTransform: 'uppercase', fontSize: '11px', fontWeight: 700, color: '#64748b' }}>
+          <Text type="secondary" style={{ letterSpacing: '1px', textTransform: 'uppercase', fontSize: '11px', fontWeight: 700, color: ts.textSecondary }}>
             Centralized Tactical & Predictive Data
           </Text>
         </div>
@@ -169,10 +159,10 @@ export default function DashboardPage() {
       <Space direction="vertical" size="large" style={{ width: '100%' }}>
         
         {/* COMMAND CONTROLS */}
-        <Card bordered={false} style={{ ...sharedCardStyle, background: '#0f172a', borderColor: '#1e293b' }} styles={{ body: { padding: '24px 32px' } }}>
+        <Card bordered={false} style={ts.commandBarStyle} styles={{ body: { padding: '24px 32px' } }}>
           <Row gutter={[24, 16]} align="bottom">
             <Col xs={24} md={18}>
-              <Text style={{ display: 'block', marginBottom: '8px', fontSize: '11px', fontWeight: 700, letterSpacing: '1px', color: '#94a3b8', textTransform: 'uppercase' }}>
+              <Text style={{ display: 'block', marginBottom: '8px', fontSize: '11px', fontWeight: 700, letterSpacing: '1px', color: ts.textMuted, textTransform: 'uppercase' }}>
                 Active Target Selection
               </Text>
               <Select
@@ -219,7 +209,7 @@ export default function DashboardPage() {
             {predictionData && (
               <>
                 {/* HERO VERDICT */}
-                <Card style={sharedCardStyle} bordered={false} styles={{ body: { padding: '32px 24px' } }}>
+                <Card style={ts.cardStyle} bordered={false} styles={{ body: { padding: '32px 24px' } }}>
                   <Row align="middle" justify="space-between">
                     <Col xs={8} style={{ textAlign: 'right' }}>
                       {predictionData.home_logo && <Avatar src={predictionData.home_logo} size={64} shape="square" style={{ marginBottom: '12px' }} />}
@@ -228,16 +218,33 @@ export default function DashboardPage() {
                         <TeamFormGuide formPoints={predictionData.home_form_string} />
                       </div>
                     </Col>
-                    <Col xs={8} style={{ textAlign: 'center', borderLeft: '1px solid #e2e8f0', borderRight: '1px solid #e2e8f0' }}>
-                      <Text style={{ letterSpacing: '2px', fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>CORE PREDICTION</Text>
+                    <Col xs={8} style={{ textAlign: 'center', borderLeft: `1px solid ${ts.dividerColor}`, borderRight: `1px solid ${ts.dividerColor}` }}>
+                      <Text style={{ letterSpacing: '2px', fontSize: '11px', fontWeight: 700, color: ts.textSecondary, textTransform: 'uppercase' }}>CORE PREDICTION</Text>
                       <Title level={1} style={{ margin: '12px 0', color: predictionData.prediction === 'Home Win' ? COLORS.H : predictionData.prediction === 'Away Win' ? COLORS.A : COLORS.D }}>
                         {predictionData.prediction?.toUpperCase()}
                       </Title>
                       
+                      {isFinished && (
+                        <div style={{ marginBottom: '16px' }}>
+                          <Divider style={{ margin: '12px 0' }} />
+                          <Text type="secondary" style={{ fontSize: '10px', textTransform: 'uppercase', display: 'block', marginBottom: '4px' }}>Actual Result</Text>
+                          <Title level={3} style={{ margin: 0, fontWeight: 800 }}>
+                            {predictionData.score_home} - {predictionData.score_away}
+                          </Title>
+                          <Tag 
+                            color={isCorrect ? 'success' : 'error'} 
+                            icon={isCorrect ? <CheckCircleOutlined /> : <HistoryOutlined />}
+                            style={{ marginTop: '8px', borderRadius: '4px', padding: '2px 12px', fontWeight: 700 }}
+                          >
+                            {isCorrect ? 'VERIFIED CORRECT' : 'INCORRECT'}
+                          </Tag>
+                        </div>
+                      )}
+
                       {/* NEW: H2H INDICATOR */}
-                      <div style={{ marginTop: '16px', borderTop: '1px dashed #e2e8f0', paddingTop: '12px' }}>
+                      <div style={{ marginTop: '16px', borderTop: ts.dashedBorder, paddingTop: '12px' }}>
                          <Text type="secondary" style={{ fontSize: '10px', textTransform: 'uppercase' }}>H2H Advantage</Text>
-                         <div style={{ fontWeight: 700, color: '#0f172a' }}>
+                         <div style={{ fontWeight: 700, color: ts.textPrimary }}>
                             {predictionData.stats?.h2h_pts > 7 ? 'Significant Home Bias' : 
                              predictionData.stats?.h2h_pts < 3 ? 'Significant Away Bias' : 'Neutral History'}
                          </div>
@@ -256,7 +263,7 @@ export default function DashboardPage() {
                 {/* VISUALIZATIONS ROW 1 */}
                 <Row gutter={[24, 24]}>
                   <Col xs={24} lg={12}>
-                    <Card title={<span style={{ fontWeight: 700 }}>Neural Probability Distribution</span>} bordered={false} style={{...sharedCardStyle, height: '420px'}}>
+                    <Card title={<span style={{ fontWeight: 700 }}>Neural Probability Distribution</span>} bordered={false} style={{...ts.cardStyle, height: '420px'}}>
                       <div style={{ height: '300px', width: '100%' }}>
                         <ResponsiveContainer width="100%" height="100%">
                           <PieChart>
@@ -271,12 +278,12 @@ export default function DashboardPage() {
                     </Card>
                   </Col>
                   <Col xs={24} lg={12}>
-                    <Card title={<span style={{ fontWeight: 700 }}>Tactical Matrix Comparison</span>} bordered={false} style={{...sharedCardStyle, height: '420px'}}>
+                    <Card title={<span style={{ fontWeight: 700 }}>Tactical Matrix Comparison</span>} bordered={false} style={{...ts.cardStyle, height: '420px'}}>
                       <div style={{ height: '300px', width: '100%' }}>
                         <ResponsiveContainer width="100%" height="100%">
                           <RadarChart cx="50%" cy="50%" outerRadius="80%" data={radarData}>
-                            <PolarGrid stroke="#e2e8f0" />
-                            <PolarAngleAxis dataKey="subject" tick={{ fill: '#64748b', fontSize: 12 }} />
+                            <PolarGrid stroke={ts.dividerColor} />
+                            <PolarAngleAxis dataKey="subject" tick={{ fill: ts.textSecondary, fontSize: 12 }} />
                             <PolarRadiusAxis angle={30} domain={[0, 'auto']} tick={false} axisLine={false} />
                             <Radar name={predictionData.home_team} dataKey="home" stroke={COLORS.H} fill={COLORS.H} fillOpacity={0.4} />
                             <Radar name={predictionData.away_team} dataKey="away" stroke={COLORS.A} fill={COLORS.A} fillOpacity={0.4} />
@@ -292,12 +299,12 @@ export default function DashboardPage() {
                 {/* RESTORED VISUALIZATIONS ROW 2 */}
                 <Row gutter={[24, 24]}>
                   <Col xs={24} lg={12}>
-                    <Card title={<span style={{ fontWeight: 700 }}>Historical Performance Trend</span>} bordered={false} style={{...sharedCardStyle, height: '380px'}}>
+                    <Card title={<span style={{ fontWeight: 700 }}>Historical Performance Trend</span>} bordered={false} style={{...ts.cardStyle, height: '380px'}}>
                       <ResponsiveContainer width="100%" height={260}>
                         <LineChart data={matchesData} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
-                          <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 12 }} />
-                          <YAxis axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 12 }} />
-                          <Tooltip contentStyle={{ borderRadius: '12px', border: '1px solid #e2e8f0' }} />
+                          <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: ts.textMuted, fontSize: 12 }} />
+                          <YAxis axisLine={false} tickLine={false} tick={{ fill: ts.textMuted, fontSize: 12 }} />
+                          <Tooltip contentStyle={ts.chartTooltipStyle} />
                           <Legend iconType="circle" />
                           <Line type="monotone" name={predictionData.home_team} dataKey="home" stroke={COLORS.H} strokeWidth={3} dot={{ r: 4, fill: COLORS.H }} />
                           <Line type="monotone" name={predictionData.away_team} dataKey="away" stroke={COLORS.A} strokeWidth={3} dot={{ r: 4, fill: COLORS.A }} />
@@ -306,7 +313,7 @@ export default function DashboardPage() {
                     </Card>
                   </Col>
                   <Col xs={24} lg={12}>
-                    <Card title={<span style={{ fontWeight: 700 }}>Condition & Fatigue Assessment</span>} bordered={false} style={{...sharedCardStyle, height: '380px'}}>
+                    <Card title={<span style={{ fontWeight: 700 }}>Condition & Fatigue Assessment</span>} bordered={false} style={{...ts.cardStyle, height: '380px'}}>
                        <div style={{ padding: '20px' }}>
                           <Text type="secondary" style={{ fontSize: '12px' }}>DAYS SINCE LAST MATCH (Higher is more rested)</Text>
                           <div style={{ marginTop: '32px' }}>
@@ -315,7 +322,7 @@ export default function DashboardPage() {
                                    <Text strong>{predictionData.home_team}</Text>
                                    <Text>{predictionData.stats?.fatigue?.home} Days</Text>
                                 </div>
-                                <div style={{ height: '8px', background: '#f1f5f9', borderRadius: '4px', overflow: 'hidden' }}>
+                                <div style={{ height: '8px', background: ts.statBarTrack, borderRadius: '4px', overflow: 'hidden' }}>
                                    <div style={{ 
                                       width: `${Math.min((predictionData.stats?.fatigue?.home / 14) * 100, 100)}%`, 
                                       height: '100%', 
@@ -329,7 +336,7 @@ export default function DashboardPage() {
                                    <Text strong>{predictionData.away_team}</Text>
                                    <Text>{predictionData.stats?.fatigue?.away} Days</Text>
                                 </div>
-                                <div style={{ height: '8px', background: '#f1f5f9', borderRadius: '4px', overflow: 'hidden' }}>
+                                <div style={{ height: '8px', background: ts.statBarTrack, borderRadius: '4px', overflow: 'hidden' }}>
                                    <div style={{ 
                                       width: `${Math.min((predictionData.stats?.fatigue?.away / 14) * 100, 100)}%`, 
                                       height: '100%', 
@@ -349,12 +356,12 @@ export default function DashboardPage() {
 
                 <Row gutter={[24, 24]}>
                   <Col span={24}>
-                    <Card title={<span style={{ fontWeight: 700 }}>Strategic Data Metrics Comparison</span>} bordered={false} style={sharedCardStyle}>
+                    <Card title={<span style={{ fontWeight: 700 }}>Strategic Data Metrics Comparison</span>} bordered={false} style={ts.cardStyle}>
                       <ResponsiveContainer width="100%" height={280}>
                         <BarChart data={matchesData} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}> 
-                          <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 12 }} />
-                          <YAxis axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 12 }} />
-                          <Tooltip contentStyle={{ borderRadius: '12px', border: '1px solid #e2e8f0' }} />
+                          <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: ts.textMuted, fontSize: 12 }} />
+                          <YAxis axisLine={false} tickLine={false} tick={{ fill: ts.textMuted, fontSize: 12 }} />
+                          <Tooltip contentStyle={ts.chartTooltipStyle} />
                           <Legend iconType="circle" />
                           <Bar name={predictionData.home_team} dataKey="home" fill={COLORS.H} radius={[4, 4, 0, 0]} barSize={32} />
                           <Bar name={predictionData.away_team} dataKey="away" fill={COLORS.A} radius={[4, 4, 0, 0]} barSize={32} />
@@ -365,7 +372,7 @@ export default function DashboardPage() {
                 </Row>
 
                 {/* INTERACTIVE DETAILS TABS */}
-                <Card bordered={false} style={sharedCardStyle} styles={{ body: { padding: '16px 24px' } }}>
+                <Card bordered={false} style={ts.cardStyle} styles={{ body: { padding: '16px 24px' } }}>
                   <Tabs defaultActiveKey="pitch" items={detailTabs} size="large" />
                 </Card>
               </>

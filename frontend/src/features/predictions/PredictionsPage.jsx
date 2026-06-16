@@ -6,12 +6,14 @@ import useStore from '../../hooks/useStore';
 import MatchLineup from '../matches/MatchLineup';
 import TeamFormGuide from '../matches/TeamFormGuide';
 import PredictionHistory from './PredictionHistory';
+import { useThemeStyles } from '../../hooks/themeStyles';
 
 const { Title, Text } = Typography;
 
 const COLORS = { H: '#14b8a6', D: '#94a3b8', A: '#3b82f6' };
 
 const PredictionsPage = () => {
+  const ts = useThemeStyles();
   const { 
     matchOptions, 
     selectedMatch, 
@@ -76,7 +78,7 @@ const PredictionsPage = () => {
         <div style={{ marginBottom: '32px' }}>
           <Space align="center" style={{ marginBottom: '8px' }}>
             <RadarChartOutlined style={{ fontSize: '32px', color: '#14b8a6' }} />
-            <Title level={2} style={{ margin: 0, fontWeight: 700, color: '#0f172a', letterSpacing: '-0.5px' }}>
+            <Title level={2} style={{ margin: 0, fontWeight: 700, color: ts.textPrimary, letterSpacing: '-0.5px' }}>
               Predictive Intelligence
             </Title>
           </Space>
@@ -84,7 +86,7 @@ const PredictionsPage = () => {
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <Badge status="processing" text={<span style={{ color: '#14b8a6', fontWeight: 'bold' }}>Live Intelligence Feed</span>} />
             <Text type="secondary">|</Text>
-            <Text type="secondary" style={{ letterSpacing: '1px', textTransform: 'uppercase', fontSize: '11px', fontWeight: 700, color: '#64748b' }}>
+            <Text type="secondary" style={{ letterSpacing: '1px', textTransform: 'uppercase', fontSize: '11px', fontWeight: 700, color: ts.textSecondary }}>
               Advanced Neural Processing Layer
             </Text>
           </div>
@@ -95,16 +97,12 @@ const PredictionsPage = () => {
         {/* --- 2. COMMAND CENTER CONTROLS --- */}
         <Card 
           bordered={false}
-          style={{ 
-            ...sharedCardStyle, 
-            background: '#0f172a',
-            borderColor: '#1e293b'
-          }}
+          style={ts.commandBarStyle}
           styles={{ body: { padding: '24px 32px' } }}
         >
           <Row gutter={[24, 16]} align="bottom">
             <Col xs={24} md={18}>
-              <Text style={{ display: 'block', marginBottom: '8px', fontSize: '11px', fontWeight: 700, letterSpacing: '1px', color: '#94a3b8', textTransform: 'uppercase' }}>
+              <Text style={{ display: 'block', marginBottom: '8px', fontSize: '11px', fontWeight: 700, letterSpacing: '1px', color: ts.textMuted, textTransform: 'uppercase' }}>
                 Target Fixture Selection
               </Text>
               <Select
@@ -156,14 +154,14 @@ const PredictionsPage = () => {
               <Row align="middle" justify="space-between">
                 <Col xs={8} style={{ textAlign: 'right' }}>
                   {predictionData.home_logo && <img src={predictionData.home_logo} width={64} style={{ marginBottom: '12px' }} alt="logo" />}
-                  <Title level={2} style={{ margin: 0, fontWeight: 700, color: '#0f172a' }}>{predictionData.home_team}</Title>
+                  <Title level={2} style={{ margin: 0, fontWeight: 700, color: ts.textPrimary }}>{predictionData.home_team}</Title>
                   <div style={{ marginTop: 8, display: 'flex', justifyContent: 'flex-end' }}>
                     <TeamFormGuide formPoints={predictionData.home_form_string} />
                   </div>
                 </Col>
 
-                <Col xs={8} style={{ textAlign: 'center', borderLeft: '1px solid #e2e8f0', borderRight: '1px solid #e2e8f0' }}>
-                  <Text style={{ letterSpacing: '2px', fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>
+                <Col xs={8} style={{ textAlign: 'center', borderLeft: 1px solid , borderRight: 1px solid  }}>
+                  <Text style={{ letterSpacing: '2px', fontSize: '11px', fontWeight: 700, color: ts.textSecondary, textTransform: 'uppercase' }}>
                     CORE PREDICTION
                   </Text>
                   <Title level={1} style={{ 
@@ -176,7 +174,7 @@ const PredictionsPage = () => {
 
                 <Col xs={8} style={{ textAlign: 'left' }}>
                   {predictionData.away_logo && <img src={predictionData.away_logo} width={64} style={{ marginBottom: '12px' }} alt="logo" />}
-                  <Title level={2} style={{ margin: 0, fontWeight: 700, color: '#0f172a' }}>{predictionData.away_team}</Title>
+                  <Title level={2} style={{ margin: 0, fontWeight: 700, color: ts.textPrimary }}>{predictionData.away_team}</Title>
                   <div style={{ marginTop: 8, display: 'flex', justifyContent: 'flex-start' }}>
                     <TeamFormGuide formPoints={predictionData.away_form_string} />
                   </div>
@@ -188,8 +186,8 @@ const PredictionsPage = () => {
             <Card 
               title={
                 <Space>
-                  <TeamOutlined style={{ color: '#0f172a' }} />
-                  <span style={{ fontWeight: 700, color: '#0f172a' }}>Tactical Formations & Lineups</span>
+                  <TeamOutlined style={{ color: ts.textPrimary }} />
+                  <span style={{ fontWeight: 700, color: ts.textPrimary }}>Tactical Formations & Lineups</span>
                 </Space>
               } 
               bordered={false} 
@@ -205,7 +203,7 @@ const PredictionsPage = () => {
             {/* --- 5. CHARTS GRID --- */}
             <Row gutter={24}>
               <Col xs={24} lg={12}>
-                <Card title={<span style={{ fontWeight: 700, color: '#0f172a' }}>Neural Confidence</span>} bordered={false} style={{...sharedCardStyle, height: '420px'}}>
+                <Card title={<span style={{ fontWeight: 700, color: ts.textPrimary }}>Neural Confidence</span>} bordered={false} style={{...sharedCardStyle, height: '420px'}}>
                   <div style={{ height: '300px', width: '100%' }}>
                     <ResponsiveContainer width="100%" height="100%">
                       <PieChart>
@@ -225,7 +223,7 @@ const PredictionsPage = () => {
               </Col>
 
               <Col xs={24} lg={12}>
-                <Card title={<span style={{ fontWeight: 700, color: '#0f172a' }}>Tactical Performance Matrix</span>} bordered={false} style={{...sharedCardStyle, height: '420px'}}>
+                <Card title={<span style={{ fontWeight: 700, color: ts.textPrimary }}>Tactical Performance Matrix</span>} bordered={false} style={{...sharedCardStyle, height: '420px'}}>
                   <div style={{ height: '300px', width: '100%' }}>
                     <ResponsiveContainer width="100%" height="100%">
                       <RadarChart cx="50%" cy="50%" outerRadius="80%" data={radarData}>
@@ -249,8 +247,8 @@ const PredictionsPage = () => {
         <Card 
           title={
             <Space>
-              <RiseOutlined style={{ color: '#0f172a' }} />
-              <span style={{ fontWeight: 700, color: '#0f172a' }}>System Performance Logs</span>
+              <RiseOutlined style={{ color: ts.textPrimary }} />
+              <span style={{ fontWeight: 700, color: ts.textPrimary }}>System Performance Logs</span>
             </Space>
           } 
           bordered={false} 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Tabs, Card, Space, Avatar, Typography } from 'antd';
+import { useThemeStyles } from '../../hooks/themeStyles';
 import MatchFacts from './MatchFacts';
 import MatchLineup from './MatchLineup';
 import TeamFormGuide from './TeamFormGuide';
@@ -7,6 +8,8 @@ import TeamFormGuide from './TeamFormGuide';
 const { Title, Text } = Typography;
 
 const MatchDashboard = ({ match }) => {
+  const ts = useThemeStyles();
+
   const items = [
     {
       key: 'facts',
@@ -30,9 +33,9 @@ const MatchDashboard = ({ match }) => {
     <Card 
       bordered={false} 
       style={{ 
-        background: '#fff', 
+        background: ts.cardBg, 
         borderRadius: '12px', 
-        boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+        boxShadow: ts.cardStyle.boxShadow,
         overflow: 'hidden'
       }}
       bodyStyle={{ padding: '24px' }}
@@ -44,13 +47,13 @@ const MatchDashboard = ({ match }) => {
         alignItems: 'center', 
         marginBottom: '32px',
         padding: '20px',
-        background: 'linear-gradient(135deg, #fff 0%, #f0fdfa 100%)', // Light teal tint
+        background: ts.matchHeaderBg, // Light teal tint
         borderRadius: '8px'
       }}>
         <Space size={32} align="center">
           <div style={{ textAlign: 'center' }}>
             <Avatar size={64} src={match.home_team?.logo_url} shape="square" />
-            <Text strong style={{ display: 'block', marginTop: '8px', fontSize: '14px' }}>
+            <Text strong style={{ display: 'block', marginTop: '8px', fontSize: '14px', color: ts.textPrimary }}>
               {match.home_team?.name}
             </Text>
             <div style={{ marginTop: '8px' }}>
@@ -69,7 +72,7 @@ const MatchDashboard = ({ match }) => {
 
           <div style={{ textAlign: 'center' }}>
             <Avatar size={64} src={match.away_team?.logo_url} shape="square" />
-            <Text strong style={{ display: 'block', marginTop: '8px', fontSize: '14px' }}>
+            <Text strong style={{ display: 'block', marginTop: '8px', fontSize: '14px', color: ts.textPrimary }}>
               {match.away_team?.name}
             </Text>
             <div style={{ marginTop: '8px' }}>

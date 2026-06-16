@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Table, Card, Button, Typography, Space, message, Tabs, Tag } from 'antd';
 import { UserOutlined, DatabaseOutlined, ReloadOutlined } from '@ant-design/icons';
 import { authService } from '../../api';
+import { useThemeStyles } from '../../hooks/themeStyles';
 
 const { Title, Text } = Typography;
 
 const AdminPage = () => {
+  const ts = useThemeStyles();
   const [users, setUsers] = useState([]);
   const [loadingUsers, setLoadingUsers] = useState(false);
   const [actionLoading, setActionLoading] = useState(false);
@@ -64,7 +66,7 @@ const AdminPage = () => {
 
   return (
     <div style={{ padding: '24px' }}>
-      <Title level={2}>Admin Control Panel</Title>
+      <Title level={2} style={{ color: ts.textPrimary }}>Admin Control Panel</Title>
       
       <Tabs defaultActiveKey="1" items={[
         {

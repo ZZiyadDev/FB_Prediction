@@ -1,45 +1,46 @@
 from django.db.models import Count, Q
 from .models import Prediction
 
+def validate_single_prediction(prediction):
+    """
+    Validates a single prediction against its match result.
+    """
+    match = prediction.match
+    if match.status not in ['FT', 'AET', 'PEN']:
+        return False
+        
+    h = match.score_home
+    a = match.score_away
+
+    if h is None or a is None:
+        return False
+        
+    if h > a:
+        actual = 'H'
+    elif h < a:
+        actual = 'A'
+    else:
+        actual = 'D'
+    
+    prediction.actual_result = actual
+    prediction.is_correct = (prediction.predicted_winner == actual)
+    prediction.save(update_fields=['actual_result', 'is_correct'])
+    return True
+
 def validate_predictions():
     """
     Finds finished matches with predictions and updates their correctness.
     Optimized to only process unvalidated predictions for finished matches.
-    Limited to 100 records per call to prevent backend timeouts.
     """
     pending_predictions = Prediction.objects.filter(
         is_correct__isnull=True,
         match__status__in=['FT', 'AET', 'PEN']
-    ).select_related('match').only(
-        'id', 'predicted_winner', 'match__score_home', 'match__score_away'
-    )[:100]
-
-    if not pending_predictions:
-        return 0
+    ).select_related('match')[:100]
 
     updated_count = 0
     for pred in pending_predictions:
-        try:
-            match = pred.match
-            h = match.score_home
-            a = match.score_away
-
-            if h is None or a is None:
-                continue
-                
-            if h > a:
-                actual = 'H'
-            elif h < a:
-                actual = 'A'
-            else:
-                actual = 'D'
-            
-            pred.actual_result = actual
-            pred.is_correct = (pred.predicted_winner == actual)
-            pred.save(update_fields=['actual_result', 'is_correct'])
+        if validate_single_prediction(pred):
             updated_count += 1
-        except Exception:
-            continue
     
     return updated_count
 

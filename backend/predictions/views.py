@@ -11,7 +11,7 @@ from matches.services import build_match_features
 from matches.serializers import MatchLineupSerializer
 from .models import Prediction
 from .serializers import PredictionSerializer, PredictionHistorySerializer
-from .services import get_accuracy_metrics, validate_predictions
+from .services import get_accuracy_metrics, validate_predictions, validate_single_prediction
 from django.conf import settings
 
 
@@ -150,7 +150,7 @@ class PredictionViewSet(viewsets.ViewSet):
 
             # --- SAVE PREDICTION TO DATABASE ---
             winning_confidence = confidence_scores.get(pred_label, 0)
-            Prediction.objects.update_or_create(
+            prediction_obj, _ = Prediction.objects.update_or_create(
                 match=match,
                 created_by=request.user if request.user.is_authenticated else None,
                 defaults={
@@ -158,6 +158,9 @@ class PredictionViewSet(viewsets.ViewSet):
                     'confidence': winning_confidence
                 }
             )
+            
+            # --- VALIDATE IMMEDIATELY IF FINISHED ---
+            validate_single_prediction(prediction_obj)
 
             # --- SEND THE DEEP STATS TO REACT ---
             from matches.serializers import MatchStatisticsSerializer
@@ -170,6 +173,10 @@ class PredictionViewSet(viewsets.ViewSet):
                 "away_logo": match.away_team.logo_url,
                 "prediction": pred_label,
                 "confidence_scores": confidence_scores,
+                "status": match.status,
+                "is_correct": prediction_obj.is_correct,
+                "score_home": match.score_home,
+                "score_away": match.score_away,
                 
                 "home_form_string": f.get("home_form_string", ""),
                 "away_form_string": f.get("away_form_string", ""),

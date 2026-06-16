@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Card, Row, Col, List, Avatar, Divider, Tag, Empty, Space, Segmented } from 'antd';
 import { UserOutlined, TableOutlined, AimOutlined } from '@ant-design/icons';
+import { useThemeStyles } from '../../hooks/themeStyles';
 import SoccerLineUp from '@chris-baur/react-soccer-lineup';
 
 const PlayerItem = ({ player, side }) => {
+  const ts = useThemeStyles();
   const [imgError, setImgError] = useState(false);
   const photoUrl = player?.id ? `https://media.api-sports.io/football/players/${player.id}.png` : null;
 
@@ -23,8 +25,8 @@ const PlayerItem = ({ player, side }) => {
           {imgError || !photoUrl ? (player.number || <UserOutlined />) : null}
         </Avatar>
         <div style={{ textAlign: side === 'right' ? 'right' : 'left' }}>
-          <div style={{ fontWeight: 600, fontSize: '13px', color: '#0f172a' }}>{player.name}</div>
-          <div style={{ fontSize: '11px', color: '#64748b', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '4px', justifyContent: side === 'right' ? 'flex-end' : 'flex-start' }}>
+          <div style={{ fontWeight: 600, fontSize: '13px', color: ts.playerNameColor }}>{player.name}</div>
+          <div style={{ fontSize: '11px', color: ts.textSecondary, textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '4px', justifyContent: side === 'right' ? 'flex-end' : 'flex-start' }}>
             <span style={{ fontWeight: 700, color: side === 'right' ? '#3b82f6' : '#14b8a6' }}>{player.number}</span> 
             <span>•</span> 
             <span>{player.pos}</span>
@@ -35,39 +37,43 @@ const PlayerItem = ({ player, side }) => {
   );
 };
 
-const LineupSection = ({ teamName, formation, players, substitutes, side }) => (
-  <div>
-    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexDirection: side === 'right' ? 'row-reverse' : 'row' }}>
-      <h4 style={{ margin: 0, color: '#0f172a', fontWeight: 700 }}>{teamName}</h4>
-      <Tag color="default" style={{ fontWeight: 600 }}>{formation}</Tag>
-    </div>
-    
-    <Divider orientation={side === 'right' ? 'right' : 'left'} style={{ margin: '12px 0', fontSize: '11px', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '1px' }}>
-      Starting XI
-    </Divider>
-    <List
-      dataSource={players}
-      renderItem={(player) => <PlayerItem player={player} side={side} />}
-    />
+const LineupSection = ({ teamName, formation, players, substitutes, side }) => {
+  const ts = useThemeStyles();
 
-    <Divider orientation={side === 'right' ? 'right' : 'left'} style={{ margin: '24px 0 12px 0', fontSize: '11px', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '1px' }}>
-      Substitutes
-    </Divider>
-    <List
-      dataSource={substitutes}
-      renderItem={(player) => (
-        <div style={{ 
-          fontSize: '12px', 
-          color: '#64748b', 
-          padding: '2px 0', 
-          textAlign: side === 'right' ? 'right' : 'left' 
-        }}>
-          {player.name} <span style={{ opacity: 0.6, fontSize: '10px' }}>({player.pos})</span>
-        </div>
-      )}
-    />
-  </div>
-);
+  return (
+    <div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexDirection: side === 'right' ? 'row-reverse' : 'row' }}>
+        <h4 style={{ margin: 0, color: ts.textPrimary, fontWeight: 700 }}>{teamName}</h4>
+        <Tag color="default" style={{ fontWeight: 600 }}>{formation}</Tag>
+      </div>
+      
+      <Divider orientation={side === 'right' ? 'right' : 'left'} style={{ margin: '12px 0', fontSize: '11px', color: ts.textMuted, textTransform: 'uppercase', letterSpacing: '1px' }}>
+        Starting XI
+      </Divider>
+      <List
+        dataSource={players}
+        renderItem={(player) => <PlayerItem player={player} side={side} />}
+      />
+
+      <Divider orientation={side === 'right' ? 'right' : 'left'} style={{ margin: '24px 0 12px 0', fontSize: '11px', color: ts.textMuted, textTransform: 'uppercase', letterSpacing: '1px' }}>
+        Substitutes
+      </Divider>
+      <List
+        dataSource={substitutes}
+        renderItem={(player) => (
+          <div style={{ 
+            fontSize: '12px', 
+            color: ts.textSecondary, 
+            padding: '2px 0', 
+            textAlign: side === 'right' ? 'right' : 'left' 
+          }}>
+            {player.name} <span style={{ opacity: 0.6, fontSize: '10px' }}>({player.pos})</span>
+          </div>
+        )}
+      />
+    </div>
+  );
+};
 
 // --- UTILITY TO MAP API DATA TO SOCCER LINEUP FORMAT ---
 const mapSquad = (players) => {
@@ -96,6 +102,7 @@ const mapSquad = (players) => {
 };
 
 const MatchLineup = ({ lineup, homeTeamName, awayTeamName }) => {
+  const ts = useThemeStyles();
   const [viewMode, setViewViewMode] = useState('Pitch');
 
   if (!lineup) return <Empty description="Lineup data not yet available for this match." image={Empty.PRESENTED_IMAGE_SIMPLE} />;
@@ -106,7 +113,7 @@ const MatchLineup = ({ lineup, homeTeamName, awayTeamName }) => {
   return (
     <Card 
       bordered={false} 
-      style={{ background: '#f8fafc', borderRadius: '12px', border: '1px solid #e2e8f0' }}
+      style={{ background: ts.surfaceBg, borderRadius: '12px', border: `1px solid ${ts.cardBorder}` }}
       title={
         <div style={{ display: 'flex', justifyContent: 'center', width: '100%', padding: '8px 0' }}>
           <Segmented
@@ -130,7 +137,7 @@ const MatchLineup = ({ lineup, homeTeamName, awayTeamName }) => {
               name: homeTeamName,
               squad: homeSquad,
               style: {
-                color: '#0f172a', // Navy
+                color: ts.playerNameColor, // Navy
                 numberColor: '#ffffff',
                 nameColor: '#0f172a'
               }
@@ -146,18 +153,18 @@ const MatchLineup = ({ lineup, homeTeamName, awayTeamName }) => {
             }}
           />
           
-          <Divider style={{ margin: '32px 0 16px 0', fontSize: '11px', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '1px' }}>
+          <Divider style={{ margin: '32px 0 16px 0', fontSize: '11px', color: ts.textMuted, textTransform: 'uppercase', letterSpacing: '1px' }}>
             Match Reserves
           </Divider>
           <Row gutter={24}>
             <Col span={12}>
-               <div style={{ fontWeight: 700, fontSize: '10px', color: '#64748b', marginBottom: '8px', textTransform: 'uppercase' }}>{homeTeamName} SUBS</div>
+               <div style={{ fontWeight: 700, fontSize: '10px', color: ts.textSecondary, marginBottom: '8px', textTransform: 'uppercase' }}>{homeTeamName} SUBS</div>
                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                   {lineup.home_substitutes?.map(p => <Tag key={p.id || p.name} style={{ fontSize: '11px', borderRadius: '4px' }}>{p.name}</Tag>)}
                </div>
             </Col>
-            <Col span={12} style={{ borderLeft: '1px dashed #e2e8f0' }}>
-               <div style={{ fontWeight: 700, fontSize: '10px', color: '#64748b', marginBottom: '8px', textTransform: 'uppercase' }}>{awayTeamName} SUBS</div>
+            <Col span={12} style={{ borderLeft: ts.dashedBorder }}>
+               <div style={{ fontWeight: 700, fontSize: '10px', color: ts.textSecondary, marginBottom: '8px', textTransform: 'uppercase' }}>{awayTeamName} SUBS</div>
                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                   {lineup.away_substitutes?.map(p => <Tag key={p.id || p.name} style={{ fontSize: '11px', borderRadius: '4px' }}>{p.name}</Tag>)}
                </div>
@@ -175,7 +182,7 @@ const MatchLineup = ({ lineup, homeTeamName, awayTeamName }) => {
               side="left"
             />
           </Col>
-          <Col span={12} style={{ borderLeft: '1px dashed #e2e8f0' }}>
+          <Col span={12} style={{ borderLeft: ts.dashedBorder }}>
             <LineupSection 
               teamName={awayTeamName} 
               formation={lineup.away_formation} 
