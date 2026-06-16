@@ -1,14 +1,14 @@
 \babel@toc {french}{}\relax 
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {1.1}{\ignorespaces Diagramme de Cas d'Utilisation du système complet}}{13}{figure.caption.9}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Framework Backend Django}}{16}{figure.caption.12}%
-\contentsline {figure}{\numberline {2.2}{\ignorespaces Bibliothèque Frontend React}}{17}{figure.caption.13}%
-\contentsline {figure}{\numberline {2.3}{\ignorespaces Fournisseur de données sportives}}{17}{figure.caption.14}%
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Architecture technique à N-Tiers}}{13}{figure.caption.10}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Diagramme de cas d’utilisation du système complet}}{15}{figure.caption.11}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Diagramme de séquence du processus d’authentification JWT}}{16}{figure.caption.12}%
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Modèle conceptuel de données simplifié de l'application }}{16}{figure.2.4}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Architecture technique à N-Tiers}}{21}{figure.caption.15}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Diagramme de Séquence : Flux d'Authentification JWT}}{22}{figure.caption.16}%
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Modèle conceptuel de données simplifié de l'application (ORM Django)}}{24}{figure.caption.18}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Framework Backend Django}}{18}{figure.caption.13}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Bibliothèque Frontend React}}{19}{figure.caption.14}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Fournisseur de données sportives}}{19}{figure.caption.15}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Aperçu de l'interface du Dashboard analytique}}{31}{figure.caption.19}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Aperçu de l'interface de Connexion et Sécurité}}{31}{figure.caption.20}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Aperçu de l'interface du Dashboard analytique}}{28}{figure.caption.16}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Aperçu de l'interface de Connexion et Sécurité}}{28}{figure.caption.17}%

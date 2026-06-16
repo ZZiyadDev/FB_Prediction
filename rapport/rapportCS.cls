@@ -61,7 +61,7 @@
 \pagestyle{fancy}
 \fancyheadoffset{0.5cm}
 
-\lhead{\ifx\@logoentreprise\@empty\includegraphics[scale=0.1]{logos/emsi.png}\else\includegraphics[scale=0.1]{\@logoentreprise}\fi}
+\lhead{\ifx\@logoentreprise\@empty\includegraphics[scale=0.1]{logos/emsi.png}\else\includegraphics[scale=0.06]{\@logoentreprise}\fi}
 \rhead{\nouppercase{\leftmark}}
 \rfoot{\thepage}
 \cfoot{}

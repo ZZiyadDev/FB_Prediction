@@ -1,131 +1,92 @@
-\chapter{Conception Architecturale}
+\chapter{Choix Technologiques et Modélisation}
 
-Une conception sérieuse est nécessaire pour un bon développement. L'application utilise une architecture séparée afin de bien diviser les responsabilités.
+Ce chapitre présente d'abord les technologies clés sélectionnées pour développer notre architecture logicielle, puis détaille le fonctionnement de notre moteur d'intelligence artificielle.
 
-\section{Architecture N-Tiers (\textit{Backend as a Service})}
-L'application est divisée en trois parties distinctes, qui communiquent via des API standardisées.
+\section{Environnement Technique}
+Pour garantir la performance et la maintenance du projet, nous avons choisi une séparation nette entre le \textit{frontend} et le \textit{backend}.
 
+\subsection{Backend : Django \& REST Framework}
 \begin{figure}[H]
     \centering
-    \resizebox{\textwidth}{!}{%
-    \begin{tikzpicture}[
-        node distance=1.5cm and 2cm,
-        layer/.style={draw, Navy, thick, minimum width=4cm, minimum height=6cm, rounded corners, fill=white, text=Navy, font=\bfseries},
-        component/.style={draw, Teal, thick, minimum width=3.5cm, minimum height=0.8cm, fill=Teal!10, rounded corners, font=\small},
-        arrow/.style={-Stealth, thick, Navy}
-    ]
-        % Client Layer
-        \node[layer] (client) {};
-        \node[above=0.2cm of client.south, font=\bfseries] {Client Tier (React)};
-        \node[component, yshift=2cm] (ui) at (client.center) {UI Components (AntD)};
-        \node[component, yshift=0.5cm] (state) at (client.center) {State (Zustand)};
-        \node[component, yshift=-1cm] (axios) at (client.center) {HTTP Client (Axios)};
-
-        % App Layer
-        \node[layer, right=3cm of client] (app) {};
-        \node[above=0.2cm of app.south, font=\bfseries] {Logic Tier (Django)};
-        \node[component, yshift=2cm] (api) at (app.center) {REST Framework (API)};
-        \node[component, yshift=0.5cm] (auth) at (app.center) {Auth (SimpleJWT)};
-        \node[component, yshift=-1cm, fill=Navy!10, draw=Navy] (ml) at (app.center) {ML Engine (XGBoost)};
-
-        % Data Layer
-        \node[layer, right=3cm of app] (data) {};
-        \node[above=0.2cm of data.south, font=\bfseries] {Data Tier};
-        % FIX: cylinder now uses shape=cylinder from shapes.geometric (not shapes.symbols)
-        %      shape border rotate=90 makes it stand upright
-        \node[component, yshift=2cm, shape=cylinder, shape border rotate=90, aspect=0.3,
-              minimum height=1.5cm, minimum width=3.5cm] (db) at (data.center) {SQLite Database};
-        \node[component, yshift=-1cm, fill=Slate!20, draw=Slate] (ext) at (data.center) {API-Football (Ext)};
-
-        % Connections
-        \draw[<->, arrow] (axios.east) -- node[above, font=\footnotesize] {JSON/HTTP} (api.west);
-        \draw[<->, arrow] (api.east) -- (db.west);
-        \draw[->, arrow, dashed] (app.east) |- (ext.west);
-    \end{tikzpicture}%
-    }
-    \caption{Architecture technique à N-Tiers}
+    \includegraphics[height=2.5cm]{logos/django.png}
+    \caption{Framework Backend Django}
 \end{figure}
+Le serveur est développé en Python avec le framework Django, complété par \textbf{Django REST Framework (DRF)}. Ce choix est expliqué par la puissance des \textit{Serializers} de DRF, qui permettent de transformer les modèles complexes de notre base de données (incluant les statistiques et compositions) en flux JSON utilisables par le frontend. Il assure également la sécurité des requêtes via JWT et la gestion du modèle XGBoost.
 
-\section{Diagrammes de Séquence}
-Pour bien comprendre les interactions entre les différentes parties de notre application, nous avons décrit les étapes clés sous forme de diagrammes de séquence.
-
-\subsection{Processus d'Authentification}
-Le diagramme ci-dessous montre le flux de connexion basé sur les jetons JWT. Ce système permet de garantir que seules les personnes autorisées peuvent accéder aux prédictions.
-
+\subsection{Frontend : React \& Zustand}
 \begin{figure}[H]
     \centering
-    \begin{tikzpicture}[
-        node distance=3cm,
-        actor/.style={draw, Navy, thick, fill=LightGray, minimum width=2.5cm, minimum height=1cm},
-        message/.style={-Stealth, thick},
-        return/.style={dashed, -Stealth, thick}
-    ]
-        % Actors
-        \node[actor] (user) {Client (React)};
-        \node[actor, right=of user] (auth) {API (Django)};
-        \node[actor, right=of auth] (db) {Base de Données};
-
-        % Lifelines
-        \draw[thick] (user.south) -- +(0,-5.5) coordinate (user_end);
-        \draw[thick] (auth.south) -- +(0,-5.5) coordinate (auth_end);
-        \draw[thick] (db.south) -- +(0,-5.5) coordinate (db_end);
-
-        % Messages
-        \draw[message] ([yshift=-1cm]user.south) -- node[above, font=\footnotesize] {1. POST /login (Credentials)} ([yshift=-1cm]auth.south);
-        
-        \draw[message] ([yshift=-2cm]auth.south) -- node[above, font=\footnotesize] {2. Vérification identifiants} ([yshift=-2cm]db.south);
-        \draw[return] ([yshift=-3cm]db.south) -- node[above, font=\footnotesize] {3. Utilisateur Valide} ([yshift=-3cm]auth.south);
-        
-        \draw[message] ([yshift=-4cm]auth.south) -- node[right, font=\footnotesize, align=left] {4. Génération JWT\\ (Access \& Refresh)} ([yshift=-4.5cm]auth.south); 
-        
-        \draw[return] ([yshift=-5cm]auth.south) -- node[above, font=\footnotesize] {5. 200 OK + Tokens JSON} ([yshift=-5cm]user.south);
-    \end{tikzpicture}
-    \caption{Diagramme de Séquence : Flux d'Authentification JWT}
+    \includegraphics[height=2.5cm]{logos/React.png}
+    \caption{Bibliothèque Frontend React}
 \end{figure}
+L'interface utilisateur est construite avec React. Pour la gestion de l'état global (connexion, liste des matchs, résultats de l'IA), nous avons utilisé \textbf{Zustand}. Contrairement à Redux, Zustand est plus simple et rapide, ce qui réduit la complexité du code tout en garantissant une mise à jour fluide des composants de l'application.
 
-\section{Catalogue des API REST}
-La communication entre le frontend React et le backend Django est assurée par une API REST. Le tableau suivant présente les points d'entrée (endpoints) principaux.
-
-\begin{table}[H]
+\subsection{Fournisseur de Données : API-Football}
+\begin{figure}[H]
     \centering
-    \renewcommand{\arraystretch}{1.5}
-    \begin{tabularx}{\textwidth}{|>{\ttfamily\bfseries\RaggedRight}p{5.5cm}|c|Y|}
-        \hline
-        \rowcolor{MediumGray}
-        \textbf{Endpoint} & \textbf{Méthode} & \textbf{Description} \\
-        \hline
-        /api/users/login/ & POST & Connexion et génération du token JWT. \\
-        \hline
-        /api/matches/ & GET & Liste des matchs disponibles. \\
-        \hline
-        /api/matches/\{id\}/ & GET & Détails d'un match (stats, compositions, cotes). \\
-        \hline
-        /api/predictions/predict/ & POST & Envoi d'un match au moteur XGBoost. \\
-        \hline
-        /api/predictions/accuracy/ & GET & Récupération des scores de performance. \\
-        \hline
-    \end{tabularx}
-    \caption{Catalogue des principaux endpoints de l'API REST}
-    \label{tab:api_endpoints}
-\end{table}
+    \includegraphics[height=2.5cm]{logos/api-football.png}
+    \caption{Fournisseur de données sportives}
+\end{figure}
+La source de données de notre modèle de prédiction provient d'API-Football. Elle nous fournit des données historiques complètes et actualisées (résultats, compositions, statistiques de match) via des requêtes REST.
 
-\section{Modélisation de la Base de Données}
-Le backend Django utilise une structure de données précise pour garantir la cohérence des informations sportives.
+\section{Fondements Théoriques de l'Intelligence Artificielle}
 
-\subsection{Diagramme de Classes (Backend)}
-Le diagramme suivant présente les éléments principaux gérant la structure d'un match de football dans notre base de données.
+\subsection{Le Problème de Déséquilibre des Classes (\textit{Imbalanced Data})}
+Dans le football de haut niveau, les résultats ne sont pas répartis de manière égale. Les victoires à domicile (\textit{Home Win}) représentent environ 45\% des cas, les victoires à l'extérieur (\textit{Away Win}) environ 30\%, et les matchs nuls (\textit{Draw}) environ 25\%.
+Si nous entraînons un algorithme sur ces données sans modification, il aura tendance à privilégier l'équipe à domicile et ne réussira pas à prédire le match nul, car c'est le cas le moins fréquent.
 
-\input{./figuresChapitres/diagramme_classes.tex}
+\subsubsection{Approche Mathématique : SMOTE}
+Pour résoudre ce problème, nous avons utilisé \textbf{SMOTE} (\textit{Synthetic Minority Over-sampling Technique}) \cite{chawla2002smote}. Contrairement à la simple copie de données, SMOTE crée des exemples synthétiques entre les points existants de la classe minoritaire.
 
-\subsection{Justification des choix de modélisation}
+Soit un point $x_i \in \text{Classe Minoritaire}$. On sélectionne l'un de ses $k$ plus proches voisins, $x_{zi}$. Le nouvel échantillon synthétique $x_{syn}$ est généré par la formule :
+\begin{equation}
+    x_{syn} = x_i + \lambda \times (x_{zi} - x_i)
+\end{equation}
+où $\lambda$ est un nombre aléatoire entre 0 et 1. Cette technique permet d'enrichir les données d'entraînement et force le modèle à mieux apprendre les caractéristiques du ``Match Nul''.
+
+\subsection{Algorithme Prédictif : XGBoost}
+Nous avons choisi \textit{Extreme Gradient Boosting} (XGBoost), un algorithme basé sur les arbres de décision \cite{chen2016xgboost}. Il utilise la technique du \textit{Boosting} où chaque nouvel arbre est construit pour corriger les erreurs des arbres précédents.
+
+\subsubsection{Fonction d'Objectif et Régularisation}
+XGBoost cherche à minimiser une fonction d'objectif composée d'une fonction de perte (\textit{Loss}) et d'un terme de régularisation (pour éviter de trop coller aux données d'entraînement) :
+\begin{equation}
+    \mathcal{L}^{(t)} = \sum_{i=1}^n l\left(y_i, \hat{y}_i^{(t-1)} + f_t(x_i)\right) + \Omega(f_t)
+\end{equation}
+Avec le terme de régularisation défini par :
+\begin{equation}
+    \Omega(f) = \gamma T + \frac{1}{2} \lambda \sum_{j=1}^T w_j^2
+\end{equation}
+où $T$ est le nombre de feuilles de l'arbre, et $w_j$ le poids de la feuille $j$.
+
+\subsubsection{Adaptation à la classification multiclasse}
+Puisque notre problème compte 3 issues possibles (H, D, A), le modèle utilise la fonction objectif \texttt{multi:softprob}. Il applique une fonction Softmax sur les scores de sortie pour générer une distribution de probabilité :
+\begin{equation}
+    P(y=k \mid x) = \frac{e^{z_k}}{\sum_{j=1}^K e^{z_j}}
+\end{equation}
+C'est cette probabilité (ex : Home 45\%, Draw 20\%, Away 35\%) qui est renvoyée au frontend React pour afficher le graphique.
+
+\section{Ingénierie des Caractéristiques (\textit{Feature Engineering})}
+L'algorithme utilise un vecteur de 25 caractéristiques. Pour assurer le bon fonctionnement du modèle, toutes les variables numériques sont normalisées avec \textbf{StandardScaler} :
+\begin{equation}
+    z = \frac{x - \mu}{\sigma}
+\end{equation}
+où $\mu$ est la moyenne et $\sigma$ l'écart-type. Parmi les variables les plus importantes :
 \begin{itemize}
-    \item \textbf{Relations One-to-One} : Les tables \texttt{MatchStatistics}, \texttt{MatchLineup} et \texttt{MatchOdds} sont liées au \texttt{Match} par des relations 1:1. Ce découpage permet une meilleure organisation : nous pouvons charger un match sans alourdir la demande avec des statistiques si elles ne sont pas utiles.
-    \item \textbf{Stockage JSON (JSONField)} : Le choix de stocker les compositions (\texttt{MatchLineup}) sous forme de \texttt{JSONField} est un choix technique pour la rapidité et la souplesse. Plutôt que de créer des milliers de lignes pour chaque joueur, nous enregistrons l'objet "Composition" tel qu'il arrive de l'API. Cela facilite l'affichage côté React.
+    \item \textbf{Form Points} : Points obtenus lors des 5 derniers matchs (3 pour une victoire, 1 pour un nul).
+    \item \textbf{Goal Ratios} : Moyenne de buts marqués vs encaissés sur la saison.
+    \item \textbf{Home Advantage} : Variable représentant l'avantage de jouer à domicile.
 \end{itemize}
+
+\section{Évaluation et Validation du Modèle}
+Pour garantir la fiabilité de nos prédictions, le système compare toujours le \textit{Résultat Prédit} au \textit{Résultat Réel} une fois le match terminé.
+\begin{itemize}
+    \item \textbf{Accuracy Score} : Pourcentage total de bonnes prédictions.
+    \item \textbf{Matrice de Confusion} : Analyse des erreurs pour voir quels types de résultats sont les plus difficiles à prédire.
+\end{itemize}
+Ces indicateurs sont calculés par le backend et affichés sur le tableau de bord de l'administrateur pour suivre la performance de l'IA.
 
 \section*{Conclusion du chapitre}
 \addcontentsline{toc}{section}{Conclusion du chapitre}
-Ce chapitre a présenté l'architecture globale du système, mettant en avant une séparation nette entre les services. La documentation de l'API REST et la modélisation optimisée de la base de données assurent une communication fluide et une gestion efficace des volumes de données sportives. Cette structure architecturale robuste sert de guide pour la phase de mise en œuvre technique détaillée dans le chapitre suivant.
-
+En résumé, ce chapitre a détaillé l'environnement technique reposant sur Django et React, ainsi que les piliers mathématiques de notre solution. L'utilisation de SMOTE pour équilibrer les données et de XGBoost pour la prédiction constitue le cœur intelligent de l'application. La maîtrise de ces outils et concepts est indispensable pour garantir la précision des résultats que nous allons maintenant structurer architecturalement.
 
 

@@ -18,6 +18,7 @@
 \usepackage{tabularx}
 \usepackage{ragged2e}
 \usepackage[most]{tcolorbox}
+\usepackage{parskip}
 
 % --- Custom Colors ---
 \definecolor{Navy}{RGB}{15,23,42}
@@ -118,6 +119,9 @@
 % --- Chapter formatting ---
 \usepackage{titlesec}
 
+\setlength{\parskip}{8pt}
+
+
 \titleformat{\chapter}[display]
   {\normalfont\huge\bfseries}
   {\chaptertitlename\ \thechapter}{20pt}{\Huge}
@@ -134,5 +138,7 @@
 % --- safety (already fine but kept) ---
 \usepackage{tabularx}
 \usepackage{ragged2e}
-
+\usepackage{placeins}
+\usepackage{caption}
+\usepackage{needspace}
 %------------ Fin Packages ----------------

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.6.15)  15 JUN 2026 17:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.6.15)  16 JUN 2026 18:34
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -936,7 +936,9 @@ File: tikzlibraryfadings.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 File: pgflibraryfadings.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 ))) (C:\Users\abouj\AppData\Local\Programs\MiKTeX\tex/latex/tcolorbox\tcbposter.code.tex
 Library (tcolorbox): 'tcbposter.code.tex' version '6.10.0'
-)) (C:\Users\abouj\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz/libraries\tikzlibraryshapes.geometric.code.tex
+)) (C:\Users\abouj\AppData\Local\Programs\MiKTeX\tex/latex/parskip\parskip.sty
+Package: parskip 2021-03-14 v2.0h non-zero parskip adjustments
+) (C:\Users\abouj\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz/libraries\tikzlibraryshapes.geometric.code.tex
 File: tikzlibraryshapes.geometric.code.tex 2025-08-29 v3.1.11a (3.1.11a)
  (C:\Users\abouj\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\pgflibraryshapes.geometric.code.tex
 File: pgflibraryshapes.geometric.code.tex 2025-08-29 v3.1.11a (3.1.11a)
@@ -1024,7 +1026,9 @@ Package: setspace 2022/12/04 v6.7b set line spacing
 Package: chngcntr 2018/04/09 v1.1a change counter resetting
 Package chngcntr Info: \counterwithout already defined.
 (chngcntr)             Quitting chngcntr on input line 21.
-))
+)) (C:\Users\abouj\AppData\Local\Programs\MiKTeX\tex/latex/needspace\needspace.sty
+Package: needspace 2025/03/13 v1.3e reserve vertical space
+)
 LaTeX Font Info:    Trying to load font information for T1+lmr on input line 7.
  (C:\Users\abouj\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmr.fd
 File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
@@ -1128,40 +1132,51 @@ Package tocbasic Info: setting babel extension for `lol' on input line 7.
 <logos/emsi.png, id=42, 1927.2pt x 421.575pt>
 File: logos/emsi.png Graphic file (type png)
 <use logos/emsi.png>
-Package pdftex.def Info: logos/emsi.png  used on input line 17.
+Package pdftex.def Info: logos/emsi.png  used on input line 28.
 (pdftex.def)             Requested size: 170.71393pt x 37.34186pt.
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 43.
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 28.
  (C:\Users\abouj\AppData\Local\Programs\MiKTeX\tex/latex/lm\ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 43.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 28.
  (C:\Users\abouj\AppData\Local\Programs\MiKTeX\tex/latex/lm\omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 43.
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 28.
  (C:\Users\abouj\AppData\Local\Programs\MiKTeX\tex/latex/lm\omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 43.
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 28.
  (C:\Users\abouj\AppData\Local\Programs\MiKTeX\tex/latex/lm\omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 43.
+(Font)              <17.28> on input line 28.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 43.
+(Font)              <12> on input line 28.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 43.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 43.
+(Font)              <10> on input line 28.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 28.
  (C:\Users\abouj\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 43.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 28.
  (C:\Users\abouj\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [1
+)
+<logos/coin_haut.png, id=44, 337.917pt x 418.29pt>
+File: logos/coin_haut.png Graphic file (type png)
+<use logos/coin_haut.png>
+Package pdftex.def Info: logos/coin_haut.png  used on input line 28.
+(pdftex.def)             Requested size: 119.4999pt x 147.92273pt.
+<logos/coin_bas.png, id=45, 337.917pt x 418.29pt>
+File: logos/coin_bas.png Graphic file (type png)
+<use logos/coin_bas.png>
+Package pdftex.def Info: logos/coin_bas.png  used on input line 28.
+(pdftex.def)             Requested size: 119.4999pt x 147.92273pt.
+ [1
 
-{C:/Users/abouj/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/abouj/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc} <./logos/emsi.png>] [2]) (contenu/abstract.tex
+{C:/Users/abouj/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/abouj/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc} <./logos/coin_haut.png> <./logos/coin_bas.png> <./logos/emsi.png>] [2]) (contenu/abstract.tex
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
@@ -1177,7 +1192,12 @@ l.1 \chapter
 
 ]) [3
 
-] (main.toc [4
+] (main.toc
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <8> on input line 7.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <6> on input line 7.
+ [4
 
 ])
 \tf@toc=\write5
@@ -1195,304 +1215,414 @@ l.1 \chapter
 
  (contenu/introductionGenerale.tex [7
 
-] [8
+]) (contenu/chapitre1.tex [8
 
-]) (contenu/chapitre1.tex
-File: logos/emsi.png Graphic file (type png)
-<use logos/emsi.png>
-Package pdftex.def Info: logos/emsi.png  used on input line 1.
-(pdftex.def)             Requested size: 192.7313pt x 42.15996pt.
-Package babel Info: 'french' activates 'french' shorthands.
-(babel)             Reported on input line 1.
-
-
-Package fancyhdr Warning: \headheight is too small (15.0pt): 
-(fancyhdr)                Make it at least 46.51pt, for example:
-(fancyhdr)                \setlength{\headheight}{46.51pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-31.51pt}.
-
-[9]
+]
 Chapitre 1.
-[10
+[9
 
 ]
 File: logos/emsi.png Graphic file (type png)
 <use logos/emsi.png>
-Package pdftex.def Info: logos/emsi.png  used on input line 44.
-(pdftex.def)             Requested size: 192.7313pt x 42.15996pt.
+Package pdftex.def Info: logos/emsi.png  used on input line 46.
+(pdftex.def)             Requested size: 115.62701pt x 25.2934pt.
+Package babel Info: 'french' activates 'french' shorthands.
+(babel)             Reported on input line 46.
 
 
 Package fancyhdr Warning: \headheight is too small (15.0pt): 
-(fancyhdr)                Make it at least 46.51pt, for example:
-(fancyhdr)                \setlength{\headheight}{46.51pt}.
+(fancyhdr)                Make it at least 29.64343pt, for example:
+(fancyhdr)                \setlength{\headheight}{29.64343pt}.
 (fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-31.51pt}.
+(fancyhdr)                \addtolength{\topmargin}{-14.64343pt}.
 
-[11]
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 57.
- (C:\Users\abouj\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmtt.fd
-File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
-LaTeX Font Info:    Trying to load font information for U+fontawesomefree3 on input line 116.
- (C:\Users\abouj\AppData\Local\Programs\MiKTeX\tex/latex/fontawesome5\ufontawesomefree3.fd)
-LaTeX Font Info:    Trying to load font information for U+fontawesomefree0 on input line 116.
- (C:\Users\abouj\AppData\Local\Programs\MiKTeX\tex/latex/fontawesome5\ufontawesomefree0.fd)
-File: logos/emsi.png Graphic file (type png)
-<use logos/emsi.png>
-Package pdftex.def Info: logos/emsi.png  used on input line 118.
-(pdftex.def)             Requested size: 192.7313pt x 42.15996pt.
-
-
-Package fancyhdr Warning: \headheight is too small (15.0pt): 
-(fancyhdr)                Make it at least 46.51pt, for example:
-(fancyhdr)                \setlength{\headheight}{46.51pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-31.51pt}.
-
-[12]
-File: logos/emsi.png Graphic file (type png)
-<use logos/emsi.png>
-Package pdftex.def Info: logos/emsi.png  used on input line 145.
-(pdftex.def)             Requested size: 192.7313pt x 42.15996pt.
-
-
-Package fancyhdr Warning: \headheight is too small (15.0pt): 
-(fancyhdr)                Make it at least 46.51pt, for example:
-(fancyhdr)                \setlength{\headheight}{46.51pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-31.51pt}.
-
-[13{C:/Users/abouj/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/fontawesome5/fa5free3.enc}{C:/Users/abouj/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/fontawesome5/fa5free0.enc}]
-File: logos/emsi.png Graphic file (type png)
-<use logos/emsi.png>
-Package pdftex.def Info: logos/emsi.png  used on input line 174.
-(pdftex.def)             Requested size: 192.7313pt x 42.15996pt.
-
-
-Package fancyhdr Warning: \headheight is too small (15.0pt): 
-(fancyhdr)                Make it at least 46.51pt, for example:
-(fancyhdr)                \setlength{\headheight}{46.51pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-31.51pt}.
-
-[14]) (contenu/chapitre2.tex
+[10]) (contenu/chapitre2.tex
 File: logos/emsi.png Graphic file (type png)
 <use logos/emsi.png>
 Package pdftex.def Info: logos/emsi.png  used on input line 1.
-(pdftex.def)             Requested size: 192.7313pt x 42.15996pt.
+(pdftex.def)             Requested size: 115.62701pt x 25.2934pt.
 
 
 Package fancyhdr Warning: \headheight is too small (15.0pt): 
-(fancyhdr)                Make it at least 46.51pt, for example:
-(fancyhdr)                \setlength{\headheight}{46.51pt}.
+(fancyhdr)                Make it at least 29.64343pt, for example:
+(fancyhdr)                \setlength{\headheight}{29.64343pt}.
 (fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-31.51pt}.
+(fancyhdr)                \addtolength{\topmargin}{-14.64343pt}.
 
-[15]
+[11]
 Chapitre 2.
-<logos/django.png, id=283, 414.04688pt x 414.04688pt>
+[12
+
+]
+File: logos/emsi.png Graphic file (type png)
+<use logos/emsi.png>
+Package pdftex.def Info: logos/emsi.png  used on input line 93.
+(pdftex.def)             Requested size: 115.62701pt x 25.2934pt.
+
+
+Package fancyhdr Warning: \headheight is too small (15.0pt): 
+(fancyhdr)                Make it at least 29.64343pt, for example:
+(fancyhdr)                \setlength{\headheight}{29.64343pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-14.64343pt}.
+
+[13]
+File: logos/emsi.png Graphic file (type png)
+<use logos/emsi.png>
+Package pdftex.def Info: logos/emsi.png  used on input line 111.
+(pdftex.def)             Requested size: 115.62701pt x 25.2934pt.
+
+
+Package fancyhdr Warning: \headheight is too small (15.0pt): 
+(fancyhdr)                Make it at least 29.64343pt, for example:
+(fancyhdr)                \setlength{\headheight}{29.64343pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-14.64343pt}.
+
+[14]
+LaTeX Font Info:    Trying to load font information for U+fontawesomefree3 on input line 159.
+ (C:\Users\abouj\AppData\Local\Programs\MiKTeX\tex/latex/fontawesome5\ufontawesomefree3.fd)
+LaTeX Font Info:    Trying to load font information for U+fontawesomefree0 on input line 159.
+ (C:\Users\abouj\AppData\Local\Programs\MiKTeX\tex/latex/fontawesome5\ufontawesomefree0.fd)
+Overfull \hbox (0.85303pt too wide) in paragraph at lines 195--196
+ [][] 
+ []
+
+File: logos/emsi.png Graphic file (type png)
+<use logos/emsi.png>
+Package pdftex.def Info: logos/emsi.png  used on input line 200.
+(pdftex.def)             Requested size: 115.62701pt x 25.2934pt.
+
+Package fancyhdr Warning: \headheight is too small (15.0pt): 
+(fancyhdr)                Make it at least 29.64343pt, for example:
+(fancyhdr)                \setlength{\headheight}{29.64343pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-14.64343pt}.
+
+[15{C:/Users/abouj/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/fontawesome5/fa5free3.enc}{C:/Users/abouj/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/fontawesome5/fa5free0.enc}] (figuresChapitres/diagramme_classes.tex
+
+Package caption Warning: \setcaptiontype
+(caption)                outside box or environment on input line 113.
+See the caption package documentation for explanation.
+
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 113.
+See the caption package documentation for explanation.
+
+)
+File: logos/emsi.png Graphic file (type png)
+<use logos/emsi.png>
+Package pdftex.def Info: logos/emsi.png  used on input line 206.
+(pdftex.def)             Requested size: 115.62701pt x 25.2934pt.
+
+
+Package fancyhdr Warning: \headheight is too small (15.0pt): 
+(fancyhdr)                Make it at least 29.64343pt, for example:
+(fancyhdr)                \setlength{\headheight}{29.64343pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-14.64343pt}.
+
+[16]
+Underfull \hbox (badness 10000) in paragraph at lines 208--208
+|\T1/lmr/bx/n/17.28 Conclusion |
+ []
+
+) (contenu/chapitre3.tex
+File: logos/emsi.png Graphic file (type png)
+<use logos/emsi.png>
+Package pdftex.def Info: logos/emsi.png  used on input line 1.
+(pdftex.def)             Requested size: 115.62701pt x 25.2934pt.
+
+
+Package fancyhdr Warning: \headheight is too small (15.0pt): 
+(fancyhdr)                Make it at least 29.64343pt, for example:
+(fancyhdr)                \setlength{\headheight}{29.64343pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-14.64343pt}.
+
+[17]
+Chapitre 3.
+
+Underfull \hbox (badness 10000) in paragraph at lines 1--1
+|\T1/lmr/bx/n/24.88 Chapitre 3|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1--1
+\T1/lmr/bx/n/24.88 tion|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 5--5
+|[]\T1/lmr/bx/n/17.28 Environnement Tech-nique|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 8--8
+|[]\T1/lmr/bx/n/14.4 Backend : Django & REST Fra-me-work|
+ []
+
+<logos/django.png, id=278, 414.04688pt x 414.04688pt>
 File: logos/django.png Graphic file (type png)
 <use logos/django.png>
 Package pdftex.def Info: logos/django.png  used on input line 11.
 (pdftex.def)             Requested size: 71.13254pt x 71.13188pt.
-[16
+[18
 
  <./logos/django.png>]
-<logos/React.png, id=289, 513.92pt x 513.92pt>
+Underfull \hbox (badness 10000) in paragraph at lines 16--16
+|[]\T1/lmr/bx/n/14.4 Frontend : React & Zus-tand|
+ []
+
+<logos/React.png, id=284, 513.92pt x 513.92pt>
 File: logos/React.png Graphic file (type png)
 <use logos/React.png>
 Package pdftex.def Info: logos/React.png  used on input line 19.
 (pdftex.def)             Requested size: 71.12491pt x 71.13188pt.
-<logos/api-football.png, id=290, 972.63374pt x 596.2275pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 24--24
+|[]\T1/lmr/bx/n/14.4 Fournisseur de Don-nées : API-Football|
+ []
+
+<logos/api-football.png, id=285, 972.63374pt x 596.2275pt>
 File: logos/api-football.png Graphic file (type png)
 <use logos/api-football.png>
 Package pdftex.def Info: logos/api-football.png  used on input line 27.
 (pdftex.def)             Requested size: 116.0283pt x 71.13188pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 32--32
+\T1/lmr/bx/n/17.28 fi-cielle|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 34--34
+|[]\T1/lmr/bx/n/14.4 Le Pro-blème de Dés-équi-libre
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 34--34
+\T1/lmr/bx/n/14.4 des Classes (\T1/lmr/bx/it/14.4 Im-ba-lan-ced Data\T1/lmr/bx/n/14.4 )|
+ []
+
 File: logos/emsi.png Graphic file (type png)
 <use logos/emsi.png>
 Package pdftex.def Info: logos/emsi.png  used on input line 37.
-(pdftex.def)             Requested size: 192.7313pt x 42.15996pt.
-
+(pdftex.def)             Requested size: 115.62701pt x 25.2934pt.
 
 Package fancyhdr Warning: \headheight is too small (15.0pt): 
-(fancyhdr)                Make it at least 46.51pt, for example:
-(fancyhdr)                \setlength{\headheight}{46.51pt}.
+(fancyhdr)                Make it at least 29.64343pt, for example:
+(fancyhdr)                \setlength{\headheight}{29.64343pt}.
 (fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-31.51pt}.
+(fancyhdr)                \addtolength{\topmargin}{-14.64343pt}.
 
-[17 <./logos/React.png> <./logos/api-football.png>]
+[19 <./logos/React.png> <./logos/api-football.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 38--38
+|\T1/lmr/bx/n/12 Approche Ma-thé-ma-tique : SMOTE|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 47--47
+|[]\T1/lmr/bx/n/14.4 Algorithme Pré-dic-tif : XG-Boost|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 50--50
+|\T1/lmr/bx/n/12 Fonction d'Ob-jec-tif et Ré-gu-la-ri-sa-tion|
+ []
+
 File: logos/emsi.png Graphic file (type png)
 <use logos/emsi.png>
 Package pdftex.def Info: logos/emsi.png  used on input line 52.
-(pdftex.def)             Requested size: 192.7313pt x 42.15996pt.
-
+(pdftex.def)             Requested size: 115.62701pt x 25.2934pt.
 
 Package fancyhdr Warning: \headheight is too small (15.0pt): 
-(fancyhdr)                Make it at least 46.51pt, for example:
-(fancyhdr)                \setlength{\headheight}{46.51pt}.
+(fancyhdr)                Make it at least 29.64343pt, for example:
+(fancyhdr)                \setlength{\headheight}{29.64343pt}.
 (fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-31.51pt}.
+(fancyhdr)                \addtolength{\topmargin}{-14.64343pt}.
 
-[18{C:/Users/abouj/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.enc}{C:/Users/abouj/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathsy.enc}{C:/Users/abouj/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc}]
+[20{C:/Users/abouj/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.enc}{C:/Users/abouj/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathsy.enc}{C:/Users/abouj/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc}]
+Underfull \hbox (badness 10000) in paragraph at lines 61--61
+|\T1/lmr/bx/n/12 Adaptation à la clas-si-fi-ca-tion mul-ti-classe|
+ []
+
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 62.
+(C:\Users\abouj\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmtt.fd
+File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+Underfull \hbox (badness 10000) in paragraph at lines 68--68
+|[]\T1/lmr/bx/n/17.28 Ingénierie des Ca-rac-té-ris-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 68--68
+\T1/lmr/bx/n/17.28 tiques (\T1/lmr/bx/it/17.28 Fea-ture En-gi-nee-ring\T1/lmr/bx/n/17.28 )|
+ []
+
 File: logos/emsi.png Graphic file (type png)
 <use logos/emsi.png>
-Package pdftex.def Info: logos/emsi.png  used on input line 77.
-(pdftex.def)             Requested size: 192.7313pt x 42.15996pt.
-
+Package pdftex.def Info: logos/emsi.png  used on input line 76.
+(pdftex.def)             Requested size: 115.62701pt x 25.2934pt.
 
 Package fancyhdr Warning: \headheight is too small (15.0pt): 
-(fancyhdr)                Make it at least 46.51pt, for example:
-(fancyhdr)                \setlength{\headheight}{46.51pt}.
+(fancyhdr)                Make it at least 29.64343pt, for example:
+(fancyhdr)                \setlength{\headheight}{29.64343pt}.
 (fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-31.51pt}.
+(fancyhdr)                \addtolength{\topmargin}{-14.64343pt}.
 
-[19{C:/Users/abouj/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathex.enc}]) (contenu/chapitre3.tex
+[21{C:/Users/abouj/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathex.enc}]
+Underfull \hbox (badness 10000) in paragraph at lines 80--80
+|[]\T1/lmr/bx/n/17.28 Évaluation et Va-li-da-tion du Mo-dèle|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 88--88
+|\T1/lmr/bx/n/17.28 Conclusion du cha-pitre|
+ []
+
+) (contenu/chapitre4.tex
 File: logos/emsi.png Graphic file (type png)
 <use logos/emsi.png>
 Package pdftex.def Info: logos/emsi.png  used on input line 1.
-(pdftex.def)             Requested size: 192.7313pt x 42.15996pt.
+(pdftex.def)             Requested size: 115.62701pt x 25.2934pt.
 
 
 Package fancyhdr Warning: \headheight is too small (15.0pt): 
-(fancyhdr)                Make it at least 46.51pt, for example:
-(fancyhdr)                \setlength{\headheight}{46.51pt}.
+(fancyhdr)                Make it at least 29.64343pt, for example:
+(fancyhdr)                \setlength{\headheight}{29.64343pt}.
 (fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-31.51pt}.
+(fancyhdr)                \addtolength{\topmargin}{-14.64343pt}.
 
-[20]
-Chapitre 3.
-[21
+[22]
+Chapitre 4.
+
+Underfull \hbox (badness 10000) in paragraph at lines 1--1
+|\T1/lmr/bx/n/24.88 Chapitre 4|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1--1
+|\T1/lmr/bx/n/24.88 Mise en ÷uvre : Ba-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1--1
+\T1/lmr/bx/n/24.88 ckend, Fron-tend et Va-li-da-tion|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 6--6
+\T1/lmr/bx/n/17.28 nées|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 9--9
+|[]\T1/lmr/bx/n/14.4 Sécurisation et Au-then-ti-fi-ca-tion JWT|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 12--12
+|\T1/lmr/bx/n/12 Déroulement de l'Au-then-ti-fi-ca-tion|
+ []
+
+[23
 
 ]
-Overfull \hbox (0.85303pt too wide) in paragraph at lines 82--83
- [][] 
+Underfull \hbox (badness 10000) in paragraph at lines 19--19
+|\T1/lmr/bx/n/12 Séparation des rôles (Ad-min/User)|
  []
 
-
-Overfull \hbox (1.00955pt too wide) in paragraph at lines 107--107
-[]|\T1/lmtt/b/n/12 /api/predictions/predict/|  
- []
-
-
-Overfull \hbox (7.30954pt too wide) in paragraph at lines 107--107
-[]|\T1/lmtt/b/n/12 /api/predictions/accuracy/|  
- []
-
-File: logos/emsi.png Graphic file (type png)
-<use logos/emsi.png>
-Package pdftex.def Info: logos/emsi.png  used on input line 111.
-(pdftex.def)             Requested size: 192.7313pt x 42.15996pt.
-
-Package fancyhdr Warning: \headheight is too small (15.0pt): 
-(fancyhdr)                Make it at least 46.51pt, for example:
-(fancyhdr)                \setlength{\headheight}{46.51pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-31.51pt}.
-
-[22] (figuresChapitres/diagramme_classes.tex)
-File: logos/emsi.png Graphic file (type png)
-<use logos/emsi.png>
-Package pdftex.def Info: logos/emsi.png  used on input line 119.
-(pdftex.def)             Requested size: 192.7313pt x 42.15996pt.
-
-
-Package fancyhdr Warning: \headheight is too small (15.0pt): 
-(fancyhdr)                Make it at least 46.51pt, for example:
-(fancyhdr)                \setlength{\headheight}{46.51pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-31.51pt}.
-
-[23]
-File: logos/emsi.png Graphic file (type png)
-<use logos/emsi.png>
-Package pdftex.def Info: logos/emsi.png  used on input line 129.
-(pdftex.def)             Requested size: 192.7313pt x 42.15996pt.
-
-
-Package fancyhdr Warning: \headheight is too small (15.0pt): 
-(fancyhdr)                Make it at least 46.51pt, for example:
-(fancyhdr)                \setlength{\headheight}{46.51pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-31.51pt}.
-
-[24]) (contenu/chapitre4.tex
-File: logos/emsi.png Graphic file (type png)
-<use logos/emsi.png>
-Package pdftex.def Info: logos/emsi.png  used on input line 1.
-(pdftex.def)             Requested size: 192.7313pt x 42.15996pt.
-
-
-Package fancyhdr Warning: \headheight is too small (15.0pt): 
-(fancyhdr)                Make it at least 46.51pt, for example:
-(fancyhdr)                \setlength{\headheight}{46.51pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-31.51pt}.
-
-[25]
-Chapitre 4.
-[26
-
-] (C:\Users\abouj\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
+(C:\Users\abouj\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
 )
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
 (Font)              Font shape `T1/lmtt/b/n' tried instead on input line 23.
+
+Underfull \hbox (badness 10000) in paragraph at lines 45--45
+|[]\T1/lmr/bx/n/14.4 Orchestration du Pi-pe-line de Don-nées|
+ []
+
 File: logos/emsi.png Graphic file (type png)
 <use logos/emsi.png>
 Package pdftex.def Info: logos/emsi.png  used on input line 48.
-(pdftex.def)             Requested size: 192.7313pt x 42.15996pt.
-
+(pdftex.def)             Requested size: 115.62701pt x 25.2934pt.
 
 Package fancyhdr Warning: \headheight is too small (15.0pt): 
-(fancyhdr)                Make it at least 46.51pt, for example:
-(fancyhdr)                \setlength{\headheight}{46.51pt}.
+(fancyhdr)                Make it at least 29.64343pt, for example:
+(fancyhdr)                \setlength{\headheight}{29.64343pt}.
 (fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-31.51pt}.
+(fancyhdr)                \addtolength{\topmargin}{-14.64343pt}.
 
-[27]
-Underfull \hbox (badness 2042) in paragraph at lines 71--72
-[]\T1/lmr/m/n/12 Le mo-dule \T1/lmtt/m/n/12 predictions/views.py \T1/lmr/m/n/12 charge en mé-moire RAM le mo-dèle
+[24]
+Underfull \hbox (badness 10000) in paragraph at lines 70--70
+|[]\T1/lmr/bx/n/14.4 Le End-point de Pré-dic-tion|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 74--74
+|[]\T1/lmr/bx/n/17.28 Implémentation Fron-tend et UI/UX|
  []
 
 File: logos/emsi.png Graphic file (type png)
 <use logos/emsi.png>
 Package pdftex.def Info: logos/emsi.png  used on input line 78.
-(pdftex.def)             Requested size: 192.7313pt x 42.15996pt.
+(pdftex.def)             Requested size: 115.62701pt x 25.2934pt.
 
 Package fancyhdr Warning: \headheight is too small (15.0pt): 
-(fancyhdr)                Make it at least 46.51pt, for example:
-(fancyhdr)                \setlength{\headheight}{46.51pt}.
+(fancyhdr)                Make it at least 29.64343pt, for example:
+(fancyhdr)                \setlength{\headheight}{29.64343pt}.
 (fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-31.51pt}.
+(fancyhdr)                \addtolength{\topmargin}{-14.64343pt}.
 
-[28]
+[25]
+Underfull \hbox (badness 10000) in paragraph at lines 78--78
+|[]\T1/lmr/bx/n/14.4 Choix Tech-no-lo-giques et Ar-chi-tec-ture|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 86--86
+|[]\T1/lmr/bx/n/14.4 Gestion de l'État (\T1/lmr/bx/it/14.4 State Ma-na-ge-ment\T1/lmr/bx/n/14.4 )|
+ []
+
 File: logos/emsi.png Graphic file (type png)
 <use logos/emsi.png>
 Package pdftex.def Info: logos/emsi.png  used on input line 107.
-(pdftex.def)             Requested size: 192.7313pt x 42.15996pt.
-
+(pdftex.def)             Requested size: 115.62701pt x 25.2934pt.
 
 Package fancyhdr Warning: \headheight is too small (15.0pt): 
-(fancyhdr)                Make it at least 46.51pt, for example:
-(fancyhdr)                \setlength{\headheight}{46.51pt}.
+(fancyhdr)                Make it at least 29.64343pt, for example:
+(fancyhdr)                \setlength{\headheight}{29.64343pt}.
 (fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-31.51pt}.
+(fancyhdr)                \addtolength{\topmargin}{-14.64343pt}.
 
-[29]
+[26]
+Underfull \hbox (badness 10000) in paragraph at lines 117--117
+|[]\T1/lmr/bx/n/14.4 Conception Vi-suelle (UI/UX)|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 119--119
+|\T1/lmr/bx/n/12 La Charte ``Mi-ni-ma-list Blue''|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 122--122
+|\T1/lmr/bx/n/12 Le Ta-bleau de Bord Ana-ly-tique|
+ []
+
 File: logos/emsi.png Graphic file (type png)
 <use logos/emsi.png>
 Package pdftex.def Info: logos/emsi.png  used on input line 129.
-(pdftex.def)             Requested size: 192.7313pt x 42.15996pt.
-
+(pdftex.def)             Requested size: 115.62701pt x 25.2934pt.
 
 Package fancyhdr Warning: \headheight is too small (15.0pt): 
-(fancyhdr)                Make it at least 46.51pt, for example:
-(fancyhdr)                \setlength{\headheight}{46.51pt}.
+(fancyhdr)                Make it at least 29.64343pt, for example:
+(fancyhdr)                \setlength{\headheight}{29.64343pt}.
 (fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-31.51pt}.
+(fancyhdr)                \addtolength{\topmargin}{-14.64343pt}.
 
-[30]
+[27]
 Overfull \hbox (27.59915pt too wide) in paragraph at lines 137--138
  [][] 
  []
@@ -1502,85 +1632,141 @@ Overfull \hbox (28.21552pt too wide) in paragraph at lines 147--148
  [][] 
  []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 152--152
+|[]\T1/lmr/bx/n/17.28 Tests, Va-li-da-tion et Ré-sul-tats|
+ []
+
 File: logos/emsi.png Graphic file (type png)
 <use logos/emsi.png>
 Package pdftex.def Info: logos/emsi.png  used on input line 155.
-(pdftex.def)             Requested size: 192.7313pt x 42.15996pt.
+(pdftex.def)             Requested size: 115.62701pt x 25.2934pt.
 
 Package fancyhdr Warning: \headheight is too small (15.0pt): 
-(fancyhdr)                Make it at least 46.51pt, for example:
-(fancyhdr)                \setlength{\headheight}{46.51pt}.
+(fancyhdr)                Make it at least 29.64343pt, for example:
+(fancyhdr)                \setlength{\headheight}{29.64343pt}.
 (fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-31.51pt}.
+(fancyhdr)                \addtolength{\topmargin}{-14.64343pt}.
 
-[31]
+[28]
+Underfull \hbox (badness 5696) in paragraph at lines 156--156
+|[]\T1/lmr/bx/n/14.4 Évaluation du Mo-dèle d'In-tel-li-gence Ar-ti-fi-cielle|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 160--160
+|\T1/lmr/bx/n/12 Matrice de Confu-sion Mul-ti-classe|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 183--183
+|\T1/lmr/bx/n/12 Métriques de Per-for-mance (Ac-cu-racy & F1-Score)|
+ []
+
 File: logos/emsi.png Graphic file (type png)
 <use logos/emsi.png>
 Package pdftex.def Info: logos/emsi.png  used on input line 187.
-(pdftex.def)             Requested size: 192.7313pt x 42.15996pt.
-
+(pdftex.def)             Requested size: 115.62701pt x 25.2934pt.
 
 Package fancyhdr Warning: \headheight is too small (15.0pt): 
-(fancyhdr)                Make it at least 46.51pt, for example:
-(fancyhdr)                \setlength{\headheight}{46.51pt}.
+(fancyhdr)                Make it at least 29.64343pt, for example:
+(fancyhdr)                \setlength{\headheight}{29.64343pt}.
 (fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-31.51pt}.
+(fancyhdr)                \addtolength{\topmargin}{-14.64343pt}.
 
-[32]
+[29]
+Underfull \hbox (badness 10000) in paragraph at lines 188--188
+|[]\T1/lmr/bx/n/14.4 Validation du Ba-ckend (API REST)|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 192--192
+|\T1/lmr/bx/n/12 Scénarios de Tests d'In-té-gra-tion|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 217--217
+|[]\T1/lmr/bx/n/14.4 Validation du Fron-tend et de l'Er-go-no-mie|
+ []
+
 File: logos/emsi.png Graphic file (type png)
 <use logos/emsi.png>
 Package pdftex.def Info: logos/emsi.png  used on input line 220.
-(pdftex.def)             Requested size: 192.7313pt x 42.15996pt.
-
+(pdftex.def)             Requested size: 115.62701pt x 25.2934pt.
 
 Package fancyhdr Warning: \headheight is too small (15.0pt): 
-(fancyhdr)                Make it at least 46.51pt, for example:
-(fancyhdr)                \setlength{\headheight}{46.51pt}.
+(fancyhdr)                Make it at least 29.64343pt, for example:
+(fancyhdr)                \setlength{\headheight}{29.64343pt}.
 (fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-31.51pt}.
+(fancyhdr)                \addtolength{\topmargin}{-14.64343pt}.
 
-[33])
+[30]
+Underfull \hbox (badness 10000) in paragraph at lines 224--224
+|[]\T1/lmr/bx/n/17.28 Limites du sys-tème|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 232--232
+|\T1/lmr/bx/n/17.28 Conclusion du cha-pitre|
+ []
+
+)
 File: logos/emsi.png Graphic file (type png)
 <use logos/emsi.png>
 Package pdftex.def Info: logos/emsi.png  used on input line 34.
-(pdftex.def)             Requested size: 192.7313pt x 42.15996pt.
+(pdftex.def)             Requested size: 115.62701pt x 25.2934pt.
 
 
 Package fancyhdr Warning: \headheight is too small (15.0pt): 
-(fancyhdr)                Make it at least 46.51pt, for example:
-(fancyhdr)                \setlength{\headheight}{46.51pt}.
+(fancyhdr)                Make it at least 29.64343pt, for example:
+(fancyhdr)                \setlength{\headheight}{29.64343pt}.
 (fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-31.51pt}.
+(fancyhdr)                \addtolength{\topmargin}{-14.64343pt}.
 
-[34] (contenu/conclusionGenerale.tex
+[31] (contenu/conclusionGenerale.tex
 File: logos/emsi.png Graphic file (type png)
 <use logos/emsi.png>
 Package pdftex.def Info: logos/emsi.png  used on input line 1.
-(pdftex.def)             Requested size: 192.7313pt x 42.15996pt.
+(pdftex.def)             Requested size: 115.62701pt x 25.2934pt.
 
 
 Package fancyhdr Warning: \headheight is too small (15.0pt): 
-(fancyhdr)                Make it at least 46.51pt, for example:
-(fancyhdr)                \setlength{\headheight}{46.51pt}.
+(fancyhdr)                Make it at least 29.64343pt, for example:
+(fancyhdr)                \setlength{\headheight}{29.64343pt}.
 (fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-31.51pt}.
+(fancyhdr)                \addtolength{\topmargin}{-14.64343pt}.
 
-[35] [36
+[32]
+Underfull \hbox (badness 10000) in paragraph at lines 1--1
+|\T1/lmr/bx/n/24.88 Conclusion gé-né-rale|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 11--11
+|\T1/lmr/bx/n/17.28 Perspectives d'Évo-lu-tion|
+ []
+
+[33
 
 ]) (main.bbl
 File: logos/emsi.png Graphic file (type png)
 <use logos/emsi.png>
 Package pdftex.def Info: logos/emsi.png  used on input line 1.
-(pdftex.def)             Requested size: 192.7313pt x 42.15996pt.
+(pdftex.def)             Requested size: 115.62701pt x 25.2934pt.
 
 
 Package fancyhdr Warning: \headheight is too small (15.0pt): 
-(fancyhdr)                Make it at least 46.51pt, for example:
-(fancyhdr)                \setlength{\headheight}{46.51pt}.
+(fancyhdr)                Make it at least 29.64343pt, for example:
+(fancyhdr)                \setlength{\headheight}{29.64343pt}.
 (fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-31.51pt}.
+(fancyhdr)                \addtolength{\topmargin}{-14.64343pt}.
 
-[37]) [38
+[34]
+Underfull \hbox (badness 10000) in paragraph at lines 1--1
+|\T1/lmr/bx/n/24.88 Bibliographie|
+ []
+
+) [35
 
 ] (main.aux)
  ***********
@@ -1589,17 +1775,17 @@ L3 programming layer <2026-05-26>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 48698 strings out of 467509
- 1046866 string characters out of 5408780
- 1861166 words of memory out of 5000000
- 76962 multiletter control sequences out of 15000+600000
- 706335 words of font info for 84 fonts, out of 8000000 for 9000
+ 48673 strings out of 467509
+ 1046794 string characters out of 5408780
+ 1861299 words of memory out of 5000000
+ 76940 multiletter control sequences out of 15000+600000
+ 716857 words of font info for 94 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 125i,17n,121p,904b,2758s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 125i,17n,121p,1240b,2752s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/abouj/AppData/Local/Programs/MiKTeX/fonts/type1/public/fontawesome5/FontAwesome5Free-Solid.pfb><C:/Users/abouj/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb><C:/Users/abouj/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/abouj/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbxi10.pfb><C:/Users/abouj/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmcsc10.pfb><C:/Users/abouj/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmex10.pfb><C:/Users/abouj/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.pfb><C:/Users/abouj/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi6.pfb><C:/Users/abouj/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi8.pfb><C:/Users/abouj/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb><C:/Users/abouj/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/abouj/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr6.pfb><C:/Users/abouj/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr8.pfb><C:/Users/abouj/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Users/abouj/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/Users/abouj/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy8.pfb><C:/Users/abouj/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtk10.pfb><C:/Users/abouj/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/Users/abouj/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb><C:/Users/abouj/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtti10.pfb>
-Output written on main.pdf (40 pages, 977054 bytes).
+Output written on main.pdf (37 pages, 1349004 bytes).
 PDF statistics:
- 767 PDF objects out of 1000 (max. 8388607)
- 188 named destinations out of 1000 (max. 500000)
- 585 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 728 PDF objects out of 1000 (max. 8388607)
+ 175 named destinations out of 1000 (max. 500000)
+ 571 words of extra memory for PDF output out of 10000 (max. 10000000)
 
