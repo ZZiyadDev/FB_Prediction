@@ -21,7 +21,7 @@
 %\setlength{\headheight}{2cm}
 \RequirePackage{url}
 \RequirePackage[hidelinks]{hyperref}%Paquet pour insérer légendes dans des sous-figures comme Figure 1a, 1b
-\RequirePackage[left=3cm,right=3cm,top=3cm,bottom=5cm,headheight=50pt]{geometry} %Configuration de la page
+\RequirePackage[left=3cm,right=3cm,top=3cm,bottom=3cm,headheight=50pt]{geometry} %Configuration de la page
 
 
 
@@ -61,10 +61,10 @@
 \pagestyle{fancy}
 \fancyheadoffset{0.5cm}
 
-\lhead{\ifx\@logoentreprise\@empty\includegraphics[scale=0.1]{logos/emsi.png}\else\includegraphics[scale=0.1]{\@logoentreprise}\fi}
+\lhead{\ifx\@logoentreprise\@empty\includegraphics[scale=0.1]{logos/emsi.png}\else\includegraphics[scale=0.06]{\@logoentreprise}\fi}
 \rhead{\nouppercase{\leftmark}}
-\rfoot{\thepage}
-\cfoot{}
+\rfoot{}
+\cfoot{\thepage}
 \lfoot{\@trigrammemention}
 }
 
@@ -75,14 +75,14 @@
 \thispagestyle{empty}
 \centering
 
-\vspace*{1cm}
+\vspace*{0.5cm}
 \ifx\@logoentreprise\@empty
     \includegraphics[width=0.4\linewidth]{logos/emsi.png}\par
 \else
     \includegraphics[width=0.4\linewidth]{\@logoentreprise}\par
 \fi
 
-\vspace{2cm}
+\vspace{1cm}
 
 \rule{\linewidth}{0.2mm}\par
 \vspace{0.5cm}
@@ -90,7 +90,7 @@
 \vspace{0.5cm}
 \rule{\linewidth}{0.2mm}\par
 
-\vspace{1.2cm}
+\vspace{0.8cm}
 {\Large\scshape 
   \renewcommand{\arraystretch}{1.3}
   \begin{tabular}{@{}c@{}}
@@ -98,14 +98,14 @@
   \end{tabular}
 }\par
 
-\vspace{1.2cm}
+\vspace{0.8cm}
 {\large
     \ifx\@mention\@empty\else\@mention\par\fi
     \ifx\@filiere\@empty\else\@filiere\par\fi
     \ifx\@master\@empty\else\@master\par\fi
 }\par
 
-\vspace{1cm}
+\vspace{0.5cm}
 {\large \@dates}\par
 
 \vfill
@@ -113,13 +113,13 @@
 \vspace{0.2cm}
 \@tuteuruniv\par
 
-\vspace{1cm}
+\vspace{0.8cm}
 
 {\large\textbf{Membres du jury :}}\par
 \vspace{0.2cm}
 \@membresjury\par
 
-\vspace{1cm}
+\vspace{0.5cm}
 \end{titlepage}
 \newpage
 }

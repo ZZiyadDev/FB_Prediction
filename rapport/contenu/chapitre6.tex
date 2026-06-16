@@ -12,18 +12,20 @@ La matrice de confusion permet de visualiser les performances de l'algorithme su
 \begin{table}[H]
     \centering
     \renewcommand{\arraystretch}{1.5}
-    \begin{tabularx}{0.8\textwidth}{|c|c|Y|Y|Y|}
+    \begin{tabularx}{\textwidth}{|c|c|Y|Y|Y|}
         \cline{3-5}
+        \rowcolor{MediumGray}
         \multicolumn{2}{c|}{} & \multicolumn{3}{c|}{\textbf{Prédictions du Modèle}} \\
         \cline{3-5}
+        \rowcolor{MediumGray}
         \multicolumn{2}{c|}{} & \textbf{Home (H)} & \textbf{Draw (D)} & \textbf{Away (A)} \\
         \hline
         \multirow{3}{*}{\rotatebox[origin=c]{90}{\textbf{Réalité}}} 
-        & \textbf{Home (H)} & \cellcolor{MediumGray} Vrais Positifs (H) & Faux Négatifs & Faux Négatifs \\
+        & \textbf{Home (H)} & \cellcolor{MediumGray!50} Vrais Positifs (H) & Faux Négatifs & Faux Négatifs \\
         \cline{2-5}
-        & \textbf{Draw (D)} & Faux Positifs & \cellcolor{MediumGray} Vrais Positifs (D) & Faux Positifs \\
+        & \textbf{Draw (D)} & Faux Positifs & \cellcolor{MediumGray!50} Vrais Positifs (D) & Faux Positifs \\
         \cline{2-5}
-        & \textbf{Away (A)} & Faux Positifs & Faux Négatifs & \cellcolor{MediumGray} Vrais Positifs (A) \\
+        & \textbf{Away (A)} & Faux Positifs & Faux Négatifs & \cellcolor{MediumGray!50} Vrais Positifs (A) \\
         \hline
     \end{tabularx}
     \caption{Structure de la Matrice de Confusion pour l'évaluation du modèle}
@@ -46,8 +48,8 @@ Voici un extrait des scénarios validés garantissant la sécurité et le bon fo
     \renewcommand{\arraystretch}{1.5}
     \begin{tabularx}{\textwidth}{|L|Y|c|}
         \hline
-        \rowcolor{Navy}
-        \textcolor{white}{\textbf{Cas de Test}} & \textcolor{white}{\textbf{Résultat Attendu}} & \textcolor{white}{\textbf{Statut}} \\
+        \rowcolor{MediumGray}
+        \textbf{Cas de Test} & \textbf{Résultat Attendu} & \textbf{Statut} \\
         \hline
         Connexion avec des identifiants valides & Retourne HTTP 200 OK + Access/Refresh Tokens & \textcolor{EMSIGreen}{Succès} \\
         \hline

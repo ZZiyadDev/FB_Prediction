@@ -18,6 +18,7 @@
 \usepackage{tabularx}
 \usepackage{ragged2e}
 \usepackage[most]{tcolorbox}
+\usepackage{indentfirst} % Indent the first paragraph of each section
 
 % --- Custom Colors ---
 \definecolor{Navy}{RGB}{15,23,42}
@@ -26,7 +27,7 @@
 \definecolor{LightGray}{RGB}{248,250,252}
 \definecolor{MediumGray}{RGB}{230,235,240}
 \definecolor{CodeBg}{RGB}{241,245,249}
-\definecolor{EMSIGreen}{RGB}{12, 114, 56} 
+\definecolor{EMSIGreen}{RGB}{0,130,60} % unified EMSI green
 
 % --- Tabularx Column Types ---
 \newcolumntype{L}{>{\bfseries\RaggedRight\arraybackslash}p{3.6cm}}
@@ -91,15 +92,49 @@
     tabsize=2
 }
 
-% cleveref should be loaded after hyperref (loaded in .cls)
+\lstdefinelanguage{JavaScript}{
+  keywords={const,let,var,function,return,if,else,for,while,module,exports,import,from,export,default,true,false,null},
+  keywordstyle=\bfseries\color{Teal},
+  sensitive=true,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]',
+  morestring=[b]"
+}
+
+% cleveref should be loaded after hyperref (loaded in class)
 \usepackage[nameinlink]{cleveref}
 
-% On définit le style pour les pages "normales"
-\pagestyle{fancy}
-\renewcommand{\chaptermark}[1]{\markboth{\chaptername \ \thechapter.\ #1}{}} % sert à personnaliser l'affichage de \leftmark (ici : le mot "Chapitre", le numéro, un point, et le titre du chapitre, sans écrire en majuscules)
-\renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}} % sert à personnaliser l'affichage de \rightmark (ici : le numéro et le titre de la section en cours, sans écrire en majuscules),chaptermark sert à dire :Quel titre de chapitre doit apparaître en haut de la page ?
-%\renewcommand{\thesection}{\arabic{section}}
+% --- Chapter formatting ---
+\usepackage{titlesec}
+
+\setlength{\parindent}{1.5em}
+\setlength{\parskip}{0pt}
+
+
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\raggedright}
+  {\chaptertitlename\ \thechapter}{20pt}{\Huge}
+\titleformat{\section}
+  {\normalfont\Large\bfseries\raggedright}
+  {\thesection}{1em}{}
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\raggedright}
+  {\thesubsection}{1em}{}
+
+% --- spacing ---
+\usepackage{setspace}
+\onehalfspacing
+\emergencystretch=2em
+
+% --- counter ---
 \usepackage{chngcntr}
 \counterwithin{section}{chapter}
 
+% --- safety (already fine but kept) ---
+\usepackage{tabularx}
+\usepackage{ragged2e}
+\usepackage{placeins}
+\usepackage{caption}
+\usepackage{needspace}
 %------------ Fin Packages ----------------

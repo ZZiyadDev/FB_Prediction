@@ -1,0 +1,74 @@
+\appendix
+\chapter{Annexes}
+
+\section{Extraits de Code Source}
+
+\begin{lstlisting}[language=Python, caption=Création du profil et des signaux (users/models.py), label=lst:user_profile]
+from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+class UserProfile(models.Model):
+    ADMIN = 'ADMIN'
+    USER = 'USER'
+    ROLE_CHOICES = [(ADMIN, 'Admin'), (USER, 'User')]
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default=USER)
+
+# Signal automatisant la creation du profil
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+\end{lstlisting}
+
+\newpage
+
+\begin{lstlisting}[language=Python, caption=Logique de Batching et Rate Limiting, label=lst:rate_limiting]
+matches_to_fetch = Match.objects.filter(
+    status="FT",
+    lineup__isnull=True,
+    match_date__lte=timezone.now()
+).order_by('-match_date')[:20] # BATCH: Max 20 requetes par execution
+
+for match in matches_to_fetch:
+    response = requests.get(f"{base_url}/fixtures/lineups", headers=headers, params={'fixture': match.fixture_id})
+    data = response.json()
+
+    # Verification Critique : Rate Limit
+    if data.get('errors') and 'requests' in data.get('errors'):
+        self.stderr.write("Limite quotidienne atteinte. Arret de securite.")
+        break # Protection de la cle API
+
+    time.sleep(6.2) # Delai obligatoire de 6 secondes entre chaque requete
+\end{lstlisting}
+
+\newpage
+
+\begin{lstlisting}[language=Python, caption=Gestion globale de l'authentification avec Zustand, label=lst:zustand_auth]
+import { create } from 'zustand';
+import { jwtDecode } from 'jwt-decode';
+
+const useStore = create((set) => ({
+  user: JSON.parse(localStorage.getItem('user')) || null,
+  isAuthenticated: !!localStorage.getItem('token'),
+
+  login: async (credentials) => {
+    const response = await authService.login(credentials);
+    const decoded = jwtDecode(response.data.access); // Extraction des claims
+    const userData = { id: decoded.user_id, username: decoded.username, role: decoded.role };
+
+    localStorage.setItem('token', response.data.access);
+    localStorage.setItem('user', JSON.stringify(userData));
+    set({ user: userData, isAuthenticated: true });
+  },
+
+  logout: () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    set({ user: null, isAuthenticated: false });
+  }
+}));
+\end{lstlisting}
