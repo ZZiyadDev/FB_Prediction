@@ -10,53 +10,53 @@
 \contentsline {subsection}{\numberline {1.2.2}Fonctionnalités pour l'Administrateur}{12}{subsection.1.2.2}%
 \contentsline {section}{\numberline {1.3}Exigences Non-Fonctionnelles}{12}{section.1.3}%
 \contentsline {section}{\numberline {1.4}Analyse des Risques}{12}{section.1.4}%
-\contentsline {section}{\numberline {1.5}Modélisation des Processus (UML)}{13}{section.1.5}%
-\contentsline {subsection}{\numberline {1.5.1}Diagramme de Cas d'Utilisation}{13}{subsection.1.5.1}%
+\contentsline {section}{\numberline {1.5}Modélisation des Processus (UML)}{12}{section.1.5}%
+\contentsline {subsection}{\numberline {1.5.1}Diagramme de Cas d'Utilisation}{12}{subsection.1.5.1}%
 \contentsline {subsection}{\numberline {1.5.2}Spécification détaillée des cas d'utilisation}{14}{subsection.1.5.2}%
-\contentsline {section}{Conclusion du chapitre}{15}{table.caption.11}%
+\contentsline {section}{Conclusion du chapitre}{15}{section*.15}%
 \contentsline {chapter}{\numberline {2}Choix Technologiques et Modélisation}{16}{chapter.2}%
 \contentsline {section}{\numberline {2.1}Environnement Technique}{16}{section.2.1}%
 \contentsline {subsection}{\numberline {2.1.1}Backend : Django \& REST Framework}{16}{subsection.2.1.1}%
 \contentsline {subsection}{\numberline {2.1.2}Frontend : React \& Zustand}{17}{subsection.2.1.2}%
 \contentsline {subsection}{\numberline {2.1.3}Fournisseur de Données : API-Football}{17}{subsection.2.1.3}%
-\contentsline {section}{\numberline {2.2}Fondements Théoriques de l'Intelligence Artificielle}{18}{section.2.2}%
-\contentsline {subsection}{\numberline {2.2.1}Le Problème de Déséquilibre des Classes (\textit {Imbalanced Data})}{18}{subsection.2.2.1}%
-\contentsline {subsubsection}{Approche Mathématique : SMOTE}{18}{subsection.2.2.1}%
+\contentsline {section}{\numberline {2.2}Fondements Théoriques de l'Intelligence Artificielle}{17}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Le Problème de Déséquilibre des Classes (\textit {Imbalanced Data})}{17}{subsection.2.2.1}%
+\contentsline {subsubsection}{Approche Mathématique : SMOTE}{18}{section*.19}%
 \contentsline {subsection}{\numberline {2.2.2}Algorithme Prédictif : XGBoost}{18}{subsection.2.2.2}%
-\contentsline {subsubsection}{Fonction d'Objectif et Régularisation}{19}{subsection.2.2.2}%
-\contentsline {subsubsection}{Adaptation à la classification multiclasse}{19}{equation.2.3}%
+\contentsline {subsubsection}{Fonction d'Objectif et Régularisation}{18}{section*.20}%
+\contentsline {subsubsection}{Adaptation à la classification multiclasse}{18}{section*.21}%
 \contentsline {section}{\numberline {2.3}Ingénierie des Caractéristiques (\textit {Feature Engineering})}{19}{section.2.3}%
-\contentsline {section}{\numberline {2.4}Évaluation et Validation du Modèle}{20}{section.2.4}%
-\contentsline {section}{Conclusion du chapitre}{20}{section.2.4}%
-\contentsline {chapter}{\numberline {3}Conception Architecturale}{21}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Architecture N-Tiers (\textit {Backend as a Service})}{21}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Diagrammes de Séquence}{21}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Processus d'Authentification}{22}{subsection.3.2.1}%
-\contentsline {section}{\numberline {3.3}Catalogue des API REST}{22}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Modélisation de la Base de Données}{23}{section.3.4}%
-\contentsline {subsection}{\numberline {3.4.1}Diagramme de Classes (Backend)}{23}{subsection.3.4.1}%
-\contentsline {subsection}{\numberline {3.4.2}Justification des choix de modélisation}{24}{subsection.3.4.2}%
-\contentsline {section}{Conclusion du chapitre}{25}{subsection.3.4.2}%
-\contentsline {chapter}{\numberline {4}Mise en œuvre : Backend, Frontend et Validation}{26}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Implémentation Backend et Pipeline de Données}{26}{section.4.1}%
-\contentsline {subsection}{\numberline {4.1.1}Sécurisation et Authentification JWT}{26}{subsection.4.1.1}%
-\contentsline {subsubsection}{Déroulement de l'Authentification}{26}{subsection.4.1.1}%
-\contentsline {subsubsection}{Séparation des rôles (Admin/User)}{27}{Item.6}%
-\contentsline {subsection}{\numberline {4.1.2}Orchestration du Pipeline de Données}{27}{subsection.4.1.2}%
-\contentsline {subsection}{\numberline {4.1.3}Le Endpoint de Prédiction}{28}{subsection.4.1.3}%
-\contentsline {section}{\numberline {4.2}Implémentation Frontend et UI/UX}{29}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Choix Technologiques et Architecture}{29}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Gestion de l'État (\textit {State Management})}{29}{subsection.4.2.2}%
-\contentsline {subsection}{\numberline {4.2.3}Conception Visuelle (UI/UX)}{30}{subsection.4.2.3}%
-\contentsline {subsubsection}{La Charte ``Minimalist Blue''}{30}{subsection.4.2.3}%
-\contentsline {subsubsection}{Le Tableau de Bord Analytique}{30}{subsection.4.2.3}%
-\contentsline {section}{\numberline {4.3}Tests, Validation et Résultats}{32}{section.4.3}%
-\contentsline {subsection}{\numberline {4.3.1}Évaluation du Modèle d'Intelligence Artificielle}{32}{subsection.4.3.1}%
-\contentsline {subsubsection}{Matrice de Confusion Multiclasse}{32}{subsection.4.3.1}%
-\contentsline {subsubsection}{Métriques de Performance (Accuracy \& F1-Score)}{32}{table.caption.21}%
-\contentsline {subsection}{\numberline {4.3.2}Validation du Backend (API REST)}{33}{subsection.4.3.2}%
-\contentsline {subsubsection}{Scénarios de Tests d'Intégration}{33}{subsection.4.3.2}%
-\contentsline {subsection}{\numberline {4.3.3}Validation du Frontend et de l'Ergonomie}{34}{subsection.4.3.3}%
-\contentsline {section}{\numberline {4.4}Limites du système}{34}{section.4.4}%
-\contentsline {section}{Conclusion du chapitre}{34}{section.4.4}%
-\contentsline {chapter}{Conclusion générale}{36}{chapter*.23}%
+\contentsline {section}{\numberline {2.4}Évaluation et Validation du Modèle}{19}{section.2.4}%
+\contentsline {section}{Conclusion du chapitre}{19}{section*.22}%
+\contentsline {chapter}{\numberline {3}Conception Architecturale}{20}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Architecture N-Tiers (\textit {Backend as a Service})}{20}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Diagrammes de Séquence}{20}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Processus d'Authentification}{21}{subsection.3.2.1}%
+\contentsline {section}{\numberline {3.3}Catalogue des API REST}{21}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Modélisation de la Base de Données}{22}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Diagramme de Classes (Backend)}{22}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Justification des choix de modélisation}{22}{subsection.3.4.2}%
+\contentsline {section}{Conclusion du chapitre}{23}{section*.27}%
+\contentsline {chapter}{\numberline {4}Mise en œuvre : Backend, Frontend et Validation}{24}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Implémentation Backend et Pipeline de Données}{24}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Sécurisation et Authentification JWT}{24}{subsection.4.1.1}%
+\contentsline {subsubsection}{Déroulement de l'Authentification}{24}{section*.28}%
+\contentsline {subsubsection}{Séparation des rôles (Admin/User)}{25}{section*.29}%
+\contentsline {subsection}{\numberline {4.1.2}Orchestration du Pipeline de Données}{25}{subsection.4.1.2}%
+\contentsline {subsection}{\numberline {4.1.3}Le Endpoint de Prédiction}{26}{subsection.4.1.3}%
+\contentsline {section}{\numberline {4.2}Implémentation Frontend et UI/UX}{26}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Choix Technologiques et Architecture}{26}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Gestion de l'État (\textit {State Management})}{26}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Conception Visuelle (UI/UX)}{27}{subsection.4.2.3}%
+\contentsline {subsubsection}{La Charte ``Minimalist Blue''}{27}{section*.30}%
+\contentsline {subsubsection}{Le Tableau de Bord Analytique}{27}{section*.31}%
+\contentsline {section}{\numberline {4.3}Tests, Validation et Résultats}{29}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Évaluation du Modèle d'Intelligence Artificielle}{29}{subsection.4.3.1}%
+\contentsline {subsubsection}{Matrice de Confusion Multiclasse}{29}{section*.34}%
+\contentsline {subsubsection}{Métriques de Performance (Accuracy \& F1-Score)}{30}{section*.36}%
+\contentsline {subsection}{\numberline {4.3.2}Validation du Backend (API REST)}{30}{subsection.4.3.2}%
+\contentsline {subsubsection}{Scénarios de Tests d'Intégration}{30}{section*.37}%
+\contentsline {subsection}{\numberline {4.3.3}Validation du Frontend et de l'Ergonomie}{31}{subsection.4.3.3}%
+\contentsline {section}{\numberline {4.4}Limites du système}{31}{section.4.4}%
+\contentsline {section}{Conclusion du chapitre}{32}{section*.39}%
+\contentsline {chapter}{Conclusion générale}{33}{chapter*.40}%

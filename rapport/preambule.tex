@@ -26,7 +26,7 @@
 \definecolor{LightGray}{RGB}{248,250,252}
 \definecolor{MediumGray}{RGB}{230,235,240}
 \definecolor{CodeBg}{RGB}{241,245,249}
-\definecolor{EMSIGreen}{RGB}{0,130,60} % unified EMSI green
+\definecolor{EMSIGreen}{RGB}{12, 114, 56} 
 
 % --- Tabularx Column Types ---
 \newcolumntype{L}{>{\bfseries\RaggedRight\arraybackslash}p{3.6cm}}
@@ -91,48 +91,15 @@
     tabsize=2
 }
 
-\lstdefinelanguage{JavaScript}{
-  keywords={const,let,var,function,return,if,else,for,while,module,exports,import,from,export,default,true,false,null},
-  keywordstyle=\bfseries\color{Teal},
-  sensitive=true,
-  comment=[l]{//},
-  morecomment=[s]{/*}{*/},
-  morestring=[b]',
-  morestring=[b]"
-}
-
-% cleveref should be loaded after hyperref (loaded in class)
+% cleveref should be loaded after hyperref (loaded in .cls)
 \usepackage[nameinlink]{cleveref}
 
-% --- FANCY HEADER (safe if hyperref already loaded elsewhere) ---
-\usepackage{fancyhdr}
-
+% On définit le style pour les pages "normales"
 \pagestyle{fancy}
-\fancyhf{}
-\rhead{Football Prediction Dashboard}
-\lhead{Rapport de Fin d’Année}
-\cfoot{\thepage}
-
-\setlength{\headheight}{15pt}
-
-% --- Chapter formatting ---
-\usepackage{titlesec}
-
-\titleformat{\chapter}[display]
-  {\normalfont\huge\bfseries}
-  {\chaptertitlename\ \thechapter}{20pt}{\Huge}
-
-% --- spacing ---
-\usepackage{setspace}
-\onehalfspacing
-\emergencystretch=2em
-
-% --- counter ---
+\renewcommand{\chaptermark}[1]{\markboth{\chaptername \ \thechapter.\ #1}{}} % sert à personnaliser l'affichage de \leftmark (ici : le mot "Chapitre", le numéro, un point, et le titre du chapitre, sans écrire en majuscules)
+\renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}} % sert à personnaliser l'affichage de \rightmark (ici : le numéro et le titre de la section en cours, sans écrire en majuscules),chaptermark sert à dire :Quel titre de chapitre doit apparaître en haut de la page ?
+%\renewcommand{\thesection}{\arabic{section}}
 \usepackage{chngcntr}
 \counterwithin{section}{chapter}
-
-% --- safety (already fine but kept) ---
-\usepackage{tabularx}
-\usepackage{ragged2e}
 
 %------------ Fin Packages ----------------
