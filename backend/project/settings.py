@@ -15,7 +15,7 @@ DEBUG = env('DEBUG', 'True') == 'True'
 
 API_FOOTBALL_KEY = os.environ.get('FOOTBALL_API_KEY')
 
-ALLOWED_HOSTS = [host.strip() for host in env('ALLOWED_HOSTS', 'localhost').split(',') if host.strip()]
+ALLOWED_HOSTS = ['*']
 
 # Consolidate CORS origins from env and hardcoded defaults
 ENV_CORS = [origin.strip() for origin in env('CORS_ALLOWED_ORIGINS', '').split(',') if origin.strip()]
