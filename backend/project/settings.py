@@ -17,17 +17,8 @@ API_FOOTBALL_KEY = os.environ.get('FOOTBALL_API_KEY')
 
 ALLOWED_HOSTS = ['*']
 
-# Consolidate CORS origins from env and hardcoded defaults
-ENV_CORS = [origin.strip() for origin in env('CORS_ALLOWED_ORIGINS', '').split(',') if origin.strip()]
-DEFAULT_CORS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "http://localhost:5174",
-    "http://127.0.0.1:5174",
-    "http://localhost:5175",
-    "http://127.0.0.1:5175",
-]
-CORS_ALLOWED_ORIGINS = list(set(ENV_CORS + DEFAULT_CORS))
+# Allow all CORS origins to prevent issues with changing Vercel preview URLs
+CORS_ALLOW_ALL_ORIGINS = True
 
 INSTALLED_APPS = [
     'django.contrib.admin',
