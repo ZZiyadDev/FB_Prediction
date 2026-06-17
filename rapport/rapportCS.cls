@@ -108,9 +108,9 @@
 \vspace{0.5cm}
 {\large \@dates}\par
 
-\vfill
+\vspace{1.5cm}
 {\large\textbf{Tuteur(s) EMSI :}}\par
-\vspace{0.2cm}
+\vspace{0.4cm}
 \@tuteuruniv\par
 
 \vspace{0.8cm}
