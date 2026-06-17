@@ -8,7 +8,7 @@ Pour garantir la performance et la maintenance du projet, nous avons choisi une 
 \subsection{Backend : Django \& REST Framework}
 \begin{figure}[H]
     \centering
-    \includegraphics[height=2.5cm]{logos/django.png}
+    \includegraphics[height=1.5cm]{logos/django.png}
     \caption{Framework Backend Django}
 \end{figure}
 Le serveur est développé en Python avec le framework Django, complété par \textbf{Django REST Framework (DRF)}. Ce choix est expliqué par la puissance des \textit{Serializers} de DRF, qui permettent de transformer les modèles complexes de notre base de données (incluant les statistiques et compositions) en flux JSON utilisables par le frontend. Il assure également la sécurité des requêtes via JWT et la gestion du modèle XGBoost.
@@ -16,7 +16,7 @@ Le serveur est développé en Python avec le framework Django, complété par \t
 \subsection{Frontend : React \& Zustand}
 \begin{figure}[H]
     \centering
-    \includegraphics[height=2.5cm]{logos/React.png}
+    \includegraphics[height=1.5cm]{logos/React.png}
     \caption{Bibliothèque Frontend React}
 \end{figure}
 L'interface utilisateur est construite avec React. Pour la gestion de l'état global (connexion, liste des matchs, résultats de l'IA), nous avons utilisé \textbf{Zustand}. Contrairement à Redux, Zustand est plus simple et rapide, ce qui réduit la complexité du code tout en garantissant une mise à jour fluide des composants de l'application.
@@ -24,10 +24,46 @@ L'interface utilisateur est construite avec React. Pour la gestion de l'état gl
 \subsection{Fournisseur de Données : API-Football}
 \begin{figure}[H]
     \centering
-    \includegraphics[height=2.5cm]{logos/api-football.png}
+    \includegraphics[height=1.5cm]{logos/api-football.png}
     \caption{Fournisseur de données sportives}
 \end{figure}
 La source de données de notre modèle de prédiction provient d'API-Football. Elle nous fournit des données historiques complètes et actualisées (résultats, compositions, statistiques de match) via des requêtes REST.
+
+\subsection{Base de Données : PostgreSQL (Neon)}
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=1.5cm]{logos/postgresql.png}
+    \caption{Système de gestion de base de données PostgreSQL}
+\end{figure}
+Pour le stockage persistant et sécurisé de nos données (utilisateurs, historiques de matchs, prédictions), nous avons opté pour \textbf{PostgreSQL}, reconnu pour sa robustesse et sa conformité aux standards SQL. Afin de garantir une haute disponibilité, la base de données est hébergée dans le cloud via \textbf{Neon Tech}, offrant une architecture \textit{Serverless} parfaitement adaptée à la scalabilité de notre application.
+
+\subsection{Hébergement et Déploiement : Render \& Vercel}
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=3cm, keepaspectratio]{logos/render.png}
+        \caption{Hébergement Backend}
+    \end{minipage}\hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=2.5cm, keepaspectratio]{logos/vercel.png}
+        \caption{Hébergement Frontend}
+    \end{minipage}
+\end{figure}
+Pour mettre notre solution à disposition des utilisateurs, nous avons adopté une approche de déploiement moderne et dissociée :
+\begin{itemize}
+    \item \textbf{Render} héberge notre serveur backend (Django) et exécute les scripts d'intelligence artificielle via un environnement Gunicorn.
+    \item \textbf{Vercel} héberge l'interface utilisateur (React/Vite), offrant des temps de chargement ultra-rapides grâce à son réseau de diffusion de contenu (CDN) mondial.
+\end{itemize}
+
+\subsection{Versioning et Collaboration : Git \& GitHub}
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=1.5cm]{logos/github.png}
+    \caption{Plateforme de versioning et collaboration GitHub}
+\end{figure}
+Tout au long du cycle de développement, \textbf{Git} a été utilisé pour le contrôle de version, permettant un suivi précis de chaque modification du code source. Le dépôt distant a été hébergé sur \textbf{GitHub}. Ce choix technologique nous a également permis d'implémenter un processus d'intégration et de déploiement continus (CI/CD) : chaque nouvelle mise à jour poussée sur GitHub déclenche automatiquement le redéploiement de nos serveurs sur Render et Vercel.
 
 \section{Fondements Théoriques de l'Intelligence Artificielle}
 

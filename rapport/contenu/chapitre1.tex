@@ -8,12 +8,13 @@ Dans ce contexte, le projet Football Prediction Dashboard vise à exploiter les 
 
 \section{État de l'art}
 
+\subsection{Évolution des modèles prédictifs}
 La prédiction des résultats de football a évolué de simples modèles statistiques vers des architectures complexes de Machine Learning. Les premiers travaux significatifs reposaient sur des distributions de Poisson pour modéliser le nombre de buts marqués par chaque équipe. Maher \cite{maher1982} a jeté les bases en utilisant des variables indépendantes pour l'attaque et la défense, tandis que Dixon et Coles \cite{dixon1997} ont amélioré ces modèles en introduisant des facteurs de pondération temporelle pour accorder plus d'importance aux performances récentes.
 
-Avec l'avènement du Big Data, les chercheurs se sont tournés vers l'apprentissage automatique. Bunker et Thabtah \cite{bunker2019} ont démontré qu'un cadre structuré de Machine Learning surpasse les méthodes statistiques traditionnelles en capturant des relations non linéaires entre les variables. Aujourd'hui, des algorithmes comme XGBoost \cite{chen2016xgboost} sont largement adoptés pour leur capacité à traiter des volumes massifs de données tout en offrant une précision élevée grâce à l'optimisation par gradient.
+Avec l'avènement du Big Data, les chercheurs se sont tournés vers l'apprentissage automatique. Bunker et Thabtah \cite{bunker2019} ont démontré qu'un cadre structuré de Machine Learning surpasse les méthodes statistiques traditionnelles en capturant des relations non linéaires entre les variables. Plus récemment, l'utilisation des réseaux de neurones profonds (Deep Learning), notamment les architectures récurrentes comme les LSTM, a permis d'extraire des dépendances temporelles complexes sur l'évolution d'une saison. Toutefois, ces modèles nécessitent des volumes de données colossaux, sont coûteux en calcul, et manquent souvent d'interprétabilité ("boîte noire"). 
+C'est pourquoi des algorithmes ensemblistes comme XGBoost \cite{chen2016xgboost} restent aujourd'hui largement adoptés : ils offrent un excellent compromis entre une précision extrêmement élevée (grâce à l'optimisation par gradient) et une modélisation plus légère et interprétable.
 
 Le tableau~\ref{tab:comparatif_modeles} synthétise les principales approches identifiées dans la littérature et leurs caractéristiques respectives.
-
 
 \begin{table}[H]
     \centering
@@ -29,6 +30,8 @@ Le tableau~\ref{tab:comparatif_modeles} synthétise les principales approches id
         \hline
         Random Forest & Moyenne & Modèle robuste, réduit le surapprentissage. & Aspect "boîte noire", lourd en mémoire. & \cite{breiman2001rf} \\
         \hline
+        Deep Learning & Très faible & Capture des patterns et séries temporelles très complexes. & Modèle "boîte noire", nécessite énormément de données. & \cite{bunker2019} \\
+        \hline
         \rowcolor{LightGray}
         \textbf{XGBoost} & \textbf{Moyenne} & \textbf{Correction des erreurs, très haute précision.} & \textbf{Risque de surapprentissage si mal réglé.} & \cite{chen2016xgboost} \\
         \hline
@@ -36,6 +39,13 @@ Le tableau~\ref{tab:comparatif_modeles} synthétise les principales approches id
     \caption{Tableau comparatif des modèles d'apprentissage automatique pour la prédiction sportive}
     \label{tab:comparatif_modeles}
 \end{table}
+
+\subsection{L'importance des données (Features)}
+La performance de tous ces algorithmes repose intrinsèquement sur la qualité des données fournies en entrée. Historiquement, les modèles se basaient uniquement sur le nombre de buts marqués et encaissés. Aujourd'hui, l'état de l'art intègre des métriques avancées telles que les statistiques de possession, les tirs cadrés, l'historique direct (H2H), ou encore la forme récente des équipes. Cette richesse des \textit{features} est cruciale pour alimenter et maximiser la précision des modèles prédictifs.
+
+\subsection{Solutions et Dashboards existants}
+Sur le marché actuel, plusieurs plateformes proposent des analyses prédictives avancées. Des références comme \textit{FiveThirtyEight} (avec leur algorithme \textit{Soccer Power Index}), \textit{Opta} ou \textit{SofaScore} dominent le secteur. Néanmoins, ces solutions présentent des limites : elles sont souvent propriétaires, payantes, ou ciblées pour un public de professionnels. 
+C'est dans ce contexte que se positionne notre projet : proposer un tableau de bord (\textit{Dashboard}) interactif et transparent, centralisant des modèles d'apprentissage automatique de pointe tout en les rendant visuellement accessibles pour l'utilisateur final.
 
 
 \section{Objectifs du projet}
