@@ -1,28 +1,28 @@
 \babel@toc {french}{}\relax 
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Architecture technique à N-Tiers}}{15}{figure.caption.10}%
-\contentsline {figure}{\numberline {2.2}{\ignorespaces Diagramme de cas d’utilisation du système complet}}{17}{figure.caption.11}%
-\contentsline {figure}{\numberline {2.3}{\ignorespaces Diagramme de séquence du processus d’authentification JWT}}{18}{figure.caption.12}%
-\contentsline {figure}{\numberline {2.4}{\ignorespaces Modèle conceptuel de données simplifié de l'application }}{18}{figure.caption.13}%
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Architecture technique à N-Tiers}}{17}{figure.caption.12}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Diagramme de cas d’utilisation du système complet}}{19}{figure.caption.13}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Diagramme de séquence du processus d’authentification JWT}}{20}{figure.caption.14}%
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Modèle conceptuel de données simplifié de l'application }}{20}{figure.caption.15}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Framework Backend Django}}{20}{figure.caption.14}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Bibliothèque Frontend React}}{21}{figure.caption.15}%
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Fournisseur de données sportives}}{21}{figure.caption.16}%
-\contentsline {figure}{\numberline {3.4}{\ignorespaces Système de gestion de base de données PostgreSQL}}{21}{figure.caption.17}%
-\contentsline {figure}{\numberline {3.5}{\ignorespaces Hébergement Backend}}{22}{figure.caption.18}%
-\contentsline {figure}{\numberline {3.6}{\ignorespaces Hébergement Frontend}}{22}{figure.caption.18}%
-\contentsline {figure}{\numberline {3.7}{\ignorespaces Plateforme de versioning et collaboration GitHub}}{22}{figure.caption.19}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Framework Backend Django}}{22}{figure.caption.16}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Bibliothèque Frontend React}}{23}{figure.caption.17}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Fournisseur de données sportives}}{23}{figure.caption.18}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Système de gestion de base de données PostgreSQL}}{23}{figure.caption.19}%
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Hébergement Backend}}{24}{figure.caption.20}%
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Hébergement Frontend}}{24}{figure.caption.20}%
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Plateforme de versioning et collaboration GitHub}}{24}{figure.caption.21}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Interface de connexion (Sign In)}}{30}{figure.caption.20}%
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Interface de création de compte (Register)}}{30}{figure.caption.21}%
-\contentsline {figure}{\numberline {5.3}{\ignorespaces Interface de gestion des utilisateurs}}{31}{figure.caption.22}%
-\contentsline {figure}{\numberline {5.4}{\ignorespaces Le centre de commande analytique interactif (Dashboard)}}{32}{figure.caption.23}%
-\contentsline {figure}{\numberline {5.5}{\ignorespaces Distribution probabiliste et comparaison sous forme de radar tactique}}{33}{figure.caption.24}%
-\contentsline {figure}{\numberline {5.6}{\ignorespaces Comparaison des métriques de jeu de chaque équipe}}{33}{figure.caption.25}%
-\contentsline {figure}{\numberline {5.7}{\ignorespaces Rendu dynamique du terrain et composition des équipes}}{34}{figure.caption.26}%
-\contentsline {figure}{\numberline {5.8}{\ignorespaces Résumé statistique des dynamiques du match}}{34}{figure.caption.27}%
-\contentsline {figure}{\numberline {5.9}{\ignorespaces Liste paginée des rencontres sportives synchronisées avec l'API}}{35}{figure.caption.28}%
-\contentsline {figure}{\numberline {5.10}{\ignorespaces Journal d'audit et performances du système (\textit {System Performance Logs})}}{35}{figure.caption.29}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Interface de connexion (Sign In)}}{32}{figure.caption.22}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Interface de création de compte (Register)}}{32}{figure.caption.23}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Interface de gestion des utilisateurs}}{33}{figure.caption.24}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Le centre de commande analytique interactif (Dashboard)}}{34}{figure.caption.25}%
+\contentsline {figure}{\numberline {5.5}{\ignorespaces Distribution probabiliste et comparaison sous forme de radar tactique}}{35}{figure.caption.26}%
+\contentsline {figure}{\numberline {5.6}{\ignorespaces Comparaison des métriques de jeu de chaque équipe}}{35}{figure.caption.27}%
+\contentsline {figure}{\numberline {5.7}{\ignorespaces Rendu dynamique du terrain et composition des équipes}}{36}{figure.caption.28}%
+\contentsline {figure}{\numberline {5.8}{\ignorespaces Résumé statistique des dynamiques du match}}{36}{figure.caption.29}%
+\contentsline {figure}{\numberline {5.9}{\ignorespaces Liste paginée des rencontres sportives synchronisées avec l'API}}{37}{figure.caption.30}%
+\contentsline {figure}{\numberline {5.10}{\ignorespaces Journal d'audit et performances du système (\textit {System Performance Logs})}}{37}{figure.caption.31}%
 \addvspace {10\p@ }

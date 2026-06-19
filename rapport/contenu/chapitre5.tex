@@ -172,14 +172,14 @@ L'interface utilisateur a subi des tests empiriques d'intégration et d'ergonomi
     \item \textbf{Gestion des Erreurs Utilisateur} : Si l'API retourne une erreur (par exemple, un token expiré) ou est momentanément indisponible, l'intercepteur Axios capte le code d'erreur et l'interface affiche un message convivial (via le composant \texttt{Alert} ou \texttt{Notification} d'Ant Design) au lieu de bloquer l'application.
 \end{itemize}
 
-\section{Limites du système}
+\section{Limites du Modèle predictif}
 Malgré les performances encourageantes, notre solution présente certaines limites techniques et fonctionnelles :
 \begin{itemize}
     \item \textbf{Dépendance aux API tierces} : La gratuité de l'API-Football limite le volume de données récupérables en temps réel, ce qui peut restreindre l'actualisation immédiate de certains championnats mineurs.
     \item \textbf{Absence de données contextuelles} : Le modèle actuel ne prend pas encore en compte des facteurs externes imprévisibles tels que les conditions météorologiques, les transferts de dernière minute ou l'état psychologique individuel des joueurs.
-    \item \textbf{Infrastructure de calcul} : L'utilisation d'une base SQLite limite le passage à l'échelle pour une application grand public supportant des milliers d'utilisateurs simultanés.
+
 \end{itemize}
 
-\section*{Conclusion du chapitre}
-\addcontentsline{toc}{section}{Conclusion du chapitre}
+\section*{Conclusion}
+\addcontentsline{toc}{section}{Conclusion}
 Ce dernier chapitre vient clore notre processus de développement en confirmant que le produit final respecte les cahiers des charges initial. Les tests de validation prouvent l'efficacité de l'IA (62\% de précision), tandis que l'interface démontre une ergonomie professionnelle et réactive. Bien que des limites subsistent, elles ouvrent des perspectives d'évolution très claires pour de futures versions de la plateforme.

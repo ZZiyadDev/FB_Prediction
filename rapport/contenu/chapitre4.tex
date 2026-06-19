@@ -7,7 +7,7 @@ Ce chapitre aborde la mise en œuvre technique de l'application dans son ensembl
 Le backend est développé en \textbf{Python} avec le framework \textbf{Django}, réputé pour sa robustesse et sa sécurité native (\textit{Out-of-the-box}).
 
 \subsection{Sécurisation et Authentification JWT}
-L'authentification traditionnelle par session n'est pas adaptée aux applications \textit{Single-Page} (SPA) modernes. Nous avons implémenté le standard JWT (\textit{JSON Web Token}) \cite{jones2015jwt}.
+L'authentification traditionnelle par session n'est pas adaptée aux applications \textit{Single-Page} (SPA) modernes. Nous avons implémenté le standard JWT\cite{jones2015jwt}.
 
 \subsubsection{Déroulement de l'Authentification}
 Lorsqu'un utilisateur se connecte, le serveur génère deux tokens chiffrés :
@@ -54,6 +54,6 @@ La communication avec le backend et la sauvegarde des tokens de sécurité sont 
 
 De plus, l'outil \textbf{Axios} a été configuré avec un intercepteur de requêtes. Ainsi, le jeton JWT est attaché de manière automatique et transparente dans l'en-tête \texttt{Authorization: Bearer <token>} de chaque requête sortante.
 
-\section*{Conclusion du chapitre}
-\addcontentsline{toc}{section}{Conclusion du chapitre}
+\section*{Conclusion}
+\addcontentsline{toc}{section}{Conclusion}
 Ce chapitre a détaillé le processus d'implémentation de notre plateforme, en séparant la logique métier du backend (sécurité, gestion de l'API externe, point de terminaison du modèle IA) de la couche de présentation frontend (architecture React, gestion d'état Zustand). Cette séparation stricte garantit un code maintenable et évolutif. Le chapitre suivant sera consacré à la présentation des résultats visuels générés par cette architecture, ainsi qu'aux tests de validation prouvant la fiabilité de l'ensemble du système.

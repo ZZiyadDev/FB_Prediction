@@ -2,74 +2,76 @@
 \contentsline {chapter}{Résumé}{1}{chapter*.1}%
 \contentsline {chapter}{Abstract}{2}{chapter*.2}%
 \contentsline {chapter}{Remerciements}{3}{chapter*.3}%
-\contentsline {chapter}{Introduction générale}{9}{chapter*.7}%
-\contentsline {chapter}{\numberline {1}Contexte et État de l'art}{10}{chapter.1}%
-\contentsline {section}{\numberline {1.1}Contexte du projet}{10}{section.1.1}%
-\contentsline {section}{\numberline {1.2}État de l'art}{10}{section.1.2}%
-\contentsline {subsection}{\numberline {1.2.1}Évolution des modèles prédictifs}{10}{subsection.1.2.1}%
-\contentsline {subsection}{\numberline {1.2.2}L'importance des données (Features)}{12}{subsection.1.2.2}%
-\contentsline {subsection}{\numberline {1.2.3}Solutions et Dashboards existants}{12}{subsection.1.2.3}%
-\contentsline {section}{\numberline {1.3}Objectifs du projet}{12}{section.1.3}%
-\contentsline {section}{\numberline {1.4}Conclusion}{13}{section.1.4}%
-\contentsline {chapter}{\numberline {2}Conception et Modélisation}{14}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Architecture globale du système}{14}{section.2.1}%
-\contentsline {subsection}{\numberline {2.1.1}Vue d’ensemble des composants}{14}{subsection.2.1.1}%
-\contentsline {subsection}{\numberline {2.1.2}Schéma logique de Communication}{15}{subsection.2.1.2}%
-\contentsline {subsection}{\numberline {2.1.3}Architecture monolithique modulaire}{15}{subsection.2.1.3}%
-\contentsline {section}{\numberline {2.2}Architecture fonctionnelle du système}{16}{section.2.2}%
-\contentsline {subsection}{\numberline {2.2.1}Module de prédiction}{16}{subsection.2.2.1}%
-\contentsline {subsection}{\numberline {2.2.2}Module des matchs}{16}{subsection.2.2.2}%
-\contentsline {subsection}{\numberline {2.2.3}Module utilisateurs}{16}{subsection.2.2.3}%
-\contentsline {section}{\numberline {2.3}Modélisation UML du système global}{16}{section.2.3}%
-\contentsline {subsection}{\numberline {2.3.1}Diagramme de Cas d'Utilisation}{17}{subsection.2.3.1}%
-\contentsline {subsection}{\numberline {2.3.2}Diagrammes de Séquence}{18}{subsection.2.3.2}%
-\contentsline {subsection}{\numberline {2.3.3}Diagramme de Classes}{18}{subsection.2.3.3}%
-\contentsline {section}{Conclusion }{19}{figure.caption.13}%
-\contentsline {chapter}{\numberline {3}Environnement et Choix Techniques}{20}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Environnement Technique}{20}{section.3.1}%
-\contentsline {subsection}{\numberline {3.1.1}Backend : Django \& REST Framework}{20}{subsection.3.1.1}%
-\contentsline {subsection}{\numberline {3.1.2}Frontend : React \& Zustand}{21}{subsection.3.1.2}%
-\contentsline {subsection}{\numberline {3.1.3}Fournisseur de Données : API-Football}{21}{subsection.3.1.3}%
-\contentsline {subsection}{\numberline {3.1.4}Base de Données : PostgreSQL (Neon)}{21}{subsection.3.1.4}%
-\contentsline {subsection}{\numberline {3.1.5}Hébergement et Déploiement : Render \& Vercel}{22}{subsection.3.1.5}%
-\contentsline {subsection}{\numberline {3.1.6}Versioning et Collaboration : Git \& GitHub}{22}{subsection.3.1.6}%
-\contentsline {section}{\numberline {3.2}Fondements Théoriques de l'Intelligence Artificielle}{23}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Le Problème de Déséquilibre des Classes (\textit {Imbalanced Data})}{23}{subsection.3.2.1}%
-\contentsline {subsubsection}{Approche Mathématique : SMOTE}{23}{subsection.3.2.1}%
-\contentsline {subsection}{\numberline {3.2.2}Algorithme Prédictif : XGBoost}{23}{subsection.3.2.2}%
-\contentsline {subsubsection}{Fonction d'Objectif et Régularisation}{23}{subsection.3.2.2}%
-\contentsline {subsubsection}{Adaptation à la classification multiclasse}{24}{equation.3.3}%
-\contentsline {section}{\numberline {3.3}Ingénierie des Caractéristiques (\textit {Feature Engineering})}{24}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Évaluation et Validation du Modèle}{24}{section.3.4}%
-\contentsline {section}{Conclusion du chapitre}{25}{section.3.4}%
-\contentsline {chapter}{\numberline {4}Implémentation Logicielle (Backend et Frontend)}{26}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Implémentation Backend et Pipeline de Données}{26}{section.4.1}%
-\contentsline {subsection}{\numberline {4.1.1}Sécurisation et Authentification JWT}{26}{subsection.4.1.1}%
-\contentsline {subsubsection}{Déroulement de l'Authentification}{26}{subsection.4.1.1}%
-\contentsline {subsubsection}{Séparation des rôles (Admin/User)}{27}{Item.2}%
-\contentsline {subsection}{\numberline {4.1.2}Orchestration du Pipeline de Données}{27}{subsection.4.1.2}%
-\contentsline {subsection}{\numberline {4.1.3}Le Endpoint de Prédiction}{27}{subsection.4.1.3}%
-\contentsline {section}{\numberline {4.2}Implémentation Frontend et UI/UX}{27}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Choix Technologiques et Architecture}{27}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Gestion de l'État (\textit {State Management})}{28}{subsection.4.2.2}%
-\contentsline {section}{Conclusion du chapitre}{28}{subsection.4.2.2}%
-\contentsline {chapter}{\numberline {5}Résultats, Tests et Réalisations}{29}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Réalisations Visuelles (UI/UX)}{29}{section.5.1}%
-\contentsline {subsection}{\numberline {5.1.1}La Charte ``Minimalist Blue''}{29}{subsection.5.1.1}%
-\contentsline {subsection}{\numberline {5.1.2}Interfaces d'Authentification}{29}{subsection.5.1.2}%
-\contentsline {subsection}{\numberline {5.1.3}Panneau d'Administration}{30}{subsection.5.1.3}%
-\contentsline {subsection}{\numberline {5.1.4}Le Centre de Commande et d'Analyse (Dashboard)}{31}{subsection.5.1.4}%
-\contentsline {subsection}{\numberline {5.1.5}Détails Analytiques et Tactiques}{32}{subsection.5.1.5}%
-\contentsline {subsection}{\numberline {5.1.6}Exploration des Données et Historique}{34}{subsection.5.1.6}%
-\contentsline {section}{\numberline {5.2}Tests, Validation et Résultats}{36}{section.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}Évaluation du Modèle d'Intelligence Artificielle}{36}{subsection.5.2.1}%
-\contentsline {subsubsection}{Matrice de Confusion Multiclasse}{36}{subsection.5.2.1}%
-\contentsline {subsubsection}{Métriques de Performance (Accuracy \& F1-Score)}{36}{table.caption.30}%
-\contentsline {subsection}{\numberline {5.2.2}Validation du Backend (API REST)}{37}{subsection.5.2.2}%
-\contentsline {subsubsection}{Scénarios de Tests d'Intégration}{37}{subsection.5.2.2}%
-\contentsline {subsection}{\numberline {5.2.3}Validation du Frontend et de l'Ergonomie}{37}{subsection.5.2.3}%
-\contentsline {section}{\numberline {5.3}Limites du système}{38}{section.5.3}%
-\contentsline {section}{Conclusion du chapitre}{38}{section.5.3}%
-\contentsline {chapter}{Conclusion générale}{39}{chapter*.32}%
-\contentsline {chapter}{\numberline {A}Annexes}{41}{chapter.A}%
-\contentsline {section}{\numberline {A.1}Extraits de Code Source}{41}{section.A.1}%
+\contentsline {chapter}{Liste des abréviations}{8}{chapter*.6}%
+\contentsline {chapter}{Liste des annexes}{10}{chapter*.7}%
+\contentsline {chapter}{Introduction générale}{11}{chapter*.9}%
+\contentsline {chapter}{\numberline {1}Contexte et État de l'art}{12}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Contexte du projet}{12}{section.1.1}%
+\contentsline {section}{\numberline {1.2}État de l'art}{12}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Évolution des modèles prédictifs}{12}{subsection.1.2.1}%
+\contentsline {subsection}{\numberline {1.2.2}L'importance des données (Features)}{14}{subsection.1.2.2}%
+\contentsline {subsection}{\numberline {1.2.3}Solutions et Dashboards existants}{14}{subsection.1.2.3}%
+\contentsline {section}{\numberline {1.3}Objectifs du projet}{14}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Conclusion}{15}{section.1.4}%
+\contentsline {chapter}{\numberline {2}Conception et Modélisation}{16}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Architecture globale du système}{16}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Vue d’ensemble des composants}{16}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}Schéma logique de Communication}{17}{subsection.2.1.2}%
+\contentsline {subsection}{\numberline {2.1.3}Architecture monolithique modulaire}{17}{subsection.2.1.3}%
+\contentsline {section}{\numberline {2.2}Architecture fonctionnelle du système}{18}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Module de prédiction}{18}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Module des matchs}{18}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Module utilisateurs}{18}{subsection.2.2.3}%
+\contentsline {section}{\numberline {2.3}Modélisation UML du système global}{18}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Diagramme de Cas d'Utilisation}{19}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Diagrammes de Séquence}{20}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}Diagramme de Classes}{20}{subsection.2.3.3}%
+\contentsline {section}{Conclusion }{21}{figure.caption.15}%
+\contentsline {chapter}{\numberline {3}Environnement et Choix Techniques}{22}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Environnement Technique}{22}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Backend : Django \& REST Framework}{22}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Frontend : React \& Zustand}{23}{subsection.3.1.2}%
+\contentsline {subsection}{\numberline {3.1.3}Fournisseur de Données : API-Football}{23}{subsection.3.1.3}%
+\contentsline {subsection}{\numberline {3.1.4}Base de Données : PostgreSQL (Neon)}{23}{subsection.3.1.4}%
+\contentsline {subsection}{\numberline {3.1.5}Hébergement et Déploiement : Render \& Vercel}{24}{subsection.3.1.5}%
+\contentsline {subsection}{\numberline {3.1.6}Versioning et Collaboration : Git \& GitHub}{24}{subsection.3.1.6}%
+\contentsline {section}{\numberline {3.2}Fondements Théoriques de l'Intelligence Artificielle}{24}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Le Problème de Déséquilibre des Classes (\textit {Imbalanced Data})}{24}{subsection.3.2.1}%
+\contentsline {subsubsection}{Approche Mathématique : SMOTE}{25}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Algorithme Prédictif : XGBoost}{25}{subsection.3.2.2}%
+\contentsline {subsubsection}{Fonction d'Objectif et Régularisation}{25}{subsection.3.2.2}%
+\contentsline {subsubsection}{Adaptation à la classification multiclasse}{26}{equation.3.3}%
+\contentsline {section}{\numberline {3.3}Ingénierie des Caractéristiques (\textit {Feature Engineering})}{26}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Évaluation et Validation du Modèle}{26}{section.3.4}%
+\contentsline {section}{Conclusion}{27}{section.3.4}%
+\contentsline {chapter}{\numberline {4}Implémentation Logicielle (Backend et Frontend)}{28}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Implémentation Backend et Pipeline de Données}{28}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Sécurisation et Authentification JWT}{28}{subsection.4.1.1}%
+\contentsline {subsubsection}{Déroulement de l'Authentification}{28}{subsection.4.1.1}%
+\contentsline {subsubsection}{Séparation des rôles (Admin/User)}{29}{Item.2}%
+\contentsline {subsection}{\numberline {4.1.2}Orchestration du Pipeline de Données}{29}{subsection.4.1.2}%
+\contentsline {subsection}{\numberline {4.1.3}Le Endpoint de Prédiction}{29}{subsection.4.1.3}%
+\contentsline {section}{\numberline {4.2}Implémentation Frontend et UI/UX}{29}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Choix Technologiques et Architecture}{29}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Gestion de l'État (\textit {State Management})}{30}{subsection.4.2.2}%
+\contentsline {section}{Conclusion}{30}{subsection.4.2.2}%
+\contentsline {chapter}{\numberline {5}Résultats, Tests et Réalisations}{31}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Réalisations Visuelles (UI/UX)}{31}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}La Charte ``Minimalist Blue''}{31}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}Interfaces d'Authentification}{31}{subsection.5.1.2}%
+\contentsline {subsection}{\numberline {5.1.3}Panneau d'Administration}{32}{subsection.5.1.3}%
+\contentsline {subsection}{\numberline {5.1.4}Le Centre de Commande et d'Analyse (Dashboard)}{33}{subsection.5.1.4}%
+\contentsline {subsection}{\numberline {5.1.5}Détails Analytiques et Tactiques}{34}{subsection.5.1.5}%
+\contentsline {subsection}{\numberline {5.1.6}Exploration des Données et Historique}{36}{subsection.5.1.6}%
+\contentsline {section}{\numberline {5.2}Tests, Validation et Résultats}{38}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Évaluation du Modèle d'Intelligence Artificielle}{38}{subsection.5.2.1}%
+\contentsline {subsubsection}{Matrice de Confusion Multiclasse}{38}{subsection.5.2.1}%
+\contentsline {subsubsection}{Métriques de Performance (Accuracy \& F1-Score)}{38}{table.caption.32}%
+\contentsline {subsection}{\numberline {5.2.2}Validation du Backend (API REST)}{39}{subsection.5.2.2}%
+\contentsline {subsubsection}{Scénarios de Tests d'Intégration}{39}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Validation du Frontend et de l'Ergonomie}{39}{subsection.5.2.3}%
+\contentsline {section}{\numberline {5.3}Limites du Modèle predictif}{40}{section.5.3}%
+\contentsline {section}{Conclusion}{40}{section.5.3}%
+\contentsline {chapter}{Conclusion générale}{41}{chapter*.34}%
+\contentsline {chapter}{\numberline {A}Annexes}{44}{chapter.A}%
+\contentsline {section}{\numberline {A.1}Extraits de Code Source}{44}{section.A.1}%

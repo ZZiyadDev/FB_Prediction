@@ -11,7 +11,7 @@ Pour garantir la performance et la maintenance du projet, nous avons choisi une 
     \includegraphics[height=1.5cm]{logos/django.png}
     \caption{Framework Backend Django}
 \end{figure}
-Le serveur est développé en Python avec le framework Django, complété par \textbf{Django REST Framework (DRF)}. Ce choix est expliqué par la puissance des \textit{Serializers} de DRF, qui permettent de transformer les modèles complexes de notre base de données (incluant les statistiques et compositions) en flux JSON utilisables par le frontend. Il assure également la sécurité des requêtes via JWT et la gestion du modèle XGBoost.
+Le serveur est développé en Python avec le framework Django, complété par \textbf{DRF}. Ce choix est expliqué par la puissance des \textit{Serializers} de DRF, qui permettent de transformer les modèles complexes de notre base de données (incluant les statistiques et compositions) en flux JSON utilisables par le frontend. Il assure également la sécurité des requêtes via JWT et la gestion du modèle XGBoost.
 
 \subsection{Frontend : React \& Zustand}
 \begin{figure}[H]
@@ -54,7 +54,7 @@ Pour le stockage persistant et sécurisé de nos données (utilisateurs, histori
 Pour mettre notre solution à disposition des utilisateurs, nous avons adopté une approche de déploiement moderne et dissociée :
 \begin{itemize}
     \item \textbf{Render} héberge notre serveur backend (Django) et exécute les scripts d'intelligence artificielle via un environnement Gunicorn.
-    \item \textbf{Vercel} héberge l'interface utilisateur (React/Vite), offrant des temps de chargement ultra-rapides grâce à son réseau de diffusion de contenu (CDN) mondial.
+    \item \textbf{Vercel} héberge l'interface utilisateur (React/Vite), offrant des temps de chargement ultra-rapides grâce à CDN mondial.
 \end{itemize}
 
 \subsection{Versioning et Collaboration : Git \& GitHub}
@@ -72,7 +72,7 @@ Dans le football de haut niveau, les résultats ne sont pas répartis de manièr
 Si nous entraînons un algorithme sur ces données sans modification, il aura tendance à privilégier l'équipe à domicile et ne réussira pas à prédire le match nul, car c'est le cas le moins fréquent.
 
 \subsubsection{Approche Mathématique : SMOTE}
-Pour résoudre ce problème, nous avons utilisé \textbf{SMOTE} (\textit{Synthetic Minority Over-sampling Technique}) \cite{chawla2002smote}. Contrairement à la simple copie de données, SMOTE crée des exemples synthétiques entre les points existants de la classe minoritaire.
+Pour résoudre ce problème, nous avons utilisé \textbf{SMOTE}\cite{chawla2002smote}. Contrairement à la simple copie de données, SMOTE crée des exemples synthétiques entre les points existants de la classe minoritaire.
 
 Soit un point $x_i \in \text{Classe Minoritaire}$. On sélectionne l'un de ses $k$ plus proches voisins, $x_{zi}$. Le nouvel échantillon synthétique $x_{syn}$ est généré par la formule :
 \begin{equation}
@@ -81,7 +81,7 @@ Soit un point $x_i \in \text{Classe Minoritaire}$. On sélectionne l'un de ses $
 où $\lambda$ est un nombre aléatoire entre 0 et 1. Cette technique permet d'enrichir les données d'entraînement et force le modèle à mieux apprendre les caractéristiques du ``Match Nul''.
 
 \subsection{Algorithme Prédictif : XGBoost}
-Nous avons choisi \textit{Extreme Gradient Boosting} (XGBoost), un algorithme basé sur les arbres de décision \cite{chen2016xgboost}. Il utilise la technique du \textit{Boosting} où chaque nouvel arbre est construit pour corriger les erreurs des arbres précédents.
+Nous avons choisi \textit{XGBoost}, un algorithme basé sur les arbres de décision \cite{chen2016xgboost}. Il utilise la technique du \textit{Boosting} où chaque nouvel arbre est construit pour corriger les erreurs des arbres précédents.
 
 \subsubsection{Fonction d'Objectif et Régularisation}
 XGBoost cherche à minimiser une fonction d'objectif composée d'une fonction de perte (\textit{Loss}) et d'un terme de régularisation (pour éviter de trop coller aux données d'entraînement) :
@@ -121,8 +121,8 @@ Pour garantir la fiabilité de nos prédictions, le système compare toujours le
 \end{itemize}
 Ces indicateurs sont calculés par le backend et affichés sur le tableau de bord de l'administrateur pour suivre la performance de l'IA.
 
-\section*{Conclusion du chapitre}
-\addcontentsline{toc}{section}{Conclusion du chapitre}
+\section*{Conclusion}
+ \addcontentsline{toc}{section}{Conclusion}
 En résumé, ce chapitre a détaillé l'environnement technique reposant sur Django et React, ainsi que les piliers mathématiques de notre solution. L'utilisation de SMOTE pour équilibrer les données et de XGBoost pour la prédiction constitue le cœur intelligent de l'application. La maîtrise de ces outils et concepts est indispensable pour garantir la précision des résultats que nous allons maintenant structurer architecturalement.
 
 
